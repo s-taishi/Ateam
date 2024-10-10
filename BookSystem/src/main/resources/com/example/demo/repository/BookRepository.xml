@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.BookRepository">
+
+<!-- IDでの予約検索 -->
+<select id="bookSelectById" resultType="com.example.demo.entity.Book">
+SELECT id,username,date,time,count,memo FROM book WHERE id=#{id}
+</select>
+
+<!-- usernameでの予約検索 -->
+<select id="bookSelectByName" resultType="com.example.demo.entity.Book">
+SELECT id,username,date,time,count,memo FROM book WHERE username=#{username}
+</select>
+
+<!-- 月毎の予約検索 -->
+<select id="bookSelectByMonth" resultType="com.example.demo.entity.Book">
+SELECT id,username,date,time,count,memo FROM book WHERE date=#{date}
+</select>
+
+<!-- 日毎の予約検索 -->
+<select id="bookSelectByDate" resultType="com.example.demo.entity.Book">
+SELECT id,username,date,time,count,memo FROM book WHERE date=#{date}
+</select>
+
+<!-- 1時間毎の予約検索 -->
+<select id="bookSelectByHour" resultType="com.example.demo.entity.Book">
+SELECT id,username,date,time,count,memo FROM book WHERE time=#{time}
+</select>
+
+<!-- 新規予約登録 -->
+<insert id="bookInsert">
+INSERT INTO book
+(id,username,date,time,count,memo)
+VALUES
+(#{id},#{username},#{date},#{time},#{count},#{memo})
+
+</insert>
+
+<!-- 特定のIDを持つ予約削除 -->
+<delete id="bookDelete">
+DELETE FROM book WHERE id=#{id}
+</delete>
+
+</mapper>

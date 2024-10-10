@@ -32,7 +32,7 @@ CREATE TABLE book (
 	id SERIAL PRIMARY KEY,
 	
 	--username(ユーザー名)：外部キー
-	username VARCHAR(255),
+	username VARCHAR(255) NOT NULL,
 	--date(予約日)カラム：NULL不許可
 	date DATE NOT NULL,
 	
