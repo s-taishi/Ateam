@@ -106,7 +106,7 @@ public class BookController {
 	
 	//マイページを表示
 	@PostMapping("/mypage/{userName}")
-	public String myPage(@PathVariable("userName") String userName, Model model) {
+	public String myPage(@PathVariable("userName") User userName, Model model) {
 		User user = service.userFindByUserName(userName);
 
 	    // ユーザーに関連する予約一覧を取得
