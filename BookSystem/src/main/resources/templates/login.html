@@ -40,7 +40,7 @@
 <body>
     <h2>ログイン</h2>
 <!--	ログインするために必要な情報を入力する項目-->
-	<form id="login" action="/login" method="GET" th:object="${login}">
+	<form id="login" th:action="/login" method="GET" th:object="${login}"> <!--securityのため追記必要-->
 	    <div class="form-group">
 	        <label for="username">ユーザーネーム</label>
 	        <input type="text" id="username" name="username" required>
@@ -54,7 +54,7 @@
 
 <!--    新規登録に必要な情報を入力する項目-->
     <h2>新規登録</h2>
-	<form id="user" action="/login" method="GET" 	th:object="${user}">
+	<form id="user" action="/login" method="GET" 	th:object="${user}">	<!--securityとの兼ね合いのため確認必要-->
 	    <div class="form-group">
 	        <label for="username">ユーザーネーム</label>
 	        <input type="text" id="username" name="username" required>
