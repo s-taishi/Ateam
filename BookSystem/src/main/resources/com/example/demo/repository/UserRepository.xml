@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace ="com.example.demo.repository.UserRepository">
+
+<!-- usernameによるユーザー検索 -->
+<select id="userSelectByUsername" resultType="com.example.demo.entity.User">
+SELECT userName,password,displayName,tellNumber,authority FROM user WHERE userName =#{userName}
+</select>
+
+<!--  ユーザー新規登録 -->
+<insert id="userInsert" >
+INSERT INTO user (userName,password,displayName,tellNumber,authority)
+VALUES
+(#{userName},#{password},#{displayName},#{tellNumber},#{authority})
+</insert>
+</mapper>
