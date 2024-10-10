@@ -44,7 +44,7 @@ public class Service {
         return bookRepository.bookSelectByMonth(month);
     }
     
-    public List<Book> bookFindByUserName(String userName){
+    public List<Book> bookFindByUserName(User userName){
     	return bookRepository.bookSelectByName(userName);
     }
 
