@@ -32,8 +32,8 @@ public class BookController {
 	/** DI */
 	private final Service service;
 	private final UserRepository userRepository;
-	
-	
+
+
 
 
 	//ログイン画面の表示
@@ -46,14 +46,20 @@ public class BookController {
 	@PostMapping("/user")
 	public String save(@Validated UserForm userForm, BindingResult bindingResult, RedirectAttributes attributes) {
 		//バリデーションチェック
-		
-		 // ユーザー名の存在チェック
+
+		// ユーザー名の存在チェック
 		if (userRepository.userExistsByUserName(userForm.getUserName())) {
-            bindingResult.rejectValue("userName", "error.userName", "このユーザー名は既に使用されています");
-        }
-		
+			bindingResult.rejectValue("userName", "error.userName", "このユーザー名は既に使用されています");
+		}
+
 		if(bindingResult.hasErrors()) {
 			return "login";
+		}
+
+		// カタカナかどうかをチェック
+		String katakanaPattern = "^[\\u30A0-\\u30FF]+$";
+		if (!userForm.getDisplayName().matches(katakanaPattern)) {
+			bindingResult.rejectValue("userName", "error.userName", "名前はカタカナで入力してください");
 		}
 
 		User user = new User();
@@ -69,13 +75,9 @@ public class BookController {
 	//予約情報を確認画面に送る
 	@PostMapping("/form")
 	public String form(@Validated BookForm bookForm, BindingResult bindingResult, RedirectAttributes attributes) {
-		
-		// カタカナかどうかをチェック
-		String katakanaPattern = "^[\\u30A0-\\u30FF]+$";
-		if (!bookForm.getUserName().matches(katakanaPattern)) {
-	        bindingResult.rejectValue("userName", "error.userName", "名前はカタカナで入力してください");
-	    }
-		
+
+
+
 		//バリデーションチェック
 		if(bindingResult.hasErrors()) {
 			return "form";
@@ -122,11 +124,11 @@ public class BookController {
 
 	//マイページを表示
 	@GetMapping("/mypage/{userName}")
-	public String myPage(@PathVariable("userName") User userName, Model model) {
+	public String myPage(@PathVariable("userName") User UserName, String userName, Model model) {
 		User user = service.userFindByUserName(userName);
 
 		// ユーザーに関連する予約一覧を取得
-		List<Book> books = service.bookFindByUserName(userName);
+		List<Book> books = service.bookFindByUserName(UserName);
 
 		// 取得したユーザー情報と予約情報をモデルに追加
 		model.addAttribute("user", user);
@@ -145,7 +147,7 @@ public class BookController {
 		Book book = service.bookFindById(id);
 
 		if (book == null) {
-			 model.addAttribute("errorMessage", "予約が見つかりません");
+			model.addAttribute("errorMessage", "予約が見つかりません");
 		}
 
 		// 取得した予約情報をモデルに追加
