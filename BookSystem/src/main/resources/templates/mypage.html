@@ -1,11 +1,99 @@
 <!--<!DOCTYPE html>　名称のみ作成
 -->
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マイページ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
+    <h1>マイページ</h1>
+	<h2>予約情報一覧</h2>
+	   <table>
+	       <thead>
+	           <tr>
+	               <th>予約ID</th>
+	               <th>日付</th>
+	               <th>時間</th>
+	               <th>人数</th>
+	               <th>詳細</th>
+	           </tr>
+	       </thead>
+	       <tbody>
+	           <tr th:each="booking : ${bookings}">
+	               <td th:text="${booking.id}"></td>
+	               <td th:text="${booking.date}"></td>
+	               <td th:text="${booking.time}"></td>
+	               <td th:text="${booking.partySize}"></td>
+	               <td>
+	                   <a th:href="@{/booking-details/{id}(id=${booking.id})}" class="btn">詳細</a>
+	               </td>
+	           </tr>
+	       </tbody>
+	   </table>
+    <h2>ユーザー情報</h2>
+    <table>
+        <tr>
+            <th>氏名</th>
+            <td th:text="${user.name}"></td>
+        </tr>
+        <tr>
+            <th>ユーザーネーム</th>
+            <td th:text="${user.username}"></td>
+        </tr>
+        <tr>
+            <th>電話番号</th>
+            <td th:text="${user.phoneNumber}"></td>
+        </tr>
+    </table>
 
+   
+
+    <a href="/login" class="btn">ログアウト</a>
+
+    <script>
+        // ログアウトボタンのイベントリスナー
+        document.querySelector('a[href="/logout"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('ログアウトしますか？')) {
+                window.location.href = '/login.html';
+            }
+        });
+    </script>
 </body>
 </html>

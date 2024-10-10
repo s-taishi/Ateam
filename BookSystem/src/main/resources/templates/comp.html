@@ -1,10 +1,48 @@
 <!--<!DOCTYPE html>　名称のみ作成-->
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>予約完了</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .reservation-info {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .mypage-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-
+    <h1>以下の日時で予約承りました</h1>
+    
+    <div class="reservation-info">
+        <p>来店日: <span th:text="${date}"></span></p>
+        <p>来店時間: <span th:text="${time}"></span></p>
+    </div>
+    
+    <a href="/mypage" class="mypage-button">マイページへ</a>
 </body>
 </html>
