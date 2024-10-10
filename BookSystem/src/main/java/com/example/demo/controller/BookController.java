@@ -23,6 +23,7 @@ import com.example.demo.service.Service;
 import lombok.RequiredArgsConstructor;
 
 
+
 @Controller
 @RequiredArgsConstructor
 public class BookController {
@@ -46,11 +47,11 @@ public class BookController {
 		}
 
 		User user = new User();
-		user.setUsername(userForm.getUsername());
+		user.setUserName(userForm.getUserName());
 		user.setPassword(userForm.getPassword());
 		user.setDisplayName(userForm.getDisplayName());
 		user.setTellNumber(userForm.getTellNumber());
-		service.insertUser(user);
+		service.userInsert(user);
 		attributes.addFlashAttribute("message", "新規アカウントを作成しました");
 		return "redirect/login";
 	}
@@ -64,15 +65,15 @@ public class BookController {
 		}
 
 		Book book = new Book();
-		book.setUsername(book.getUsername());
+		book.setUserName(book.getUserName());
 		book.setId(book.getId());
 		book.setDate(book.getDate());
 		book.setTime(book.getTime());
-		book.setDatetime(book.getDatetime());
+		book.setDateTime(book.getDateTime());
 		book.setCount(book.getCount());
 		book.setMemo(book.getMemo());
 
-		service.insertBook(book);
+		service.bookInsert(book);
 
 		// リダイレクト時にBook情報をフラッシュ属性として追加
 		attributes.addFlashAttribute("book", book); // Bookオブジェクトを追加
@@ -104,12 +105,12 @@ public class BookController {
 	}
 	
 	//マイページを表示
-	@PostMapping("/mypage/{username}")
-	public String myPage(@PathVariable("username") String username, Model model) {
-		User user = service.findByUserName(username);
+	@PostMapping("/mypage/{userName}")
+	public String myPage(@PathVariable("userName") String userName, Model model) {
+		User user = service.userFindByUserName(userName);
 
 	    // ユーザーに関連する予約一覧を取得
-	    List<Book> books = service.findBookByUserName(username);
+	    List<Book> books = service.bookFindByUserName(userName);
 
 	    // 取得したユーザー情報と予約情報をモデルに追加
 	    model.addAttribute("user", user);
@@ -125,7 +126,7 @@ public class BookController {
 	@GetMapping("/check2/{id}")
 	public String check2(@PathVariable("id") int id, Model model) {
 		// 指定されたIDの予約詳細を取得
-		Book book = service.findBookById(id);
+		Book book = service.bookFindById(id);
 
 		if (book == null) {
 			return "error"; // 予約が見つからない場合のエラーハンドリング
@@ -141,15 +142,18 @@ public class BookController {
 	//予約の削除
 	@PostMapping("/delete/{id}")
 	public String delete(@PathVariable int id, RedirectAttributes attributes) {
-		service.deleteBook(id);
+		service.bookDelete(id);
 		attributes.addFlashAttribute("message", "予約を削除しました");
 		return "redirect:/mypage";
 	}
 	
 	
+	
 	//管理者予約確認
-	@GetMapping("/booklist")
-	public String bookList() {
+	@GetMapping("/adminlist")
+	public String adminlist(Model model) {
+		model.addAttribute("list", service.bookFindAll());
+		return "adminlist";
 		
 	}
 	
