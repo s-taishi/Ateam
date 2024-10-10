@@ -1,0 +1,127 @@
+<!--<!DOCTYPE html>　側のみの作成-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>予約情報入力画面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #available-times {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>店舗予約 空き時間確認</h2>
+    <form id="reservation-form">
+        <div class="form-group">
+            <label for="reservation-date">予約日:</label>
+            <input type="date" id="reservation-date" name="reservationDate" required>
+        </div>
+        <div class="form-group">
+            <label for="party-size">人数:</label>
+            <input type="number" id="party-size" name="partySize" min="1" required>
+        </div>
+        <button type="button" id="check-availability">空き状況を確認</button>
+    </form>
+
+    <div id="available-times" style="display: none;">
+        <h3>利用可能な時間帯</h3>
+        <ul id="time-slots">
+            <!-- 利用可能な時間帯がここに動的に追加されます -->
+        </ul>
+    </div>
+
+	<script>
+	        document.getElementById('check-availability').addEventListener('click', function() {
+	            var date = document.getElementById('reservation-date').value;
+	            var partySize = document.getElementById('party-size').value;
+	
+	            fetchAvailableTimes(date, partySize);
+	        });
+	
+	        function fetchAvailableTimes(date, partySize) {
+	            // サーバーとの通信をシミュレート
+	            setTimeout(() => {
+	                var dummyTimes = ['11:00', '12:00', '13:00', '18:00', '19:00'];
+	                displayAvailableTimes(dummyTimes);
+	            }, 500);
+	        }
+	
+	        function displayAvailableTimes(times) {
+	            var timeSlots = document.getElementById('time-slots');
+	            timeSlots.innerHTML = '';
+	            times.forEach(function(time) {
+	                var option = document.createElement('option');
+	                option.value = time;
+	                option.textContent = time;
+	                timeSlots.appendChild(option);
+	            });
+	
+	            document.getElementById('available-times').style.display = 'block';
+	        }
+	
+	        document.getElementById('make-reservation').addEventListener('click', function() {
+	            var date = document.getElementById('reservation-date').value;
+	            var partySize = document.getElementById('party-size').value;
+	            var selectedTime = document.getElementById('time-slots').value;
+	
+	            // サーバーに予約情報を送信
+	            makeReservation(date, partySize, selectedTime);
+	        });
+	
+	        function makeReservation(date, partySize, time) {
+	            // 実際のアプリケーションでは、ここでサーバーにデータを送信します
+	            // 例: fetch('/api/make-reservation', {
+	            //     method: 'POST',
+	            //     headers: {
+	            //         'Content-Type': 'application/json',
+	            //     },
+	            //     body: JSON.stringify({ date, partySize, time }),
+	            // })
+	            // .then(response => response.json())
+	            // .then(data => {
+	            //     if (data.success) {
+	            //         alert('予約が完了しました。');
+	            //     } else {
+	            //         alert('予約に失敗しました。');
+	            //     }
+	            // });
+	
+	            // デモ用のアラート
+	            alert(`予約が完了しました。\n日付: ${date}\n時間: ${time}\n人数: ${partySize}`);
+	        }
+	    </script>
+	</body>
+	</html>
