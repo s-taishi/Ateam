@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class UserForm {
-	private String username; // ユーザー名
+	private String userName; // ユーザー名
 
 	@NotBlank(message = "パスワードは必須です")
 	private String password; // パスワード

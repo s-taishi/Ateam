@@ -8,8 +8,8 @@ import lombok.Data;
 
 	@Data
 	public class Book {
-		private String username; // ユーザー名
-		private long id; // 予約ID（serialはlong型で表現）
+		private String userName; // ユーザー名
+		private int id; // 予約ID（serialはlong型で表現）
 		private LocalDate date; // 日付
 		private LocalTime time; // 時間
 		private LocalDateTime dateTime; // 日付と時間

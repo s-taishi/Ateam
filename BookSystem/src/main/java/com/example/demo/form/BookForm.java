@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 public class BookForm {
-	private String username; // ユーザー名
+	private String userName; // ユーザー名
 	private int id; // 予約ID
 
 	@NotNull(message = "日付は必須です")

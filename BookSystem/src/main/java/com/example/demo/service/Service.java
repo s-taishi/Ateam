@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
+import com.example.demo.entity.Book;
+import com.example.demo.entity.User;
 import com.example.demo.form.UserForm;
-import com.example.webapp.service.Book;
-import com.example.webapp.service.BookRepository;
-import com.example.webapp.service.User;
-import com.example.webapp.service.UserRepository;
+import com.example.demo.repository.BookRepository;
+import com.example.demo.repository.UserRepository;
 
 public class Service {
 	
@@ -21,44 +21,48 @@ public class Service {
     }
 
     // Bookに関するメソッド
-    public List<Book> findAllBook() {
+    public List<Book> bookFindAll() {
         return bookRepository.bookSelectByName(null); // すべてのBookを取得するメソッドを呼び出す
     }
 
-    public Book findById(long id) {
-        return bookRepository.bookfindById(id);
+    public Book bookFindById(int id) {
+        return bookRepository.bookSelectById(id);
     }
 
-    public void insertBook(Book book) {
+    public void bookInsert(Book book) {
         bookRepository.bookInsert(book);
     }
 
-    public void deleteBook(long id) {
+    public void bookDelete(int id) {
         bookRepository.bookDelete(id);
     }
 
-    public List<Book> findDate(LocalDate date) {
+    public List<Book> bookFindByDate(LocalDate date) {
         return bookRepository.bookSelectByDate(date);
     }
 
-    public List<Book> findMonth(Month month) {
+    public List<Book> bookFindByMonth(Month month) {
         return bookRepository.bookSelectByMonth(month);
+    }
+    
+    public List<Book> bookFindByUserName(String userName){
+    	return bookRepository.bookSelectByName(userName);
     }
 
     // Userに関するメソッド
-    public List<User> findAllUser() {
-        return userRepository.findAll(); // UserRepositoryからすべてのユーザーを取得
+    public List<User> userFindAll() {
+        return userRepository.findAll(null); // UserRepositoryからすべてのユーザーを取得
     }
 
-    public User findByUserName(String username) {
-        return userRepository.findByUserName(username);
+    public User userFindByUserName(String username) {
+        return userRepository.userSelectByUsername(username);
     }
 
-    public void insertUser(UserForm user) {
-        userRepository.insert(user);
+    public void userInsert(UserForm user) {
+        userRepository.userInsert(user);
     }
 }
 
 
 
-}
+
