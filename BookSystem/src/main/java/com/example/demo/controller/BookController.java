@@ -18,6 +18,7 @@ import com.example.demo.entity.Book;
 import com.example.demo.entity.User;
 import com.example.demo.form.BookForm;
 import com.example.demo.form.UserForm;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,9 @@ public class BookController {
 
 	/** DI */
 	private final Service service;
+	private final UserRepository userRepository;
+	
+	
 
 
 	//ログイン画面の表示
@@ -42,6 +46,12 @@ public class BookController {
 	@PostMapping("/user")
 	public String save(@Validated UserForm userForm, BindingResult bindingResult, RedirectAttributes attributes) {
 		//バリデーションチェック
+		
+		 // ユーザー名の存在チェック
+		if (userRepository.userExistsByUserName(userForm.getUserName())) {
+            bindingResult.rejectValue("userName", "error.userName", "このユーザー名は既に使用されています");
+        }
+		
 		if(bindingResult.hasErrors()) {
 			return "login";
 		}
@@ -53,24 +63,31 @@ public class BookController {
 		user.setTellNumber(userForm.getTellNumber());
 		service.userInsert(user);
 		attributes.addFlashAttribute("message", "新規アカウントを作成しました");
-		return "redirect/login";
+		return "redirect:/login";
 	}
 
 	//予約情報を確認画面に送る
 	@PostMapping("/form")
-	public String form(@Validated BookForm BookForm, BindingResult bindingResult, RedirectAttributes attributes) {
+	public String form(@Validated BookForm bookForm, BindingResult bindingResult, RedirectAttributes attributes) {
+		
+		// カタカナかどうかをチェック
+		String katakanaPattern = "^[\\u30A0-\\u30FF]+$";
+		if (!bookForm.getUserName().matches(katakanaPattern)) {
+	        bindingResult.rejectValue("userName", "error.userName", "名前はカタカナで入力してください");
+	    }
+		
 		//バリデーションチェック
 		if(bindingResult.hasErrors()) {
 			return "form";
 		}
 
 		Book book = new Book();
-		book.setUserName(book.getUserName());
-		book.setId(book.getId());
-		book.setDate(book.getDate());
-		book.setTime(book.getTime());
-		book.setCount(book.getCount());
-		book.setMemo(book.getMemo());
+		book.setUserName(bookForm.getUserName());
+		book.setId(bookForm.getId());
+		book.setDate(bookForm.getDate());
+		book.setTime(bookForm.getTime());
+		book.setCount(bookForm.getCount());
+		book.setMemo(bookForm.getMemo());
 
 		service.bookInsert(book);
 
@@ -104,7 +121,7 @@ public class BookController {
 	}
 
 	//マイページを表示
-	@PostMapping("/mypage/{userName}")
+	@GetMapping("/mypage/{userName}")
 	public String myPage(@PathVariable("userName") User userName, Model model) {
 		User user = service.userFindByUserName(userName);
 
@@ -128,7 +145,7 @@ public class BookController {
 		Book book = service.bookFindById(id);
 
 		if (book == null) {
-			return "error"; // 予約が見つからない場合のエラーハンドリング
+			 model.addAttribute("errorMessage", "予約が見つかりません");
 		}
 
 		// 取得した予約情報をモデルに追加
@@ -143,7 +160,7 @@ public class BookController {
 	public String delete(@PathVariable int id, RedirectAttributes attributes) {
 		service.bookDelete(id);
 		attributes.addFlashAttribute("message", "予約を削除しました");
-		return "redirect:/mypage";
+		return "redirect:/mypage/{userName}";
 	}
 
 
