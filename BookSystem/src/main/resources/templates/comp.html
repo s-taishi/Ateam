@@ -39,8 +39,8 @@
     <h1>以下の日時で予約承りました</h1>
     
     <div class="reservation-info">
-        <p>来店日: <span th:text="${date}"></span></p>
-        <p>来店時間: <span th:text="${time}"></span></p>
+        <p>来店日: <span th:text="${book.date}"></span></p>
+        <p>来店時間: <span th:text="${book.time}"></span></p>
     </div>
     
     <a href="/mypage" class="mypage-button">マイページへ</a>

@@ -43,91 +43,132 @@
     </style>
 </head>
 <body>
-    <h2>店舗予約 空き時間確認</h2>
-    <form id="reservation-form">
-        <div class="form-group">
+    <h2>予約情報入力</h2>
+    <form th:action="@{/form}" method="POST" th:object="${BookForm}">
+		<div class="form-group">
+		           <label for="party-size">人数:</label>
+		           <input type="number" id="party-size" th:field="*{count}" min="1" required>
+		       </div>
+		 <div class="form-group">
             <label for="reservation-date">予約日:</label>
-            <input type="date" id="reservation-date" name="reservationDate" required>
+            <input type="date" id="reservation-date" th:field="*{date}" required>
         </div>
         <div class="form-group">
-            <label for="party-size">人数:</label>
-            <input type="number" id="party-size" name="partySize" min="1" required>
+            <label for="reservation-time">予約時間:</label>
+            <select id="reservation-time" th:field="*{time}" required>
+                <option value="">時間を選択してください</option>
+                <option value="16:00">16:00</option>
+                <option value="17:00">17:00</option>
+                <option value="18:00">18:00</option>
+                <option value="19:00">19:00</option>
+                <option value="20:00">20:00</option>
+				<option value="21:00">21:00</option>
+				<option value="22:00">22:00</option>
+				<option value="23:00">23:00</option>
+            </select>
         </div>
-        <button type="button" id="check-availability">空き状況を確認</button>
+       
+        <div class="form-group">
+            <label for="special-requests">特記事項:</label>
+            <textarea id="special-requests" th:field="*{book.memo}"></textarea>
+        </div>
+        <button type="submit">予約内容確認へ</button>
     </form>
 
-    <div id="available-times" style="display: none;">
-        <h3>利用可能な時間帯</h3>
-        <ul id="time-slots">
-            <!-- 利用可能な時間帯がここに動的に追加されます -->
+    <div th:if="${#fields.hasErrors('*')}" class="error-message">
+        <ul>
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
         </ul>
     </div>
-	    <div class="form-group">
-	        <label for="special-requests">特記事項:</label>
-	        <textarea id="special-requests" name="specialRequests"></textarea>
-	    </div>
+
+</body>
+</html>
+<!--<body>-->
+<!--    <h2>店舗予約 空き時間確認</h2>-->
+<!--    <form id="reservation-form">-->
+<!--        <div class="form-group">-->
+<!--            <label for="reservation-date">予約日:</label>-->
+<!--            <input type="date" id="reservation-date" name="reservationDate" required>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="party-size">人数:</label>-->
+<!--            <input type="number" id="party-size" name="partySize" min="1" required>-->
+<!--        </div>-->
+<!--        <button type="button" id="check-availability">空き状況を確認</button>-->
+<!--    </form>-->
+
+<!--    <div id="available-times" style="display: none;">-->
+<!--        <h3>利用可能な時間帯</h3>-->
+<!--        <ul id="time-slots">-->
+<!--             利用可能な時間帯がここに動的に追加されます -->
+<!--        </ul>-->
+<!--    </div>-->
+<!--	    <div class="form-group">-->
+<!--	        <label for="special-requests">特記事項:</label>-->
+<!--	        <textarea id="special-requests" name="specialRequests"></textarea>-->
+<!--	    </div>-->
 	    
-	    <button type="button" id="confirm-reservation">予約内容確認へ</button>
-	</div>
-	<script>
-	        document.getElementById('check-availability').addEventListener('click', function() {
-	            var date = document.getElementById('reservation-date').value;
-	            var partySize = document.getElementById('party-size').value;
+<!--	    <button type="button" id="confirm-reservation">予約内容確認へ</button>-->
+<!--	</div>-->
+<!--	<script>-->
+<!--	        document.getElementById('check-availability').addEventListener('click', function() {-->
+<!--	            var date = document.getElementById('reservation-date').value;-->
+<!--	            var partySize = document.getElementById('party-size').value;-->
 	
-	            fetchAvailableTimes(date, partySize);
-	        });
+<!--	            fetchAvailableTimes(date, partySize);-->
+<!--	        });-->
 	
-	        function fetchAvailableTimes(date, partySize) {
-	            // サーバーとの通信をシミュレート
-	            setTimeout(() => {
-	                var dummyTimes = ['11:00', '12:00', '13:00', '18:00', '19:00'];
-	                displayAvailableTimes(dummyTimes);
-	            }, 500);
-	        }
+<!--	        function fetchAvailableTimes(date, partySize) {-->
+<!--	            // サーバーとの通信をシミュレート-->
+<!--	            setTimeout(() => {-->
+<!--	                var dummyTimes = ['11:00', '12:00', '13:00', '18:00', '19:00'];-->
+<!--	                displayAvailableTimes(dummyTimes);-->
+<!--	            }, 500);-->
+<!--	        }-->
 	
-	        function displayAvailableTimes(times) {
-	            var timeSlots = document.getElementById('time-slots');
-	            timeSlots.innerHTML = '';
-	            times.forEach(function(time) {
-	                var option = document.createElement('option');
-	                option.value = time;
-	                option.textContent = time;
-	                timeSlots.appendChild(option);
-	            });
+<!--	        function displayAvailableTimes(times) {-->
+<!--	            var timeSlots = document.getElementById('time-slots');-->
+<!--	            timeSlots.innerHTML = '';-->
+<!--	            times.forEach(function(time) {-->
+<!--	                var option = document.createElement('option');-->
+<!--	                option.value = time;-->
+<!--	                option.textContent = time;-->
+<!--	                timeSlots.appendChild(option);-->
+<!--	            });-->
 	
-	            document.getElementById('available-times').style.display = 'block';
-	        }
+<!--	            document.getElementById('available-times').style.display = 'block';-->
+<!--	        }-->
 	
-	        document.getElementById('make-reservation').addEventListener('click', function() {
-	            var date = document.getElementById('reservation-date').value;
-	            var partySize = document.getElementById('party-size').value;
-	            var selectedTime = document.getElementById('time-slots').value;
+<!--	        document.getElementById('make-reservation').addEventListener('click', function() {-->
+<!--	            var date = document.getElementById('reservation-date').value;-->
+<!--	            var partySize = document.getElementById('party-size').value;-->
+<!--	            var selectedTime = document.getElementById('time-slots').value;-->
 	
-	            // サーバーに予約情報を送信
-	            makeReservation(date, partySize, selectedTime);
-	        });
+<!--	            // サーバーに予約情報を送信-->
+<!--	            makeReservation(date, partySize, selectedTime);-->
+<!--	        });-->
 	
-	        function makeReservation(date, partySize, time) {
-	            // 実際のアプリケーションでは、ここでサーバーにデータを送信します
-	            // 例: fetch('/api/make-reservation', {
-	            //     method: 'POST',
-	            //     headers: {
-	            //         'Content-Type': 'application/json',
-	            //     },
-	            //     body: JSON.stringify({ date, partySize, time }),
-	            // })
-	            // .then(response => response.json())
-	            // .then(data => {
-	            //     if (data.success) {
-	            //         alert('予約が完了しました。');
-	            //     } else {
-	            //         alert('予約に失敗しました。');
-	            //     }
-	            // });
+<!--	        function makeReservation(date, partySize, time) {-->
+<!--	            // 実際のアプリケーションでは、ここでサーバーにデータを送信します-->
+<!--	            // 例: fetch('/api/make-reservation', {-->
+<!--	            //     method: 'POST',-->
+<!--	            //     headers: {-->
+<!--	            //         'Content-Type': 'application/json',-->
+<!--	            //     },-->
+<!--	            //     body: JSON.stringify({ date, partySize, time }),-->
+<!--	            // })-->
+<!--	            // .then(response => response.json())-->
+<!--	            // .then(data => {-->
+<!--	            //     if (data.success) {-->
+<!--	            //         alert('予約が完了しました。');-->
+<!--	            //     } else {-->
+<!--	            //         alert('予約に失敗しました。');-->
+<!--	            //     }-->
+<!--	            // });-->
 	
-	            // デモ用のアラート
-	            alert(`予約が完了しました。\n日付: ${date}\n時間: ${time}\n人数: ${partySize}`);
-	        }
-	    </script>
-	</body>
-	</html>
+<!--	            // デモ用のアラート-->
+<!--	            alert(`予約が完了しました。\n日付: ${date}\n時間: ${time}\n人数: ${partySize}`);-->
+<!--	        }-->
+<!--	    </script>-->
+<!--	</body>-->
+<!--	</html>-->
