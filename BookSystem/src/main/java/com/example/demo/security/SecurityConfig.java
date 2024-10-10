@@ -33,6 +33,8 @@ public class SecurityConfig {
 		.formLogin(form -> form
 		//ログインページに使うurlはlogin
 		.loginPage("/login")
+		//ログイン処理に使用するurl
+		.loginProcessingUrl("/authentication")
 		//usernameに使う変数はusername
 		.usernameParameter("username")
 		//passwordに使う変数はpassword
