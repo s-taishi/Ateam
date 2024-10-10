@@ -30,7 +30,7 @@ public class BookController {
 
 	/** DI */
 	private final Service service;
-	
+
 
 	//ログイン画面の表示
 	@GetMapping("/login")
@@ -69,7 +69,6 @@ public class BookController {
 		book.setId(book.getId());
 		book.setDate(book.getDate());
 		book.setTime(book.getTime());
-		book.setDateTime(book.getDateTime());
 		book.setCount(book.getCount());
 		book.setMemo(book.getMemo());
 
@@ -103,25 +102,25 @@ public class BookController {
 		return "comp"; // 予約完了画面を表示
 
 	}
-	
+
 	//マイページを表示
 	@PostMapping("/mypage/{userName}")
 	public String myPage(@PathVariable("userName") User userName, Model model) {
 		User user = service.userFindByUserName(userName);
 
-	    // ユーザーに関連する予約一覧を取得
-	    List<Book> books = service.bookFindByUserName(userName);
+		// ユーザーに関連する予約一覧を取得
+		List<Book> books = service.bookFindByUserName(userName);
 
-	    // 取得したユーザー情報と予約情報をモデルに追加
-	    model.addAttribute("user", user);
-	    model.addAttribute("books", books);
+		// 取得したユーザー情報と予約情報をモデルに追加
+		model.addAttribute("user", user);
+		model.addAttribute("books", books);
 
-	    // 一覧画面のテンプレート名を返す
-	    return "mypage";
-		
-		
+		// 一覧画面のテンプレート名を返す
+		return "mypage";
+
+
 	}
-	
+
 	//マイページからの予約詳細画面
 	@GetMapping("/check2/{id}")
 	public String check2(@PathVariable("id") int id, Model model) {
@@ -138,7 +137,7 @@ public class BookController {
 		// 予約詳細画面を表示
 		return "check"; // 予約詳細画面のテンプレート名
 	}
-	
+
 	//予約の削除
 	@PostMapping("/delete/{id}")
 	public String delete(@PathVariable int id, RedirectAttributes attributes) {
@@ -146,17 +145,17 @@ public class BookController {
 		attributes.addFlashAttribute("message", "予約を削除しました");
 		return "redirect:/mypage";
 	}
-	
-	
-	
+
+
+
 	//管理者予約確認
 	@GetMapping("/adminlist")
 	public String adminlist(Model model) {
 		model.addAttribute("list", service.bookFindAll());
 		return "adminlist";
-		
+
 	}
-	
-	
+
+
 
 }
