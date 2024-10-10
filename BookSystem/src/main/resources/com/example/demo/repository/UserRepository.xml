@@ -5,17 +5,14 @@
 
 <!-- usernameによるユーザー検索 -->
 <select id="userSelectByUsername" resultType="com.example.demo.entity.User">
-SELECT userName,password,displayName,tellNumber,authority FROM user WHERE userName =#{userName}
+SELECT userName,password,displayName,tellNumber,authority FROM "user" WHERE userName =#{userName}
 </select>
 
 <!--  ユーザー新規登録 -->
 <insert id="userInsert" >
-INSERT INTO user (userName,password,displayName,tellNumber,authority)
+INSERT INTO "user" (userName,password,displayName,tellNumber,authority)
 VALUES
 (#{userName},#{password},#{displayName},#{tellNumber},#{authority})
 </insert>
-
-<!-- ユーザー情報が既に存在しているかを判定 -->
-
 
 </mapper>

@@ -1,7 +1,7 @@
 --★テスト用機能ここから(本番移行時は記述を削除してください)
 --各テーブル・ENUM型が存在したら削除
-DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS "user";
+DROP TABLE IF EXISTS "book";
 DROP TYPE IF EXISTS role;
 --★テスト用機能ここまで
 
@@ -9,7 +9,7 @@ DROP TYPE IF EXISTS role;
 CREATE TYPE role AS ENUM('ADMIN','USER');
 
 --userテーブルの作成
-CREATE TABLE user (
+CREATE TABLE "user" (
 	--user(ユーザー名)カラム；主キー
 	username VARCHAR(255) PRIMARY KEY,
 	
@@ -27,7 +27,7 @@ CREATE TABLE user (
 );
 
 --bookテーブルの作成
-CREATE TABLE book (
+CREATE TABLE "book" (
 	--ID(予約ID)カラム：主キー
 	id SERIAL PRIMARY KEY,
 	
@@ -47,5 +47,6 @@ CREATE TABLE book (
 	
 	
 	--外部キー制約
-	FOREIGN KEY (username) REFERENCES user(username)
+	FOREIGN KEY (username) REFERENCES "user"(username)
 );
+
