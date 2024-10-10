@@ -3,43 +3,57 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.BookRepository">
 
-<!-- IDでの予約検索 -->
-<select id="bookSelectById" resultType="com.example.demo.entity.Book">
-SELECT id,username,date,time,count,memo FROM book WHERE id=#{id}
+    <resultMap id="BookWithUserResult" type="com.example.demo.entity.Book">
+        <id property="id" column="id"/>
+        <result property="date" column="date"/>
+        <result property="time" column="time"/>
+        <result property="count" column="count"/>
+        <result property="memo" column="memo"/>
+        <association property="user" javaType="com.example.demo.entity.User">
+            <id property="userName" column="username"/>
+            <result property="userName" column="username"/>
+        </association>
+    </resultMap>
+
+    <!-- IDでの予約検索 -->
+    <select id="bookSelectById" resultMap="BookWithUserResult">
+        SELECT id, username, date, time, count, memo FROM book WHERE id = #{id}
+    </select>
+
+    <!-- usernameでの予約検索 -->
+    <select id="bookSelectByName" resultMap="BookWithUserResult">
+        SELECT id, username, date, time, count, memo FROM book WHERE username = #{username}
+    </select>
+
+    <!-- 指定された年と月の予約検索 -->
+<select id="bookSelectByMonth" resultMap="BookWithUserResult">
+    SELECT id, username, date, time, count, memo FROM book 
+    WHERE EXTRACT(YEAR FROM date) = EXTRACT(YEAR FROM #{date}) 
+      AND EXTRACT(MONTH FROM date) = EXTRACT(MONTH FROM #{date})
 </select>
 
-<!-- usernameでの予約検索 -->
-<select id="bookSelectByName" resultType="com.example.demo.entity.Book">
-SELECT id,username,date,time,count,memo FROM book WHERE username=#{username}
+
+    <!-- 日毎の予約検索 -->
+    <select id="bookSelectByDate" resultMap="BookWithUserResult">
+        SELECT id, username, date, time, count, memo FROM book WHERE date = #{date}
+    </select>
+
+<!-- 指定された時間の予約検索 -->
+<select id="bookSelectByHour" resultMap="BookWithUserResult">
+    SELECT id, username, date, time, count, memo FROM book 
+    WHERE EXTRACT(HOUR FROM time) = EXTRACT(HOUR FROM #{time})
 </select>
+   
 
-<!-- 月毎の予約検索 -->
-<select id="bookSelectByMonth" resultType="com.example.demo.entity.Book">
-SELECT id,username,date,time,count,memo FROM book WHERE date=#{date}
-</select>
+    <!-- 新規予約登録 -->
+    <insert id="bookInsert">
+        INSERT INTO book (username, date, time, count, memo)
+        VALUES (#{userName}, #{date}, #{time}, #{count}, #{memo})
+    </insert>
 
-<!-- 日毎の予約検索 -->
-<select id="bookSelectByDate" resultType="com.example.demo.entity.Book">
-SELECT id,username,date,time,count,memo FROM book WHERE date=#{date}
-</select>
-
-<!-- 1時間毎の予約検索 -->
-<select id="bookSelectByHour" resultType="com.example.demo.entity.Book">
-SELECT id,username,date,time,count,memo FROM book WHERE time=#{time}
-</select>
-
-<!-- 新規予約登録 -->
-<insert id="bookInsert">
-INSERT INTO book
-(id,username,date,time,count,memo)
-VALUES
-(#{id},#{username},#{date},#{time},#{count},#{memo})
-
-</insert>
-
-<!-- 特定のIDを持つ予約削除 -->
-<delete id="bookDelete">
-DELETE FROM book WHERE id=#{id}
-</delete>
+    <!-- 特定のIDを持つ予約削除 -->
+    <delete id="bookDelete">
+        DELETE FROM book WHERE id = #{id}
+    </delete>
 
 </mapper>

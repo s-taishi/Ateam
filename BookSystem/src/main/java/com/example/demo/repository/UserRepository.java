@@ -7,9 +7,12 @@ import com.example.demo.entity.User;
 
 @Mapper
 public interface UserRepository {
-//usernameによるユーザー検索
-	User userSelectByUsername(@Param("userName")String userName);
+//userNameによるユーザー検索
+	User userSelectByUserName(@Param("userName")String userName);
 	
 	//ユーザー新規登録
 	void userInsert(User user);
+	
+	//ユーザー情報が既に存在するか判定
+	boolean userExistsByUserName(@Param("userName")String userName);
 }

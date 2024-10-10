@@ -14,4 +14,8 @@ INSERT INTO user (userName,password,displayName,tellNumber,authority)
 VALUES
 (#{userName},#{password},#{displayName},#{tellNumber},#{authority})
 </insert>
+
+<!-- ユーザー情報が既に存在しているかを判定 -->
+
+
 </mapper>
