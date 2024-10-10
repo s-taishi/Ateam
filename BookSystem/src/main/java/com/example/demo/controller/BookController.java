@@ -19,7 +19,7 @@ import com.example.demo.entity.User;
 import com.example.demo.form.BookForm;
 import com.example.demo.form.UserForm;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.Service;
+import com.example.demo.service.BookService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +30,7 @@ import lombok.RequiredArgsConstructor;
 public class BookController {
 
 	/** DI */
-	private final Service service;
+	private final BookService service;
 	private final UserRepository userRepository;
 
 
@@ -128,7 +128,7 @@ public class BookController {
 		User user = service.userFindByUserName(userName);
 
 		// ユーザーに関連する予約一覧を取得
-		List<Book> books = service.bookFindByUserName(UserName);
+		List<Book> books = service.bookFindByUserName(userName);
 
 		// 取得したユーザー情報と予約情報をモデルに追加
 		model.addAttribute("user", user);
