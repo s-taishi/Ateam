@@ -43,6 +43,6 @@
         <p>来店時間: <span th:text="${book.time}"></span></p>
     </div>
     
-    <a href="/mypage" class="mypage-button">マイページへ</a>
+    <a th:href="@{/mypage/{userName}(userName=${book.userName})}" class="mypage-button">マイページへ</a>
 </body>
 </html>
