@@ -7,6 +7,7 @@ import com.example.demo.entity.User;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -22,6 +23,7 @@ public class BookForm {
 	@Min(value = 1, message = "人数は１以上でなければいけません")
 	private Integer count; // 人数
 
+	@Size(max = 100, message = "100字以内でなければいけません")
 	private String memo; // 特記事項
 
 }
