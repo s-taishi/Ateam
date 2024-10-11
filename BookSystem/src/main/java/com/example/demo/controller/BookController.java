@@ -58,7 +58,7 @@ public class BookController {
 		// カタカナかどうかをチェック
 		String katakanaPattern = "^[\\u30A0-\\u30FF]+$";
 		if (!userForm.getDisplayName().matches(katakanaPattern)) {
-			bindingResult.rejectValue("userName", "error.userName", "名前はカタカナで入力してください");
+			bindingResult.rejectValue("displayName", "error.displayName", "名前はカタカナで入力してください");
 		}
 
 		User user = new User();
@@ -171,7 +171,7 @@ public class BookController {
 
 	//予約の削除
 	@PostMapping("/delete/{id}")
-	public String delete(@PathVariable int id, RedirectAttributes attributes) {
+	public String delete(@PathVariable int id, @ModelAttribute("userName") User userName, RedirectAttributes attributes) {
 		service.bookDelete(id);
 		attributes.addFlashAttribute("message", "予約を削除しました");
 		return "redirect:/mypage/{userName}";
