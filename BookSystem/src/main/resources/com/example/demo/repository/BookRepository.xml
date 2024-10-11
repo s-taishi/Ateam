@@ -9,9 +9,12 @@
         <result property="time" column="time"/>
         <result property="count" column="count"/>
         <result property="memo" column="memo"/>
-        <association property="user" javaType="com.example.demo.entity.User">
+        <association property="userName" javaType="com.example.demo.entity.User">
             <id property="userName" column="username"/>
-            <result property="userName" column="username"/>
+            <result property="password" column="password"/> <!-- Userクラスのフィールドも必要に応じて追加 -->
+            <result property="displayName" column="display_name"/> <!-- displayNameに対応するカラム名 -->
+            <result property="tellNumber" column="tell_number"/> <!-- tellNumberに対応するカラム名 -->
+            <result property="authority" column="authority"/> <!-- Roleについても適宜 -->
         </association>
     </resultMap>
 
@@ -26,29 +29,27 @@
     </select>
 
     <!-- 指定された年と月の予約検索 -->
-<select id="bookSelectByMonth" resultMap="BookWithUserResult">
-    SELECT id, username, date, time, count, memo FROM "book" 
-    WHERE EXTRACT(YEAR FROM date) = EXTRACT(YEAR FROM #{localDate}) 
-      AND EXTRACT(MONTH FROM date) = EXTRACT(MONTH FROM #{localDate})
-</select>
-
+    <select id="bookSelectByMonth" resultMap="BookWithUserResult">
+        SELECT id, username, date, time, count, memo FROM "book" 
+        WHERE EXTRACT(YEAR FROM date) = EXTRACT(YEAR FROM #{localDate}) 
+          AND EXTRACT(MONTH FROM date) = EXTRACT(MONTH FROM #{localDate})
+    </select>
 
     <!-- 日毎の予約検索 -->
     <select id="bookSelectByDate" resultMap="BookWithUserResult">
         SELECT id, username, date, time, count, memo FROM "book" WHERE date = #{localDate}
     </select>
 
-<!-- 指定された時間の予約検索 -->
-<select id="bookSelectByHour" resultMap="BookWithUserResult">
-    SELECT id, username, date, time, count, memo FROM "book" 
-    WHERE EXTRACT(HOUR FROM time) = EXTRACT(HOUR FROM #{localTime})
-</select>
-   
+    <!-- 指定された時間の予約検索 -->
+    <select id="bookSelectByHour" resultMap="BookWithUserResult">
+        SELECT id, username, date, time, count, memo FROM "book" 
+        WHERE EXTRACT(HOUR FROM time) = EXTRACT(HOUR FROM #{localTime})
+    </select>
 
     <!-- 新規予約登録 -->
     <insert id="bookInsert" parameterType="com.example.demo.entity.Book">
         INSERT INTO "book" (username, date, time, count, memo)
-        VALUES (#{userName}, #{date}, #{time}, #{count}, #{memo})
+        VALUES (#{userName.userName}, #{date}, #{time}, #{count}, #{memo}) <!-- userNameフィールドを指定 -->
     </insert>
 
     <!-- 特定のIDを持つ予約削除 -->
