@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -18,7 +20,6 @@ import com.example.demo.entity.Book;
 import com.example.demo.entity.User;
 import com.example.demo.form.BookForm;
 import com.example.demo.form.UserForm;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.BookService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,9 +32,6 @@ public class BookController {
 
 	/** DI */
 	private final BookService service;
-	private final UserRepository userRepository;
-
-
 
 
 	//ログイン画面の表示
@@ -45,13 +43,14 @@ public class BookController {
 	//新規登録ボタンを押したときの処理
 	@PostMapping("/user")
 	public String save(@Validated UserForm userForm, BindingResult bindingResult, RedirectAttributes attributes) {
-		//バリデーションチェック
+
 
 		// ユーザー名の存在チェック
-		if (userRepository.userExistsByUserName(userForm.getUserName())) {
+		if (service.userExistsByUserName(userForm.getUserName())) {
 			bindingResult.rejectValue("userName", "error.userName", "このユーザー名は既に使用されています");
 		}
 
+		//バリデーションチェック
 		if(bindingResult.hasErrors()) {
 			return "login";
 		}
@@ -76,6 +75,19 @@ public class BookController {
 	@PostMapping("/form")
 	public String form(@Validated BookForm bookForm, BindingResult bindingResult, RedirectAttributes attributes) {
 
+		// 日付と時間が未来かどうかをチェック
+		LocalDate currentDate = LocalDate.now();
+		LocalTime currentTime = LocalTime.now();
+
+		// まず日付をチェック
+		if (bookForm.getDate().isBefore(currentDate)) {
+			bindingResult.rejectValue("date", "error.date", "過去の日付は選べません");
+		}
+
+		// 日付が同じ場合、時間をチェック
+		if (bookForm.getDate().isEqual(currentDate) && bookForm.getTime().isBefore(currentTime)) {
+			bindingResult.rejectValue("time", "error.time", "過去の時間は選べません");
+		}
 
 
 		//バリデーションチェック
@@ -169,8 +181,8 @@ public class BookController {
 
 	//管理者予約確認
 	@GetMapping("/adminlist")
-	public String adminlist(Model model) {
-		model.addAttribute("list", service.bookFindAll());
+	public String adminlist(LocalDate date, Model model) {
+		model.addAttribute("list", service.bookFindByDate(date));
 		return "adminlist";
 
 	}

@@ -19,10 +19,6 @@ public class BookService {
 	private final BookRepository bookRepository;  // BookRepositoryのインスタンス
     private final UserRepository userRepository;  // UserRepositoryのインスタンス
 
-//    public Service(BookRepository bookRepository, UserRepository userRepository) {
-//        this.bookRepository = bookRepository;
-//        this.userRepository = userRepository;
-//    }
 
     // Bookに関するメソッド
     public List<Book> bookFindAll() {
@@ -54,9 +50,7 @@ public class BookService {
     }
 
     // Userに関するメソッド
-//    public List<User> userFindAll() {
-//        return userRepository.findAll(null); // UserRepositoryからすべてのユーザーを取得
-//    }
+
 
     public User userFindByUserName(String username) {
         return userRepository.userSelectByUserName(username);
@@ -64,6 +58,10 @@ public class BookService {
 
     public void userInsert(User user) {
         userRepository.userInsert(user);
+    }
+    
+    public boolean userExistsByUserName(String username) {
+    	return userRepository.userExistsByUserName(username);
     }
 }
 
