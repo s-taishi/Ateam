@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>管理者日付選択画面</title>
@@ -37,61 +37,27 @@
             margin-bottom: 5px;
             padding: 10px;
         }
+		.search-button {
+		            background-color: #4CAF50;
+		            border: none;
+		            color: white;
+		            padding: 15px 32px;
+		            text-align: center;
+		            text-decoration: none;
+		            display: inline-block;
+		            font-size: 16px;
+		            margin: 4px 2px;
+		            cursor: pointer;
+		        }
     </style>
 </head>
 <body>
     <h1>営業日選択画面</h1>
     <div id="calendar">
-        <input type="date" id="date-picker" min="2024-10-01" max="2024-10-31">
+        <input type="date" id="date-picker" th:field="*{date}">
     </div>
-    <div id="selected-date-info"></div>
-    <ul id="admin-list"></ul>
+	<a href="@{/adminlist(date=${#dates.format(date, 'yyyy-MM-dd')})}" class="search-button">検索</a>
 
-    <script>
-        document.getElementById('date-picker').addEventListener('change', function(e) {
-            const selectedDate = e.target.value;
-            fetchBookingInfo(selectedDate);
-        });
 
-        function fetchBookingInfo(date) {
-            // 実際の環境では、ここでサーバーにAjaxリクエストを送信します
-            // この例では、モックデータを使用しています
-            const mockData = [
-                { id: 1, time: '10:00', customerName: '山田太郎' },
-                { id: 2, time: '14:00', customerName: '佐藤花子' },
-                { id: 3, time: '16:00', customerName: '鈴木一郎' }
-            ];
-            
-            // 実際のAjaxリクエストの例:
-            // fetch(`/api/bookings?date=${date}`)
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         displayBookingInfo(data);
-            //         updateAdminList(data);
-            //     });
-
-            // モックデータを使用した処理
-            setTimeout(() => {
-                displayBookingInfo(mockData);
-                updateAdminList(mockData);
-            }, 500); // 0.5秒の遅延を追加してAjaxリクエストをシミュレート
-        }
-
-        function displayBookingInfo(data) {
-            const infoDiv = document.getElementById('selected-date-info');
-            infoDiv.innerHTML = `<h2>選択日の予約情報</h2>`;
-            infoDiv.innerHTML += `<p>予約件数: ${data.length}件</p>`;
-        }
-
-        function updateAdminList(data) {
-            const adminList = document.getElementById('admin-list');
-            adminList.innerHTML = ''; // リストをクリア
-            data.forEach(item => {
-                const li = document.createElement('li');
-                li.textContent = `予約ID: ${item.id}, 時間: ${item.time}, 顧客名: ${item.customerName}`;
-                adminList.appendChild(li);
-            });
-        }
-    </script>
 </body>
 </html>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Book;
@@ -37,7 +38,8 @@ public class BookController {
 
 	//ログイン画面の表示
 	@GetMapping("/login")
-	public String login() {
+	public String login(@ModelAttribute UserForm userForm, Model model) {
+		model.addAttribute("userForm", userForm);
 		return "login";
 	}
 
@@ -182,7 +184,7 @@ public class BookController {
 
 	//管理者予約確認
 	@GetMapping("/adminlist")
-	public String adminlist(LocalDate date, Model model) {
+	public String adminlist(@RequestParam("date") LocalDate date, Model model) {
 		model.addAttribute("list", service.bookFindByDate(date));
 		return "adminlist";
 
