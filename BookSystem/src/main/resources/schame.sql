@@ -1,7 +1,8 @@
 --★テスト用機能ここから(本番移行時は記述を削除してください)
 --各テーブル・ENUM型が存在したら削除
 DROP TABLE IF EXISTS "user";
-DROP TABLE IF EXISTS "book";
+DROP TABLE IF E
+XISTS "book";
 DROP TYPE IF EXISTS role;
 --★テスト用機能ここまで
 
