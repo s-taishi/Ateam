@@ -48,6 +48,10 @@ public class BookService {
     public List<Book> bookFindByUserName(String userName){
     	return bookRepository.bookSelectByName(userName);
     }
+    
+    public String displayNameFindByUserName(String userName){
+    	return bookRepository.displayNameSelectByUserName(userName);
+    }
 
     // Userに関するメソッド
 
