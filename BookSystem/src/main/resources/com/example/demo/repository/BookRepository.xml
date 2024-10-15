@@ -5,12 +5,13 @@
 
     <resultMap id="BookWithUserResult" type="com.example.demo.entity.Book">
         <id property="id" column="id"/>
-        <result property="date" column="date"/>
-        <result property="time" column="time"/>
-        <result property="count" column="count"/>
+        <result property="bookbookdate" column="bookbookdate"/>
+        <result property="bookbooktime" column="bookbooktime"/>
+        <result property="bookbookcount" column="bookbookcount"/>
         <result property="memo" column="memo"/>
         <association property="userName" javaType="com.example.demo.entity.User">
-            <id property="userName" column="username"/>
+            <id property="id" column="id"/>
+            <result property="userName" column="username"/> <!-- Userクラスのフィールドも必要に応じて追加 -->
             <result property="password" column="password"/> <!-- Userクラスのフィールドも必要に応じて追加 -->
             <result property="displayName" column="display_name"/> <!-- displayNameに対応するカラム名 -->
             <result property="tellNumber" column="tell_number"/> <!-- tellNumberに対応するカラム名 -->
@@ -20,48 +21,48 @@
 
     <!-- IDでの予約検索 -->
     <select id="bookSelectById" resultMap="BookWithUserResult">
-        SELECT id, username, date, time, count, memo FROM "book" WHERE id = #{id}
+        SELECT * FROM books join users on books.user_id = users.id WHERE id = #{id}
     </select>
 
     <!-- usernameでの予約検索 -->
     <select id="bookSelectByName" resultMap="BookWithUserResult">
-        SELECT id, username, date, time, count, memo FROM "book" WHERE username = #{userName}
+        SELECT * FROM books join users on books.user_id = users.id WHERE username = #{userName}
     </select>
 
     <!-- 指定された年と月の予約検索 -->
     <select id="bookSelectByMonth" resultMap="BookWithUserResult">
-        SELECT id, username, date, time, count, memo FROM "book" 
-        WHERE EXTRACT(YEAR FROM date) = EXTRACT(YEAR FROM #{localDate}) 
-          AND EXTRACT(MONTH FROM date) = EXTRACT(MONTH FROM #{localDate})
+        SELECT * FROM books join users on books.user_id = users.id 
+        WHERE EXTRACT(YEAR FROM bookdate) = EXTRACT(YEAR FROM #{localdate}) 
+          AND EXTRACT(MONTH FROM bookdate) = EXTRACT(MONTH FROM #{localdate})
     </select>
 
     <!-- 日毎の予約検索 -->
-    <select id="bookSelectByDate" resultMap="BookWithUserResult">
-        SELECT id, username, date, time, count, memo FROM "book" WHERE date = #{localDate}
+    <select id="bookSelectBybookdate" resultMap="BookWithUserResult">
+        SELECT * FROM books join users on books.user_id = users.id WHERE bookdate = #{localdate}
     </select>
 
     <!-- 指定された時間の予約検索 -->
     <select id="bookSelectByHour" resultMap="BookWithUserResult">
-        SELECT id, username, date, time, count, memo FROM "book" 
-        WHERE EXTRACT(HOUR FROM time) = EXTRACT(HOUR FROM #{localTime})
+        SELECT * FROM books join users on books.user_id = users.id 
+        WHERE EXTRACT(HOUR FROM booktime) = EXTRACT(HOUR FROM #{localtime})
     </select>
 
     <!-- 新規予約登録 -->
     <insert id="bookInsert" parameterType="com.example.demo.entity.Book">
-        INSERT INTO "book" (username, date, time, count, memo)
-        VALUES (#{userName.userName}, #{date}, #{time}, #{count}, #{memo}) <!-- userNameフィールドを指定 -->
+        INSERT INTO books (bookdate, booktime, bookcount, memo,user_id)
+        VALUES ( #{bookdate}, #{booktime}, #{bookcount}, #{memo},#{userName.id}) <!-- userNameフィールドを指定 -->
     </insert>
 
     <!-- 特定のIDを持つ予約削除 -->
     <delete id="bookDelete" >
-        DELETE FROM "book" WHERE id = #{id}
+        DELETE FROM books WHERE id = #{id}
     </delete>
     
     <select id="displayNameSelectByUserName" parameterType="string" resultType="com.example.demo.entity.Book">
-        SELECT b.id, u.displayName, b.date, b.time, b.count, b.memo
+        SELECT *
         FROM Book b
-        JOIN User u ON b.userName = u.userName
-        WHERE b.userName = #{userName}
+        JOIN User u ON b.user_id = u.id
+        WHERE u.userName = #{userName}
     </select>
 
 </mapper>

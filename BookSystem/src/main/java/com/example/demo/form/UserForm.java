@@ -5,11 +5,15 @@ import com.example.demo.entity.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserForm {
-	private String userName; // ユーザー名
+	private String username; // ユーザー名
 
 	@NotBlank(message = "パスワードは必須です")
 	@Size(min = 8, max = 12, message = "パスワードは8文字以上12文字以下である必要があります")

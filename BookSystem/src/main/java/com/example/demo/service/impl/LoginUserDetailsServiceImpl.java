@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.LoginUser;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
@@ -31,7 +32,7 @@ public class LoginUserDetailsServiceImpl implements UserDetailsService{
 		
 		//呼び出したデータがあるかないか
 		if(user != null) {//あればそのデータが持つ情報をログイン処理用インスタンスに格納
-			return new org.springframework.security.core.userdetails.User(user.getUserName(),
+			return new LoginUser(user.getUserName(),
 					user.getPassword(),
 					getAuthorityList(user.getAuthority()));
 		}else {//なければエラーを表示する

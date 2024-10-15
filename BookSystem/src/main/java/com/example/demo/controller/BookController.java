@@ -29,6 +29,8 @@ public class BookController {
 
 	/** DI */
 	private final BookService service;
+	
+	private User user;
 
 	//ログイン画面の表示
 	@GetMapping("/login")
@@ -36,13 +38,13 @@ public class BookController {
 		return "login";
 	}
 
-	//新規登録ボタンを押したときの処理
+	//新規登録ボタンを押したときの処理 アカウント作成
 	@PostMapping("/user")
 	public String save(@Validated UserForm userForm, BindingResult bindingResult, RedirectAttributes attributes) {
 
 
 		// ユーザー名の存在チェック
-		if (service.userExistsByUserName(userForm.getUserName())) {
+		if (service.userExistsByUserName(userForm.getUsername())) {
 			bindingResult.rejectValue("userName", "error.userName", "このユーザー名は既に使用されています");
 		}
 
@@ -58,7 +60,7 @@ public class BookController {
 		}
 
 		User user = new User();
-		user.setUserName(userForm.getUserName());
+		user.setUserName(userForm.getUsername());
 		user.setPassword(userForm.getPassword());
 		user.setDisplayName(userForm.getDisplayName());
 		user.setTellNumber(userForm.getTellNumber());
@@ -67,21 +69,27 @@ public class BookController {
 		return "redirect:/login";
 	}
 
+	@GetMapping("/entry")
+	public String entry(@ModelAttribute BookForm bookForm) {
+		
+		return "form";
+	}
+	
 	//予約情報を確認画面に送る
 	@PostMapping("/form")
-	public String form(@Validated BookForm bookForm, BindingResult bindingResult, RedirectAttributes attributes) {
+	public String form(BookForm bookForm, BindingResult bindingResult, RedirectAttributes attributes) {
 
 		// 日付と時間が未来かどうかをチェック
 		LocalDate currentDate = LocalDate.now();
 		LocalTime currentTime = LocalTime.now();
 
 		// まず日付をチェック
-		if (bookForm.getDate().isBefore(currentDate)) {
+		if (bookForm.getBookdate().isBefore(currentDate)) {
 			bindingResult.rejectValue("date", "error.date", "過去の日付は選べません");
 		}
 
 		// 日付が同じ場合、時間をチェック
-		if (bookForm.getDate().isEqual(currentDate) && bookForm.getTime().isBefore(currentTime)) {
+		if (bookForm.getBookdate().isEqual(currentDate) && bookForm.getBooktime().isBefore(currentTime)) {
 			bindingResult.rejectValue("time", "error.time", "過去の時間は選べません");
 		}
 
@@ -93,10 +101,9 @@ public class BookController {
 
 		Book book = new Book();
 		book.setUserName(bookForm.getUserName());
-		book.setId(bookForm.getId());
-		book.setDate(bookForm.getDate());
-		book.setTime(bookForm.getTime());
-		book.setCount(bookForm.getCount());
+		book.setBookdate(bookForm.getBookdate());
+		book.setBooktime(bookForm.getBooktime());
+		book.setBookcount(bookForm.getBookcount());
 		book.setMemo(bookForm.getMemo());
 
 		service.bookInsert(book);
