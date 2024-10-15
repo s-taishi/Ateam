@@ -1,12 +1,9 @@
 package com.example.demo.controller;
 
-
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,16 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Book;
-import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.form.BookForm;
 import com.example.demo.form.UserForm;
 import com.example.demo.service.BookService;
-import com.example.demo.service.impl.LoginUserDetailsServiceImpl;
 
 import lombok.RequiredArgsConstructor;
-
-
 
 @Controller
 @RequiredArgsConstructor
@@ -37,24 +30,10 @@ public class BookController {
 	/** DI */
 	private final BookService service;
 
-
-
 	//ログイン画面の表示
 	@GetMapping("/login")
-	public String login(@ModelAttribute UserForm userForm, Model model) {
-		model.addAttribute("userForm", userForm);
+	public String login(@ModelAttribute UserForm userForm) {
 		return "login";
-	}
-
-	// ログイン成功時のリダイレクト処理
-	@GetMapping("/")
-	public String loginSuccess(@AuthenticationPrincipal LoginUserDetailsServiceImpl userDetails, Role role) {
-		// ユーザーの役割に応じて遷移先を決定
-		if (role == Role.ADMIN) {
-			return "redirect:/adminmenu"; // 管理者のメニュー画面にリダイレクト
-		} else {
-			return "redirect:/form"; // 予約情報入力画面にリダイレクト
-		}
 	}
 
 	//新規登録ボタンを押したときの処理
