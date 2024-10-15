@@ -24,7 +24,7 @@ public class SecurityConfig {
 		//loginへのアクセスは誰でも可能
 		.requestMatchers("/login").permitAll()
 		//formへのアクセスはUSER権限を持つ者のみ可能
-		.requestMatchers("/form").hasAuthority("USER")
+		.requestMatchers("/form/**").hasAuthority("USER")
 		//booklistへのアクセスはADMIN権限を持つ者のみ可能
 		.requestMatchers("/booklist").hasAuthority("ADMIN")
 		//他はログインすればアクセス可能
