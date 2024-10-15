@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Book;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.form.BookForm;
 import com.example.demo.form.UserForm;
 import com.example.demo.service.BookService;
+import com.example.demo.service.impl.LoginUserDetailsServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,7 +36,7 @@ public class BookController {
 
 	/** DI */
 	private final BookService service;
-	
+
 
 
 	//ログイン画面の表示
@@ -41,6 +44,17 @@ public class BookController {
 	public String login(@ModelAttribute UserForm userForm, Model model) {
 		model.addAttribute("userForm", userForm);
 		return "login";
+	}
+
+	// ログイン成功時のリダイレクト処理
+	@GetMapping("/")
+	public String loginSuccess(@AuthenticationPrincipal LoginUserDetailsServiceImpl userDetails, Role role) {
+		// ユーザーの役割に応じて遷移先を決定
+		if (role == Role.ADMIN) {
+			return "redirect:/adminmenu"; // 管理者のメニュー画面にリダイレクト
+		} else {
+			return "redirect:/form"; // 予約情報入力画面にリダイレクト
+		}
 	}
 
 	//新規登録ボタンを押したときの処理
@@ -139,7 +153,7 @@ public class BookController {
 
 	//マイページを表示
 	@GetMapping("/mypage/{userName}")
-	public String myPage(@PathVariable("userName") User UserName, String userName, Model model) {
+	public String myPage(@PathVariable("userName") String userName, Model model) {
 		User user = service.userFindByUserName(userName);
 
 		// ユーザーに関連する予約一覧を取得
@@ -174,18 +188,25 @@ public class BookController {
 
 	//予約の削除
 	@PostMapping("/delete/{id}")
-	public String delete(@PathVariable int id, @ModelAttribute("userName") User userName, RedirectAttributes attributes) {
+	public String delete(@PathVariable int id, @RequestParam("userName") String userName, RedirectAttributes attributes) {
 		service.bookDelete(id);
 		attributes.addFlashAttribute("message", "予約を削除しました");
 		return "redirect:/mypage/{userName}";
 	}
+	
+//	//管理者メニュー
+//	@GetMapping("/adminmenu")
+//	public String adminmenu() {
+//		
+//	}
 
 
 
 	//管理者予約確認
 	@GetMapping("/adminlist")
-	public String adminlist(@RequestParam("date") LocalDate date, Model model) {
+	public String adminlist(@RequestParam("date") LocalDate date, @RequestParam("userName") String userName, Model model) {
 		model.addAttribute("list", service.bookFindByDate(date));
+		model.addAttribute("displayName", service.displayNameFindByUserName(userName));
 		return "adminlist";
 
 	}

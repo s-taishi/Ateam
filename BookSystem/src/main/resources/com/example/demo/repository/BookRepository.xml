@@ -56,5 +56,12 @@
     <delete id="bookDelete" >
         DELETE FROM "book" WHERE id = #{id}
     </delete>
+    
+    <select id="displayNameSelectByUserName" parameterType="string" resultType="com.example.demo.entity.Book">
+        SELECT b.id, u.displayName, b.date, b.time, b.count, b.memo
+        FROM Book b
+        JOIN User u ON b.userName = u.userName
+        WHERE b.userName = #{userName}
+    </select>
 
 </mapper>
