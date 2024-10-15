@@ -4,13 +4,13 @@
 INSERT INTO users
 (username,password,displayname,tellnumber,authority)
 VALUES
-('user','a','顧客','00000000000','USER');
+('user','12345678','顧客','00000000000','USER');
 
 --ダミー管理者データ
 INSERT INTO users
 (username,password,displayname,tellnumber,authority)
 VALUES
-('admin','1','管理者1','00000000000','ADMIN');
+('admin','12345678','管理者1','00000000000','ADMIN');
 
 --ダミー予約データ
 INSERT INTO  books(username,bookdate,booktime,bookcount,memo)

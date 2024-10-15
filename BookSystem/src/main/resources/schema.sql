@@ -46,8 +46,6 @@ CREATE TABLE books (
 	--memo(特記事項)カラム
 	memo VARCHAR(255),
 	
-	
-	--外部キー制約
-	FOREIGN KEY (id) REFERENCES users(id)
+	user_id integer references users(id)
 );
 
