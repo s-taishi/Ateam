@@ -44,6 +44,7 @@ public class SecurityConfig {
 		.passwordParameter("password")
 		//ログイン成功時に飛ばすurl
 		.defaultSuccessUrl("/entry")
+		//ログイン成功時に実行するメソッド
 		.successHandler(successHandler)
 		//ログイン失敗時に飛ばすurl
 		.failureUrl("/login?error"))

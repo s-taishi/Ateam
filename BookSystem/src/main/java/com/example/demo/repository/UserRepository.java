@@ -8,11 +8,11 @@ import com.example.demo.entity.User;
 @Mapper
 public interface UserRepository {
 //userNameによるユーザー検索
-	User userSelectByUserName(@Param("userName")String userName);
+	User userSelectByUsername(@Param("username")String username);
 	
 	//ユーザー新規登録
 	void userInsert(User user);
 	
 	//ユーザー情報が既に存在するか判定
-	boolean userExistsByUserName(@Param("userName")String userName);
+	boolean userExistsByUsername(@Param("username")String username);
 }
