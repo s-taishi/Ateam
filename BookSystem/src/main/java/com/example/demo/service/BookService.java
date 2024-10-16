@@ -57,7 +57,7 @@ public class BookService {
 
 
     public User userFindByUserName(String username) {
-        return userRepository.userSelectByUserName(username);
+        return userRepository.userSelectByUsername(username);
     }
 
     public void userInsert(User user) {
@@ -65,7 +65,7 @@ public class BookService {
     }
     
     public boolean userExistsByUserName(String username) {
-    	return userRepository.userExistsByUserName(username);
+    	return userRepository.userExistsByUsername(username);
     }
 }
 

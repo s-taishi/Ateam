@@ -17,8 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Book;
 import com.example.demo.entity.User;
-import com.example.demo.form.BookForm;
 import com.example.demo.form.UserForm;
+import com.example.demo.form.WrapForm;
 import com.example.demo.service.BookService;
 
 import jakarta.servlet.http.HttpSession;
@@ -41,7 +41,7 @@ public class BookController {
 	
 	@PostMapping("/auth")
 	public String setUsername(@ModelAttribute UserForm userForm,Model model) {
-		user.setUserName(userForm.getUsername());
+		user.setUsername(userForm.getUsername());
 		model.addAttribute("userForm",userForm);
 		return "redirect:/authentication";
 	}
@@ -69,7 +69,7 @@ public class BookController {
 		}
 
 		User user = new User();
-		user.setUserName(userForm.getUsername());
+		user.setUsername(userForm.getUsername());
 		user.setPassword(userForm.getPassword());
 		user.setDisplayName(userForm.getDisplayName());
 		user.setTellNumber(userForm.getTellNumber());
@@ -78,27 +78,31 @@ public class BookController {
 		return "redirect:/login";
 	}
 
-	@GetMapping("/entry")
-	public String entry(@ModelAttribute BookForm bookForm) {
-		System.out.println(user.getUserName());
+	@GetMapping("/entry/{username}")
+	public String entry(@ModelAttribute WrapForm wrapForm,@PathVariable String username, Model model) {
+		wrapForm.setUsername(username);
+		model.addAttribute(wrapForm);
+		System.out.println(user.getUsername());
 		return "form";
 	}
 	
 	//予約情報を確認画面に送る
 	@PostMapping("/form")
-	public String form(BookForm bookForm, BindingResult bindingResult, RedirectAttributes attributes) {
-
+	public String form(@ModelAttribute WrapForm wrapForm, BindingResult bindingResult, RedirectAttributes attributes) {
+		User user = service.userFindByUserName(wrapForm.getUsername());
+		wrapForm.getBookForm().setUsername(user);
+		
 		// 日付と時間が未来かどうかをチェック
 		LocalDate currentDate = LocalDate.now();
 		LocalTime currentTime = LocalTime.now();
 
 		// まず日付をチェック
-		if (bookForm.getBookdate().isBefore(currentDate)) {
+		if (wrapForm.getBookForm().getBookdate().isBefore(currentDate)) {
 			bindingResult.rejectValue("date", "error.date", "過去の日付は選べません");
 		}
 
 		// 日付が同じ場合、時間をチェック
-		if (bookForm.getBookdate().isEqual(currentDate) && bookForm.getBooktime().isBefore(currentTime)) {
+		if (wrapForm.getBookForm().getBookdate().isEqual(currentDate) && wrapForm.getBookForm().getBooktime().isBefore(currentTime)) {
 			bindingResult.rejectValue("time", "error.time", "過去の時間は選べません");
 		}
 
@@ -109,11 +113,11 @@ public class BookController {
 		}
 
 		Book book = new Book();
-		book.setUserName(bookForm.getUserName());
-		book.setBookdate(bookForm.getBookdate());
-		book.setBooktime(bookForm.getBooktime());
-		book.setBookcount(bookForm.getBookcount());
-		book.setMemo(bookForm.getMemo());
+		book.setUsername(wrapForm.getBookForm().getUsername());
+		book.setBookdate(wrapForm.getBookForm().getBookdate());
+		book.setBooktime(wrapForm.getBookForm().getBooktime());
+		book.setBookcount(wrapForm.getBookForm().getBookcount());
+		book.setMemo(wrapForm.getBookForm().getMemo());
 
 		service.bookInsert(book);
 

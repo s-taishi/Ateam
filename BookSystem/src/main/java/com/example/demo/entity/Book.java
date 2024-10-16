@@ -16,6 +16,6 @@ public class Book {
 	private LocalTime booktime; // 時間
 	private int bookcount; // 人数
 	private String memo; // 特記事項
-	private User userName; // bookとuser の１：１の関係
+	private User username; // bookとuser の１：１の関係
 
 }

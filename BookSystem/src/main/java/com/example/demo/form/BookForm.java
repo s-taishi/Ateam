@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookForm {
-	private User userName; // ユーザー名
+	private User username; // ユーザー名
 	private int id; // 予約ID
 
 	@NotNull(message = "日付は必須です")
