@@ -17,6 +17,7 @@ public class SecurityConfig {
 	
 	private final UserDetailsService userDetailsService;
 	private final PasswordEncoder passwordEncoder;
+	private final CustomAuthenticationSuccessHandler successHandler;
 	
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -43,6 +44,7 @@ public class SecurityConfig {
 		.passwordParameter("password")
 		//ログイン成功時に飛ばすurl
 		.defaultSuccessUrl("/entry")
+		.successHandler(successHandler)
 		//ログイン失敗時に飛ばすurl
 		.failureUrl("/login?error"))
 		//ログアウト設定

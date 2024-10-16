@@ -21,6 +21,7 @@ import com.example.demo.form.BookForm;
 import com.example.demo.form.UserForm;
 import com.example.demo.service.BookService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -30,18 +31,26 @@ public class BookController {
 	/** DI */
 	private final BookService service;
 	
-	private User user;
+	private User user = new User();
 
 	//ログイン画面の表示
 	@GetMapping("/login")
 	public String login(@ModelAttribute UserForm userForm) {
 		return "login";
 	}
+	
+	@PostMapping("/auth")
+	public String setUsername(@ModelAttribute UserForm userForm,Model model) {
+		user.setUserName(userForm.getUsername());
+		model.addAttribute("userForm",userForm);
+		return "redirect:/authentication";
+	}
 
 	//新規登録ボタンを押したときの処理 アカウント作成
 	@PostMapping("/user")
-	public String save(@Validated UserForm userForm, BindingResult bindingResult, RedirectAttributes attributes) {
+	public String save(@Validated UserForm userForm,HttpSession session, BindingResult bindingResult, RedirectAttributes attributes) {
 
+		
 
 		// ユーザー名の存在チェック
 		if (service.userExistsByUserName(userForm.getUsername())) {
@@ -71,7 +80,7 @@ public class BookController {
 
 	@GetMapping("/entry")
 	public String entry(@ModelAttribute BookForm bookForm) {
-		
+		System.out.println(user.getUserName());
 		return "form";
 	}
 	
