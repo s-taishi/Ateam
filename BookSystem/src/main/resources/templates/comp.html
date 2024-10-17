@@ -21,7 +21,7 @@
             font-size: 18px;
             margin-bottom: 10px;
         }
-		<!--a-->
+		
         .mypage-button {
             background-color: #4CAF50;
             border: none;
@@ -40,10 +40,10 @@
     <h1>以下の日時で予約承りました</h1>
     
     <div class="reservation-info">
-        <p>来店日: <span th:text="${book.date}"></span></p>
-        <p>来店時間: <span th:text="${book.time}"></span></p>
+        <p>来店日: <span th:text="${book.bookdate}"></span></p>
+        <p>来店時間: <span th:text="${book.booktime}"></span></p>
     </div>
     
-    <a th:href="@{/mypage/{userName}(userName=${book.userName})}" class="mypage-button">マイページへ</a>
+    <a th:href="@{/mypage/{userid}(userid=${book.userid.username})}" class="mypage-button">マイページへ</a>
 </body>
 </html>

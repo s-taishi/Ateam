@@ -15,11 +15,11 @@ public interface BookRepository {
 	Book bookSelectById(int id);
 
 	//usernameでの予約検索
-	List<Book> bookSelectByName(@Param("userName") String userName);
+	List<Book> bookSelectByName(@Param("username") String username);
 
 	//指定された年と月の予約検索
-	public List<Book> bookSelectByMonth(@Param("userName")LocalDate localDate);
-	
+	public List<Book> bookSelectByMonth(@Param("username")LocalDate localDate);
+
 	//日毎の予約検索
 	List<Book> bookSelectByDate(@Param("localDate") LocalDate localDate);
 
@@ -31,5 +31,8 @@ public interface BookRepository {
 
 	//特定のIDを持つ予約削除
 	void bookDelete(int id);
+
+	//userNameによるdisplayNameの抽出
+	String displayNameSelectByUsername(@Param("username") String username);
 
 }

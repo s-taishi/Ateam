@@ -54,13 +54,13 @@
 	           </tr>
 	       </thead>
 	       <tbody>
-	           <tr th:each="booking : ${bookings}">
+	           <tr th:each="booking : ${books}">
 	               <td th:text="${booking.id}"></td>
-	               <td th:text="${booking.date}"></td>
-	               <td th:text="${booking.time}"></td>
-	               <td th:text="${booking.partySize}"></td>
+	               <td th:text="${booking.bookdate}"></td>
+	               <td th:text="${booking.booktime}"></td>
+	               <td th:text="${booking.bookcount}"></td>
 	               <td>
-	                   <a th:href="@{/booking-details/{id}(id=${booking.id})}" class="btn">詳細</a>
+	                   <a th:href="@{/check2/{id}(id=${booking.id})}" class="btn">詳細</a>
 	               </td>
 	           </tr>
 	       </tbody>
@@ -69,7 +69,7 @@
     <table>
         <tr>
             <th>氏名</th>
-            <td th:text="${user.name}"></td>
+            <td th:text="${user.displayName}"></td>
         </tr>
         <tr>
             <th>ユーザーネーム</th>
@@ -77,13 +77,13 @@
         </tr>
         <tr>
             <th>電話番号</th>
-            <td th:text="${user.phoneNumber}"></td>
+            <td th:text="${user.tellNumber}"></td>
         </tr>
     </table>
 
    
 
-    <a href="/login" class="btn">ログアウト</a>
+    <a href="/logout" class="btn">ログアウト</a>
 
     <script>
         // ログアウトボタンのイベントリスナー

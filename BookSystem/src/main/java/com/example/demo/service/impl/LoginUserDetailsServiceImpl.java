@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.LoginUser;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
@@ -27,11 +28,11 @@ public class LoginUserDetailsServiceImpl implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO 自動生成されたメソッド・スタブ
 		//ログイン画面で入力されたユーザー名を元に鍵となるデータの呼び出し
-		User user = userRepository.userSelectByUserName(username);
+		User user = userRepository.userSelectByUsername(username);
 		
 		//呼び出したデータがあるかないか
 		if(user != null) {//あればそのデータが持つ情報をログイン処理用インスタンスに格納
-			return new org.springframework.security.core.userdetails.User(user.getUserName(),
+			return new LoginUser(user.getUsername(),
 					user.getPassword(),
 					getAuthorityList(user.getAuthority()));
 		}else {//なければエラーを表示する

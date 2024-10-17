@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -19,13 +17,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Book;
 import com.example.demo.entity.User;
-import com.example.demo.form.BookForm;
 import com.example.demo.form.UserForm;
+import com.example.demo.form.WrapForm;
 import com.example.demo.service.BookService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-
-
 
 @Controller
 @RequiredArgsConstructor
@@ -34,22 +31,23 @@ public class BookController {
 	/** DI */
 	private final BookService service;
 	
-
+	private User user = new User();
 
 	//ログイン画面の表示
 	@GetMapping("/login")
-	public String login(@ModelAttribute UserForm userForm, Model model) {
-		model.addAttribute("userForm", userForm);
+	public String login(@ModelAttribute UserForm userForm) {
 		return "login";
 	}
+	
 
-	//新規登録ボタンを押したときの処理
+	//新規登録ボタンを押したときの処理 アカウント作成
 	@PostMapping("/user")
-	public String save(@Validated UserForm userForm, BindingResult bindingResult, RedirectAttributes attributes) {
+	public String save(@Validated UserForm userForm,HttpSession session, BindingResult bindingResult, RedirectAttributes attributes) {
 
+		
 
 		// ユーザー名の存在チェック
-		if (service.userExistsByUserName(userForm.getUserName())) {
+		if (service.userExistsByUserName(userForm.getUsername())) {
 			bindingResult.rejectValue("userName", "error.userName", "このユーザー名は既に使用されています");
 		}
 
@@ -65,7 +63,7 @@ public class BookController {
 		}
 
 		User user = new User();
-		user.setUserName(userForm.getUserName());
+		user.setUsername(userForm.getUsername());
 		user.setPassword(userForm.getPassword());
 		user.setDisplayName(userForm.getDisplayName());
 		user.setTellNumber(userForm.getTellNumber());
@@ -74,21 +72,31 @@ public class BookController {
 		return "redirect:/login";
 	}
 
+	@GetMapping("/entry/{username}")
+	public String entry(@ModelAttribute WrapForm wrapForm,@PathVariable String username, Model model) {
+		wrapForm.setUsername(username);
+		model.addAttribute(wrapForm);
+		System.out.println(user.getUsername());
+		return "form";
+	}
+	
 	//予約情報を確認画面に送る
 	@PostMapping("/form")
-	public String form(@Validated BookForm bookForm, BindingResult bindingResult, RedirectAttributes attributes) {
-
+	public String form(@ModelAttribute WrapForm wrapForm, BindingResult bindingResult, RedirectAttributes attributes,Model model) {
+		User user = service.userFindByUserName(wrapForm.getUsername());
+		wrapForm.getBookForm().setUser(user);
+		
 		// 日付と時間が未来かどうかをチェック
 		LocalDate currentDate = LocalDate.now();
 		LocalTime currentTime = LocalTime.now();
 
 		// まず日付をチェック
-		if (bookForm.getDate().isBefore(currentDate)) {
+		if (wrapForm.getBookForm().getBookdate().isBefore(currentDate)) {
 			bindingResult.rejectValue("date", "error.date", "過去の日付は選べません");
 		}
 
 		// 日付が同じ場合、時間をチェック
-		if (bookForm.getDate().isEqual(currentDate) && bookForm.getTime().isBefore(currentTime)) {
+		if (wrapForm.getBookForm().getBookdate().isEqual(currentDate) && wrapForm.getBookForm().getBooktime().isBefore(currentTime)) {
 			bindingResult.rejectValue("time", "error.time", "過去の時間は選べません");
 		}
 
@@ -99,38 +107,27 @@ public class BookController {
 		}
 
 		Book book = new Book();
-		book.setUserName(bookForm.getUserName());
-		book.setId(bookForm.getId());
-		book.setDate(bookForm.getDate());
-		book.setTime(bookForm.getTime());
-		book.setCount(bookForm.getCount());
-		book.setMemo(bookForm.getMemo());
+		book.setBookdate(wrapForm.getBookForm().getBookdate());
+		book.setBooktime(wrapForm.getBookForm().getBooktime());
+		book.setBookcount(wrapForm.getBookForm().getBookcount());
+		book.setMemo(wrapForm.getBookForm().getMemo());
+		book.setUserid(wrapForm.getBookForm().getUser());
 
-		service.bookInsert(book);
+		model.addAttribute("book",book);
 
-		// リダイレクト時にBook情報をフラッシュ属性として追加
-		attributes.addFlashAttribute("book", book); // Bookオブジェクトを追加
-
-		return "redirect:/check";
+		return "/check";
 	}
-
-	//予約確認画面
-	@GetMapping("/check")
-	public String check(@ModelAttribute("book") Book book, Model model) {
-
-
-		model.addAttribute("book", book);
-
-		return "check"; // 予約確認画面を表示
-
-	}
-
 
 
 	//予約完了画面
-	@GetMapping("/comp")
-	public String comp(@ModelAttribute("book") Book book, Model model){
-
+	@PostMapping("/comp")
+	public String comp(@ModelAttribute Book book, Model model){
+		System.out.println(book.getUserid());
+		if(book.getUserid() != null) {
+			 User user = (book.getUserid());
+		        book.setUserid(user);
+		}
+		service.bookInsert(book);
 		model.addAttribute("book", book);
 
 		return "comp"; // 予約完了画面を表示
@@ -138,12 +135,12 @@ public class BookController {
 	}
 
 	//マイページを表示
-	@GetMapping("/mypage/{userName}")
-	public String myPage(@PathVariable("userName") User UserName, String userName, Model model) {
-		User user = service.userFindByUserName(userName);
+	@GetMapping("/mypage/{username}")
+	public String myPage(@PathVariable String username, Model model) {
+		User user = service.userFindByUserName(username);
 
 		// ユーザーに関連する予約一覧を取得
-		List<Book> books = service.bookFindByUserName(userName);
+		List<Book> books = service.bookFindByUserName(username);
 
 		// 取得したユーザー情報と予約情報をモデルに追加
 		model.addAttribute("user", user);
@@ -174,18 +171,25 @@ public class BookController {
 
 	//予約の削除
 	@PostMapping("/delete/{id}")
-	public String delete(@PathVariable int id, @ModelAttribute("userName") User userName, RedirectAttributes attributes) {
+	public String delete(@PathVariable int id, @RequestParam("userName") String userName, RedirectAttributes attributes) {
 		service.bookDelete(id);
 		attributes.addFlashAttribute("message", "予約を削除しました");
 		return "redirect:/mypage/{userName}";
 	}
+	
+//	//管理者メニュー
+//	@GetMapping("/adminmenu")
+//	public String adminmenu() {
+//		
+//	}
 
 
 
 	//管理者予約確認
 	@GetMapping("/adminlist")
-	public String adminlist(@RequestParam("date") LocalDate date, Model model) {
+	public String adminlist(@RequestParam("date") LocalDate date, @RequestParam("userName") String userName, Model model) {
 		model.addAttribute("list", service.bookFindByDate(date));
+		model.addAttribute("displayName", service.displayNameFindByUserName(userName));
 		return "adminlist";
 
 	}

@@ -21,10 +21,6 @@ public class BookService {
 
 
     // Bookに関するメソッド
-    public List<Book> bookFindAll() {
-        return bookRepository.bookSelectByName(null); // すべてのBookを取得するメソッドを呼び出す
-    }
-
     public Book bookFindById(int id) {
         return bookRepository.bookSelectById(id);
     }
@@ -48,12 +44,16 @@ public class BookService {
     public List<Book> bookFindByUserName(String userName){
     	return bookRepository.bookSelectByName(userName);
     }
+    
+    public String displayNameFindByUserName(String userName){
+    	return bookRepository.displayNameSelectByUsername(userName);
+    }
 
     // Userに関するメソッド
 
 
     public User userFindByUserName(String username) {
-        return userRepository.userSelectByUserName(username);
+        return userRepository.userSelectByUsername(username);
     }
 
     public void userInsert(User user) {
@@ -61,7 +61,7 @@ public class BookService {
     }
     
     public boolean userExistsByUserName(String username) {
-    	return userRepository.userExistsByUserName(username);
+    	return userRepository.userExistsByUsername(username);
     }
 }
 

@@ -3,15 +3,19 @@ package com.example.demo.entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-	@Data
-	public class Book {
-		private User userName; // bookとuser の１：１の関係
-		private int id; // 予約ID
-		private LocalDate date; // 日付
-		private LocalTime time; // 時間
-		private int count; // 人数
-		private String memo; // 特記事項
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Book {
+	private int id; // 予約ID
+	private LocalDate bookdate; // 日付
+	private LocalTime booktime; // 時間
+	private int bookcount; // 人数
+	private String memo; // 特記事項
+	private User userid; // bookとuser の１：１の関係
 
 }

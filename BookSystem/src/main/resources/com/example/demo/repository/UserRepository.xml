@@ -5,14 +5,14 @@
 
 <!-- usernameによるユーザー検索 -->
 <select id="userSelectByUsername" resultType="com.example.demo.entity.User">
-SELECT userName,password,displayName,tellNumber,authority FROM "user" WHERE userName =#{userName}
+SELECT * FROM users WHERE username =#{username}
 </select>
 
 <!--  ユーザー新規登録 -->
 <insert id="userInsert" >
-INSERT INTO "user" (userName,password,displayName,tellNumber,authority)
+INSERT INTO users (username,password,displayName,tellNumber,authority)
 VALUES
-(#{userName},#{password},#{displayName},#{tellNumber},#{authority})
+(#{username},#{password},#{displayName},#{tellNumber},#{authority})
 </insert>
 
 </mapper>

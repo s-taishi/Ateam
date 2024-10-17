@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>管理者日付選択画面</title>
-</head>
- <style>
+    <meta charset="UTF-8">
+    <title>管理者日付選択画面</title>
+    <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -21,43 +20,32 @@
             font-size: 16px;
             padding: 5px;
         }
-        #selected-date-info {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin-top: 20px;
+        .search-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
         }
-        #admin-list {
-            list-style-type: none;
-            padding: 0;
+        .error {
+            color: red;
+            margin-top: 10px;
         }
-        #admin-list li {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            margin-bottom: 5px;
-            padding: 10px;
-        }
-		.search-button {
-		            background-color: #4CAF50;
-		            border: none;
-		            color: white;
-		            padding: 15px 32px;
-		            text-align: center;
-		            text-decoration: none;
-		            display: inline-block;
-		            font-size: 16px;
-		            margin: 4px 2px;
-		            cursor: pointer;
-		        }
     </style>
 </head>
 <body>
     <h1>営業日選択画面</h1>
     <div id="calendar">
-        <input type="date" id="date-picker" th:field="*{date}">
+        <form th:action="@{/adminlist}" method="get" th:object="${dateForm}">
+            <input type="date" id="date-picker" th:field="*{date}">
+            <button type="submit" class="search-button">検索</button>
+        </form>
+        <div th:if="${#fields.hasErrors('date')}" th:errors="*{date}" class="error"></div>
     </div>
-	<a href="@{/adminlist(date=${#dates.format(date, 'yyyy-MM-dd')})}" class="search-button">検索</a>
-
-
 </body>
 </html>

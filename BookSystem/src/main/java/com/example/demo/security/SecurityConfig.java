@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 	
 	private final UserDetailsService userDetailsService;
+	private final PasswordEncoder passwordEncoder;
+	private final CustomAuthenticationSuccessHandler successHandler;
 	
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -40,7 +43,9 @@ public class SecurityConfig {
 		//passwordに使う変数はpassword
 		.passwordParameter("password")
 		//ログイン成功時に飛ばすurl
-		.defaultSuccessUrl("/")
+		.defaultSuccessUrl("/entry")
+		//ログイン成功時に実行するメソッド
+		.successHandler(successHandler)
 		//ログイン失敗時に飛ばすurl
 		.failureUrl("/login?error"))
 		//ログアウト設定
@@ -48,7 +53,7 @@ public class SecurityConfig {
 		//ログアウトに使うurl
 		.logoutUrl("/logout")
 		//ログアウトに成功した時に飛ばすurl
-		.logoutSuccessUrl("/")
+		.logoutSuccessUrl("/login")
 		//ログアウト時にセッションを無効化
 		.invalidateHttpSession(true)
 		//Cokkieの削除
