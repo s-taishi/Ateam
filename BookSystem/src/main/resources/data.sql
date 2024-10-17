@@ -13,8 +13,8 @@ VALUES
 ('admin','12345678','管理者1','00000000000','ADMIN');
 
 --ダミー予約データ
-INSERT INTO  books(username,bookdate,booktime,bookcount,memo)
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
-('user', '2024-10-01', '14:00:00', 4, '特になし。');
+('2024-10-01', '14:00:00', 4, '特になし。',1);
 
 --★テスト用機能ここまで

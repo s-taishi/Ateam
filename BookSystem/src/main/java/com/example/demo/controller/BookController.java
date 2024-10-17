@@ -39,12 +39,6 @@ public class BookController {
 		return "login";
 	}
 	
-	@PostMapping("/auth")
-	public String setUsername(@ModelAttribute UserForm userForm,Model model) {
-		user.setUsername(userForm.getUsername());
-		model.addAttribute("userForm",userForm);
-		return "redirect:/authentication";
-	}
 
 	//新規登録ボタンを押したときの処理 アカウント作成
 	@PostMapping("/user")
@@ -88,9 +82,9 @@ public class BookController {
 	
 	//予約情報を確認画面に送る
 	@PostMapping("/form")
-	public String form(@ModelAttribute WrapForm wrapForm, BindingResult bindingResult, RedirectAttributes attributes) {
+	public String form(@ModelAttribute WrapForm wrapForm, BindingResult bindingResult, RedirectAttributes attributes,Model model) {
 		User user = service.userFindByUserName(wrapForm.getUsername());
-		wrapForm.getBookForm().setUsername(user);
+		wrapForm.getBookForm().setUser(user);
 		
 		// 日付と時間が未来かどうかをチェック
 		LocalDate currentDate = LocalDate.now();
@@ -113,37 +107,27 @@ public class BookController {
 		}
 
 		Book book = new Book();
-		book.setUsername(wrapForm.getBookForm().getUsername());
 		book.setBookdate(wrapForm.getBookForm().getBookdate());
 		book.setBooktime(wrapForm.getBookForm().getBooktime());
 		book.setBookcount(wrapForm.getBookForm().getBookcount());
 		book.setMemo(wrapForm.getBookForm().getMemo());
+		book.setUserid(wrapForm.getBookForm().getUser());
 
-		service.bookInsert(book);
+		model.addAttribute("book",book);
 
-		// リダイレクト時にBook情報をフラッシュ属性として追加
-		attributes.addFlashAttribute("book", book); // Bookオブジェクトを追加
-
-		return "redirect:/check";
+		return "/check";
 	}
-
-	//予約確認画面
-	@GetMapping("/check")
-	public String check(@ModelAttribute("book") Book book, Model model) {
-
-
-		model.addAttribute("book", book);
-
-		return "check"; // 予約確認画面を表示
-
-	}
-
 
 
 	//予約完了画面
-	@GetMapping("/comp")
-	public String comp(@ModelAttribute("book") Book book, Model model){
-
+	@PostMapping("/comp")
+	public String comp(@ModelAttribute Book book, Model model){
+		System.out.println(book.getUserid());
+		if(book.getUserid() != null) {
+			 User user = (book.getUserid());
+		        book.setUserid(user);
+		}
+		service.bookInsert(book);
 		model.addAttribute("book", book);
 
 		return "comp"; // 予約完了画面を表示
@@ -151,12 +135,12 @@ public class BookController {
 	}
 
 	//マイページを表示
-	@GetMapping("/mypage/{userName}")
-	public String myPage(@PathVariable("userName") String userName, Model model) {
-		User user = service.userFindByUserName(userName);
+	@GetMapping("/mypage/{username}")
+	public String myPage(@PathVariable String username, Model model) {
+		User user = service.userFindByUserName(username);
 
 		// ユーザーに関連する予約一覧を取得
-		List<Book> books = service.bookFindByUserName(userName);
+		List<Book> books = service.bookFindByUserName(username);
 
 		// 取得したユーザー情報と予約情報をモデルに追加
 		model.addAttribute("user", user);

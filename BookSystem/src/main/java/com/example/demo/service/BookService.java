@@ -21,10 +21,6 @@ public class BookService {
 
 
     // Bookに関するメソッド
-    public List<Book> bookFindAll() {
-        return bookRepository.bookSelectByName(null); // すべてのBookを取得するメソッドを呼び出す
-    }
-
     public Book bookFindById(int id) {
         return bookRepository.bookSelectById(id);
     }
@@ -50,7 +46,7 @@ public class BookService {
     }
     
     public String displayNameFindByUserName(String userName){
-    	return bookRepository.displayNameSelectByUserName(userName);
+    	return bookRepository.displayNameSelectByUsername(userName);
     }
 
     // Userに関するメソッド

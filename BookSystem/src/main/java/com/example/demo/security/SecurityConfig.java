@@ -53,7 +53,7 @@ public class SecurityConfig {
 		//ログアウトに使うurl
 		.logoutUrl("/logout")
 		//ログアウトに成功した時に飛ばすurl
-		.logoutSuccessUrl("/")
+		.logoutSuccessUrl("/login")
 		//ログアウト時にセッションを無効化
 		.invalidateHttpSession(true)
 		//Cokkieの削除
