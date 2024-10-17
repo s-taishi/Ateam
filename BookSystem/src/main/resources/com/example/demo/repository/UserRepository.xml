@@ -5,7 +5,7 @@
 
 <!-- usernameによるユーザー検索 -->
 <select id="userSelectByUsername" resultType="com.example.demo.entity.User">
-SELECT * FROM users WHERE userName =#{username}
+SELECT * FROM users WHERE username =#{username}
 </select>
 
 <!--  ユーザー新規登録 -->

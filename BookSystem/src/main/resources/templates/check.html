@@ -1,61 +1,72 @@
 <!--<!DOCTYPE html> 名称のみ作成-->
-<html>
-	<head>
-	    <meta charset="UTF-8">
-		 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		    <title>予約内容確認</title>
-		</head>
-		<body>
-		    <h1>予約内容</h1>
-		    
-		    <div id="reservation-details">
-		        <p><strong>日付:</strong> <span id="date"></span></p>
-		        <p><strong>来店時間:</strong> <span id="time"></span></p>
-		        <p><strong>人数:</strong> <span id="people"></span>名</p>
-		        <p><strong>特記事項:</strong> <span id="notes"></span></p>
-		    </div>
-		    
-		    <div id="form-buttons" style="display: none;">
-		        <button onclick="location.href='/form'">戻って編集</button>
-		        <button onclick="location.href='/comp'">予約確定</button>
-		    </div>
-		    
-		    <div id="mypage-buttons" style="display: none;">
-		        <button onclick="location.href='/mypage'">戻る</button>
-		        <button onclick="deleteReservation()">削除</button>
-		    </div>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>予約内容確認</title>
+</head>
+<body>
+    <h1>予約内容</h1>
+	<div id="reservation-details">
+		<p><strong>日付:</strong> <span th:text="${book.bookdate}"></span></p>
+		<p><strong>来店時間:</strong> <span th:text="${book.booktime}"></span></p>
+		<p><strong>人数:</strong> <span th:text="${book.bookcount}"></span>名</p>
+		<p><strong>特記事項:</strong> <span th:text="${book.memo}"></span></p>
+	</div>
+	<form th:action="@{/comp}" method="post" th:object="${book}">
+		<input type="hidden" th:field="*{bookdate}">
+		<input type="hidden" th:field="*{booktime}">
+		<input type="hidden" th:field="*{bookcount}">
+		<input type="hidden" th:field="*{memo}">
+		<input type="hidden" th:field="*{userid.id}">
+		<input type="hidden" th:field="*{userid.username}">
+		<input type="hidden" th:field="*{userid.password}">
+		<input type="hidden" th:field="*{userid.displayName}">
+		<input type="hidden" th:field="*{userid.tellNumber}">
+		<input type="hidden" th:field="*{userid.authority}">
 		
-		    <script>
-		        window.onload = function() {
-		            const urlParams = new URLSearchParams(window.location.search);
-		            const source = urlParams.get('source');
-		            
-		            if (source === 'form') {
-		                document.getElementById('form-buttons').style.display = 'block';
-		                // フォームからのデータを表示
-		                document.getElementById('date').textContent = urlParams.get('date');
-		                document.getElementById('time').textContent = urlParams.get('time');
-		                document.getElementById('people').textContent = urlParams.get('people');
-		                document.getElementById('notes').textContent = urlParams.get('notes');
-		            } else if (source === 'mypage') {
-		                document.getElementById('mypage-buttons').style.display = 'block';
-		                // ここでAjaxを使用してサーバーからデータを取得し表示する
-		                fetchReservationData();
-		            }
-		        };
+		<button type="submit">予約確定</button>
+	
+	</form>
+	<form th:action="@{/entry/{username}(username=${book.userid.username})}" method="get" th:object="${book}">
+		<button type="submit">戻って編集</button>
+	</form>
+	<div id="mypage-buttons" style="display: none;">
+		<button onclick="location.href='/mypage'">戻る</button>
+		<button onclick="deleteReservation()">削除</button>
+	</div>
 		
-		        function fetchReservationData() {
-		            // サーバーからデータを取得するAjax呼び出しをここに実装
-		        }
+<!--	<script>-->
+<!--	     window.onload = function() {-->
+<!--	     const urlParams = new URLSearchParams(window.location.search);-->
+<!--	     const source = urlParams.get('source');-->
+	    
+<!--	     if (source === 'form') {-->
+<!--	     document.getElementById('form-buttons').style.display = 'block';-->
+<!--	     // フォームからのデータを表示-->
+<!--	     document.getElementById('date').textContent = urlParams.get('date');-->
+<!--	     document.getElementById('time').textContent = urlParams.get('time');-->
+<!--	     document.getElementById('people').textContent = urlParams.get('people');-->
+<!--	     document.getElementById('notes').textContent = urlParams.get('notes');-->
+<!--	      } else if (source === 'mypage') {-->
+<!--	     document.getElementById('mypage-buttons').style.display = 'block';-->
+<!--		                // ここでAjaxを使用してサーバーからデータを取得し表示する-->
+<!--		                fetchReservationData();-->
+<!--		            }-->
+<!--		        };-->
 		
-		        function deleteReservation() {
-		            // 予約削除の処理をここに実装
-		            if (confirm('予約を削除してもよろしいですか？')) {
-		                // 削除処理を実行
-		                // 削除後、マイページへリダイレクト
-		                location.href = '/mypage';
-		            }
-		        }
-		    </script>
+<!--		        function fetchReservationData() {-->
+<!--		            // サーバーからデータを取得するAjax呼び出しをここに実装-->
+<!--		        }-->
+		
+<!--		        function deleteReservation() {-->
+<!--		            // 予約削除の処理をここに実装-->
+<!--		            if (confirm('予約を削除してもよろしいですか？')) {-->
+<!--		                // 削除処理を実行-->
+<!--		                // 削除後、マイページへリダイレクト-->
+<!--		                location.href = '/mypage';-->
+<!--		            }-->
+<!--		        }-->
+<!--		    </script>-->
 		</body>
 		</html>

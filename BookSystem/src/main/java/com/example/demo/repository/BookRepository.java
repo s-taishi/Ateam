@@ -33,6 +33,6 @@ public interface BookRepository {
 	void bookDelete(int id);
 
 	//userNameによるdisplayNameの抽出
-	String displayNameSelectByUserName(@Param("username") String username);
+	String displayNameSelectByUsername(@Param("username") String username);
 
 }

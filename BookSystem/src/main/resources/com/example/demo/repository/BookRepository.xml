@@ -5,11 +5,11 @@
 
     <resultMap id="BookWithUserResult" type="com.example.demo.entity.Book">
         <id property="id" column="id"/>
-        <result property="bookbookdate" column="bookbookdate"/>
-        <result property="bookbooktime" column="bookbooktime"/>
-        <result property="bookbookcount" column="bookbookcount"/>
+        <result property="bookdate" column="bookdate"/>
+        <result property="booktime" column="booktime"/>
+        <result property="bookcount" column="bookcount"/>
         <result property="memo" column="memo"/>
-        <association property="username" javaType="com.example.demo.entity.User">
+        <association property="userid" javaType="com.example.demo.entity.User">
             <id property="id" column="id"/>
             <result property="username" column="username"/> <!-- Userクラスのフィールドも必要に応じて追加 -->
             <result property="password" column="password"/> <!-- Userクラスのフィールドも必要に応じて追加 -->
@@ -21,7 +21,7 @@
 
     <!-- IDでの予約検索 -->
     <select id="bookSelectById" resultMap="BookWithUserResult">
-        SELECT * FROM books join users on books.user_id = users.id WHERE id = #{id}
+        SELECT * FROM books join users on books.user_id = users.id WHERE books.id = #{id}
     </select>
 
     <!-- usernameでの予約検索 -->
@@ -50,7 +50,7 @@
     <!-- 新規予約登録 -->
     <insert id="bookInsert" parameterType="com.example.demo.entity.Book">
         INSERT INTO books (bookdate, booktime, bookcount, memo,user_id)
-        VALUES ( #{bookdate}, #{booktime}, #{bookcount}, #{memo},#{userName.id}) <!-- userNameフィールドを指定 -->
+        VALUES ( #{bookdate}, #{booktime}, #{bookcount}, #{memo},#{userid.id}) <!-- userNameフィールドを指定 -->
     </insert>
 
     <!-- 特定のIDを持つ予約削除 -->
