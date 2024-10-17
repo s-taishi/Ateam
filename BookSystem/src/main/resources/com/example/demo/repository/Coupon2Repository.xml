@@ -1,0 +1,28 @@
+<?xml version ="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.Coupon2Repository">
+	<resultMap id="couponWithUserNameResult"
+		type="com.example.demo.entity.Coupon">
+		<id property="id" column="id" />
+		<result property="couponType" column="couponType" />
+		<association property="userName"
+			javaType="com.example.demo.entity.User">
+			<id property="id" column="id" />
+			<result property="userName" column="username" />
+			<result property="password" column="password" />
+			<result property="displayName" column="display_name" />
+			<result property="tellNumber" column="tell_number" />
+			<result property="authority" column="authority" />
+		</association>
+	</resultMap>
+
+	<!-- 【INSERT】新しいクーポンを登録 -->
+	<insert id="couponInsert"
+		parameterType="com.example.demo.entity.Coupon">
+		INSERT INTO coupon (username,coupon_type)
+		VALUES
+		(#{user.userName},#{couponType})
+	</insert>
+
+</mapper>
