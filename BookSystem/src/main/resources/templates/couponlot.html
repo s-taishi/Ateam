@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coupon Roulette</title>
+    <style>
+        #roulette {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 5px solid #333;
+            position: relative;
+            overflow: hidden;
+            transform: rotate(0deg);
+            transition: transform 4s ease-out;
+        }
+        .sector {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            background-color: lightblue;
+            transform-origin: 100% 100%;
+        }
+        .sector:nth-child(1) {
+            transform: rotate(0deg);
+            background-color: #FF5733;
+        }
+        .sector:nth-child(2) {
+            transform: rotate(90deg);
+            background-color: #33FF57;
+        }
+        .sector:nth-child(3) {
+            transform: rotate(180deg);
+            background-color: #3357FF;
+        }
+        .sector:nth-child(4) {
+            transform: rotate(270deg);
+            background-color: #F0E68C;
+        }
+        #spinButton {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Coupon Roulette</h1>
+
+    <div id="roulette">
+        <div class="sector"></div>
+        <div class="sector"></div>
+        <div class="sector"></div>
+        <div class="sector"></div>
+    </div>
+    <button id="spinButton">Spin the Roulette!</button>
+
+	<script>
+	    document.getElementById("spinButton").addEventListener("click", function() {
+	        fetch("/couponlot")
+	            .then(response => response.json())
+	            .then(data => {
+	                let rotationDegrees = Math.floor(Math.random() * 360) + (360 * 5); // 5回転させる
+	                document.getElementById("roulette").style.transform = `rotate(${rotationDegrees}deg)`;
+	                
+	                setTimeout(() => {
+	                    alert("あなたが獲得したクーポン: " + data.couponType);
+	                }, 4000); // アニメーションが終わるまで待つ
+	            })
+	            .catch(error => {
+	                console.error('クーポンの取得中にエラーが発生しました:', error);
+	                alert('クーポンの取得中にエラーが発生しました。');
+	            });
+	    });
+	</script>
+</body>
+</html>
