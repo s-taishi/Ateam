@@ -30,15 +30,15 @@ VALUES
 
 --ダミークーポンデータ
 INSERT INTO coupon(id, coupon_type, user_id)
-VALUES (1, 'COUPON_TYPE1', 1);
+VALUES (1, 'COUPON_TYPE1', 2);
 	
 INSERT INTO coupon(id, coupon_type, user_id)
-VALUES (2, 'COUPON_TYPE2', 1);
+VALUES (2, 'COUPON_TYPE2', 2);
 	
 INSERT INTO coupon(id, coupon_type, user_id)
-VALUES (3, 'COUPON_TYPE3', 1);
+VALUES (3, 'COUPON_TYPE3', 2);
 	
 INSERT INTO coupon(id, coupon_type, user_id)
-VALUES (4, 'COUPON_TYPE4', 1);
+VALUES (4, 'COUPON_TYPE4', 2);
 
 --★テスト用機能ここまで
