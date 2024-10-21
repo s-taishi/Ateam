@@ -21,7 +21,7 @@ public interface BookRepository {
 	public List<Book> bookSelectByMonth(@Param("username")LocalDate localDate);
 
 	//日毎の予約検索
-	List<Book> bookSelectByDate(@Param("localDate") LocalDate localDate);
+	List<Book> bookSelectBybookdate(@Param("localDate") LocalDate localDate);
 
 	//時間ごとの予約検索
 	List<Book> bookSelectByHour(@Param("localTime") LocalTime localTime);

@@ -26,5 +26,10 @@ public class UserForm {
 	@Pattern(regexp = "^\\\\d{3}-\\\\d{4}-\\\\d{4}$",message="電話番号は「123-4567-8912」の形式で入力してください")
 	private String tellNumber; // 電話番号
 
-	private Role authority; // 権限
+	private Role authority = Role.USER; // 権限
+	
+	public String getConvertAuthority() {
+		String auth = authority.name();
+		return auth;
+	}
 }

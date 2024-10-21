@@ -13,8 +13,8 @@
             <id property="id" column="id"/>
             <result property="username" column="username"/> <!-- Userクラスのフィールドも必要に応じて追加 -->
             <result property="password" column="password"/> <!-- Userクラスのフィールドも必要に応じて追加 -->
-            <result property="displayName" column="display_name"/> <!-- displayNameに対応するカラム名 -->
-            <result property="tellNumber" column="tell_number"/> <!-- tellNumberに対応するカラム名 -->
+            <result property="displayName" column="displayname"/> <!-- displayNameに対応するカラム名 -->
+            <result property="tellNumber" column="tellnumber"/> <!-- tellNumberに対応するカラム名 -->
             <result property="authority" column="authority"/> <!-- Roleについても適宜 -->
         </association>
     </resultMap>
@@ -38,7 +38,7 @@
 
     <!-- 日毎の予約検索 -->
     <select id="bookSelectBybookdate" resultMap="BookWithUserResult">
-        SELECT * FROM books join users on books.user_id = users.id WHERE bookdate = #{localdate}
+        SELECT * FROM books join users on books.user_id = users.id WHERE bookdate = #{localDate} order by booktime asc
     </select>
 
     <!-- 指定された時間の予約検索 -->

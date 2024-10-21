@@ -30,8 +30,6 @@ public class BookController {
 
 	/** DI */
 	private final BookService service;
-	
-	private User user = new User();
 
 	//ログイン画面の表示
 	@GetMapping("/login")
@@ -62,12 +60,12 @@ public class BookController {
 			bindingResult.rejectValue("displayName", "error.displayName", "名前はカタカナで入力してください");
 		}
 
-		User user = new User();
-		user.setUsername(userForm.getUsername());
-		user.setPassword(userForm.getPassword());
-		user.setDisplayName(userForm.getDisplayName());
-		user.setTellNumber(userForm.getTellNumber());
-		service.userInsert(user);
+//		User user = new User();
+//		user.setUsername(userForm.getUsername());
+//		user.setPassword(userForm.getPassword());
+//		user.setDisplayName(userForm.getDisplayName());
+//		user.setTellNumber(userForm.getTellNumber());
+		service.userInsert(userForm);
 		attributes.addFlashAttribute("message", "新規アカウントを作成しました");
 		return "redirect:/login";
 	}
@@ -76,7 +74,6 @@ public class BookController {
 	public String entry(@ModelAttribute WrapForm wrapForm,@PathVariable String username, Model model) {
 		wrapForm.setUsername(username);
 		model.addAttribute(wrapForm);
-		System.out.println(user.getUsername());
 		return "form";
 	}
 	
@@ -114,6 +111,7 @@ public class BookController {
 		book.setUserid(wrapForm.getBookForm().getUser());
 
 		model.addAttribute("book",book);
+		model.addAttribute("check","check");
 
 		return "/check";
 	}
@@ -122,7 +120,6 @@ public class BookController {
 	//予約完了画面
 	@PostMapping("/comp")
 	public String comp(@ModelAttribute Book book, Model model){
-		System.out.println(book.getUserid());
 		if(book.getUserid() != null) {
 			 User user = (book.getUserid());
 		        book.setUserid(user);
@@ -137,6 +134,9 @@ public class BookController {
 	//マイページを表示
 	@GetMapping("/mypage/{username}")
 	public String myPage(@PathVariable String username, Model model) {
+		if(username.equals("admin")) {
+			return "adminmenu";
+		}
 		User user = service.userFindByUserName(username);
 
 		// ユーザーに関連する予約一覧を取得
@@ -164,6 +164,7 @@ public class BookController {
 
 		// 取得した予約情報をモデルに追加
 		model.addAttribute("book", book);
+		model.addAttribute("detail","detail");
 
 		// 予約詳細画面を表示
 		return "check"; // 予約詳細画面のテンプレート名
@@ -171,27 +172,49 @@ public class BookController {
 
 	//予約の削除
 	@PostMapping("/delete/{id}")
-	public String delete(@PathVariable int id, @RequestParam("userName") String userName, RedirectAttributes attributes) {
+	public String delete(@PathVariable int id, @RequestParam("username") String username, RedirectAttributes attributes) {
 		service.bookDelete(id);
 		attributes.addFlashAttribute("message", "予約を削除しました");
-		return "redirect:/mypage/{userName}";
+		return "redirect:/mypage/" + username;
 	}
 	
-//	//管理者メニュー
-//	@GetMapping("/adminmenu")
-//	public String adminmenu() {
-//		
-//	}
+	//管理者メニュー
+	@GetMapping("/adminmenu")
+	public String adminmenu() {
+		return "adminmenu";
+	}
 
 
 
 	//管理者予約確認
 	@GetMapping("/adminlist")
-	public String adminlist(@RequestParam("date") LocalDate date, @RequestParam("userName") String userName, Model model) {
-		model.addAttribute("list", service.bookFindByDate(date));
-		model.addAttribute("displayName", service.displayNameFindByUserName(userName));
+	public String adminlist(@RequestParam("date") LocalDate date,Model model) {
+		List<Book> list = service.bookFindByDate(date);
+//		for(Book a : list) {
+//			System.out.println(a.getId());
+//			System.out.println(a.getBookdate());
+//			System.out.println(a.getBooktime());
+//			System.out.println(a.getBookcount());
+//			System.out.println(a.getMemo());
+//			System.out.println(a.getUserid());
+//		}
+		model.addAttribute("list", list);
 		return "adminlist";
 
+	}
+	
+	//新規登録
+	@GetMapping("/login/createform")
+	public String createUser(@ModelAttribute UserForm userForm,Model model) {
+		model.addAttribute("userForm",userForm);
+		return "create";
+	}
+	
+	//新規登録情報保存
+	@PostMapping("/login/create")
+	public String create(@ModelAttribute UserForm userForm,Model model) {
+		service.userInsert(userForm);
+		return "login";
 	}
 
 

@@ -6,6 +6,9 @@
 	<title>予約内容確認</title>
 </head>
 <body>
+	<form th:action="@{/mypage/{username}(username=${book.userid.username})}" method="get">
+			<button type="submit">マイページへ</button>
+		</form>
     <h1>予約内容</h1>
 	<div id="reservation-details">
 		<p><strong>日付:</strong> <span th:text="${book.bookdate}"></span></p>
@@ -13,7 +16,7 @@
 		<p><strong>人数:</strong> <span th:text="${book.bookcount}"></span>名</p>
 		<p><strong>特記事項:</strong> <span th:text="${book.memo}"></span></p>
 	</div>
-	<form th:action="@{/comp}" method="post" th:object="${book}">
+	<form th:if="${check}" th:action="@{/comp}" method="post" th:object="${book}">
 		<input type="hidden" th:field="*{bookdate}">
 		<input type="hidden" th:field="*{booktime}">
 		<input type="hidden" th:field="*{bookcount}">
@@ -28,13 +31,17 @@
 		<button type="submit">予約確定</button>
 	
 	</form>
-	<form th:action="@{/entry/{username}(username=${book.userid.username})}" method="get" th:object="${book}">
+	<form th:if="${check}" th:action="@{/entry/{username}(username=${book.userid.username})}" method="get" th:object="${book}">
 		<button type="submit">戻って編集</button>
 	</form>
-	<div id="mypage-buttons" style="display: none;">
-		<button onclick="location.href='/mypage'">戻る</button>
+	
+	<form th:if="${detail}" th:action="@{/mypage/{user}(user=${book.userid.username})}" method="get">
+		<button type="submit">戻る</button>
+	</form>
+	<form th:if="${detail}" th:action="@{/delete/{id}(id=${book.id})}" method="post">
+		<input type="hidden" name="username" th:value="${book.userid.username}">
 		<button onclick="deleteReservation()">削除</button>
-	</div>
+	</form>
 		
 <!--	<script>-->
 <!--	     window.onload = function() {-->

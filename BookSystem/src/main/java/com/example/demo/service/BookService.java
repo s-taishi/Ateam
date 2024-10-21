@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Book;
 import com.example.demo.entity.User;
+import com.example.demo.form.UserForm;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.UserRepository;
 
@@ -34,7 +35,7 @@ public class BookService {
     }
 
     public List<Book> bookFindByDate(LocalDate date) {
-        return bookRepository.bookSelectByDate(date);
+        return bookRepository.bookSelectBybookdate(date);
     }
 
     public List<Book> bookFindByMonth(LocalDate localDate) {
@@ -56,7 +57,7 @@ public class BookService {
         return userRepository.userSelectByUsername(username);
     }
 
-    public void userInsert(User user) {
+    public void userInsert(UserForm user) {
         userRepository.userInsert(user);
     }
     

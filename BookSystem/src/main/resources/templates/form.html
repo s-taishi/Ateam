@@ -42,6 +42,9 @@
     </style>
 </head>
 <body>
+	<form th:action="@{/mypage/{username}(username=${username})}" method="get">
+		<button type="submit">マイページへ</button>
+	</form>
     <h2>予約情報入力</h2>
     <form th:action="@{/form}" method="POST" th:object="${wrapForm}">
 		<input type="hidden" th:field="*{username}">
