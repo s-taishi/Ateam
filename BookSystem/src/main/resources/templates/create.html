@@ -43,17 +43,37 @@
 			<label for="username">ユーザーネーム</label>	
 			<input type="text" th:field="*{username}">
 		</div>
+		<div th:if="${#fields.hasErrors('username')}" class="error-message">
+		        <ul>
+		            <p th:errors="*{username}" style="color: red;"></p>
+		        </ul>
+		</div>
 		<div class="form-group">
 			<label for="password">パスワード</label>	
 			<input type="password" th:field="*{password}">
+		</div>
+		<div th:if="${#fields.hasErrors('password')}" class="error-message">
+		        <ul>
+		            <p th:errors="*{password}" style="color: red;"></p>
+		        </ul>
 		</div>
 		<div class="form-group">
 			<label for="displayName">氏名</label>	
 			<input type="text" th:field="*{displayName}">
 		</div>
+		<div th:if="${#fields.hasErrors('displayName')}" class="error-message">
+		        <ul>
+		            <p th:errors="*{displayName}" style="color: red;"></p>
+		        </ul>
+		</div>
 		<div class="form-group">
 			<label for="tellNumber">電話番号</label>	
 			<input type="tel" th:field="*{tellNumber}">
+		</div>
+		<div th:if="${#fields.hasErrors('tellNumber')}" class="error-message">
+		        <ul>
+		            <p th:errors="*{tellNumber}" style="color: red;"></p>
+		        </ul>
 		</div>
 		
 		<button type="submit">登録完了</button>
