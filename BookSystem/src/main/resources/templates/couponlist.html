@@ -110,6 +110,8 @@
 	<div class="container">
 		<h1>クーポン一覧</h1>
 
+		
+
 		<div class="coupon-list" th:if="${coupons.size() > 0}">
 			<div th:each="coupon : ${coupons}" class="coupon">
 				<div class="coupon-info">
@@ -117,12 +119,8 @@
 				</div>
 				<a th:href="@{/coupondetail/{id}(id=${coupon.id})}" class="button detail-button">詳細を見る</a>
 			</div>
-		</div>
-		<p th:if="${coupons.size() == 0}" class="no-coupons">クーポンは所持していません</p>
-
-		<div class="action-buttons">
-			<a href="/couponlist" class="button">クーポン抽選ページへ</a>
-			<a href="/mypage" class="button">マイページへ</a>
+			<a href="/couponlot" class="button">クーポン抽選ページへ</a>
+			<a href="/mypage/user" class="button">マイページへ</a>
 		</div>
 	</div>
 </body>
