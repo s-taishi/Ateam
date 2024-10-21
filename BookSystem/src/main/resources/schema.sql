@@ -50,8 +50,7 @@ CREATE TABLE books (
 );
 
 --coupon_type enum型作成
-create type coupon_type as enum('coupon_type1','coupon_type2','coupon_type3','coupon_type4');
-
+create type coupon_type as enum('COUPON_TYPE1','COUPON_TYPE2','COUPON_TYPE3','COUPON_TYPE4');
 --couponテーブル作成
 create table coupon(
 	id serial primary key,
