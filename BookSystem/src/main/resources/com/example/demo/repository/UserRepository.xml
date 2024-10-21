@@ -12,7 +12,7 @@ SELECT * FROM users WHERE username =#{username}
 <insert id="userInsert" >
 INSERT INTO users (username,password,displayName,tellNumber,authority)
 VALUES
-(#{username},#{password},#{displayName},#{tellNumber},#{authority.getConvertAuthority})
+(#{username},#{password},#{displayName},#{tellNumber},'USER')
 </insert>
 
 </mapper>

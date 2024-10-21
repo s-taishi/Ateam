@@ -4,12 +4,12 @@
 INSERT INTO users
 (username,password,displayname,tellnumber,authority)
 VALUES
-('admin','12345678','管理者1','00000000000','ADMIN');
+('admin','$2a$10$A7MbabscmadFQD26O3SmM.ryrtLhY3sI9vgZKB3x6UjoKeLwuc17e','管理者1','00000000000','ADMIN');
 --ダミー顧客データ
 INSERT INTO users
 (username,password,displayname,tellnumber,authority)
 VALUES
-('user','12345678','顧客','00000000000','USER');
+('user','$2a$10$A7MbabscmadFQD26O3SmM.ryrtLhY3sI9vgZKB3x6UjoKeLwuc17e','顧客','00000000000','USER');
 
 
 INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)

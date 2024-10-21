@@ -19,6 +19,7 @@ import com.example.demo.entity.Book;
 import com.example.demo.entity.User;
 import com.example.demo.form.UserForm;
 import com.example.demo.form.WrapForm;
+import com.example.demo.security.PasswordGenerator;
 import com.example.demo.service.BookService;
 
 import jakarta.servlet.http.HttpSession;
@@ -89,17 +90,18 @@ public class BookController {
 
 		// まず日付をチェック
 		if (wrapForm.getBookForm().getBookdate().isBefore(currentDate)) {
-			bindingResult.rejectValue("date", "error.date", "過去の日付は選べません");
+			bindingResult.rejectValue("bookForm.bookdate", "error.bookdate", "過去の日付は選べません");
 		}
 
 		// 日付が同じ場合、時間をチェック
 		if (wrapForm.getBookForm().getBookdate().isEqual(currentDate) && wrapForm.getBookForm().getBooktime().isBefore(currentTime)) {
-			bindingResult.rejectValue("time", "error.time", "過去の時間は選べません");
+			bindingResult.rejectValue("bookForm.booktime", "error.booktime", "過去の時間は選べません");
 		}
 
 
 		//バリデーションチェック
 		if(bindingResult.hasErrors()) {
+			model.addAttribute("username",wrapForm.getUsername());
 			return "form";
 		}
 
@@ -212,7 +214,12 @@ public class BookController {
 	
 	//新規登録情報保存
 	@PostMapping("/login/create")
-	public String create(@ModelAttribute UserForm userForm,Model model) {
+	public String create(@Validated UserForm userForm,BindingResult bindingResult,Model model) {
+		if(bindingResult.hasErrors()) {
+			return "create";
+		}
+		String hashpass = PasswordGenerator.hashGenerate(userForm.getPassword());
+		userForm.setPassword(hashpass);
 		service.userInsert(userForm);
 		return "login";
 	}

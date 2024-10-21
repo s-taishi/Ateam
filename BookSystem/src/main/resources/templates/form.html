@@ -39,6 +39,9 @@
         #available-times {
             margin-top: 20px;
         }
+		.error-message{
+			color: red;
+		}
     </style>
 </head>
 <body>
@@ -59,7 +62,7 @@
 		
     <div th:if="${#fields.hasErrors('*')}" class="error-message">
         <ul>
-            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}" style="color: red;"></li>
         </ul>
     </div>
 	
