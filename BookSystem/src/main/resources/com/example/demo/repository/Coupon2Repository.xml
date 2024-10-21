@@ -18,11 +18,9 @@
 	</resultMap>
 
 	<!-- 【INSERT】新しいクーポンを登録 -->
-	<insert id="couponInsert"
-		parameterType="com.example.demo.entity.Coupon">
-		INSERT INTO coupon (username,coupon_type)
-		VALUES
-		(#{user.userName},#{couponType})
-	</insert>
+<insert id="couponInsert" parameterType="com.example.demo.entity.Coupon">
+    INSERT INTO coupon (coupon_type, user_id)
+    VALUES (#{couponType}, #{user.id});
+</insert>
 
 </mapper>

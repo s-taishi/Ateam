@@ -12,8 +12,11 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class Coupon2Service {
-	private final Coupon2Repository coupon2Repository ;
-void couponInsert(Coupon coupon) {
-	coupon2Repository.couponInsert(coupon);
-}
+	private final Coupon2Repository coupon2Repository;
+
+	public void couponInsert(Coupon coupon) {
+		coupon2Repository.couponInsert(coupon);
+	}
+
+	
 }

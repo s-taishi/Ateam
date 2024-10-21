@@ -35,8 +35,10 @@ public class BookController {
 
 	//ログイン画面の表示
 	@GetMapping("/login")
-	public String login(@ModelAttribute UserForm userForm) {
-		return "login";
+	public String login(@ModelAttribute UserForm userForm, HttpSession session) {
+		// 認証処理が成功した場合
+	    session.setAttribute("currentUser", user); // ユーザー情報をセッションに保存
+	    return "login";
 	}
 	
 
