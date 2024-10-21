@@ -18,7 +18,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			Authentication authentication) throws IOException, ServletException {
 		// TODO 自動生成されたメソッド・スタブ
 		String username = authentication.getName();
-		 response.sendRedirect("/entry/" + username);
+		 response.sendRedirect("/mypage/" + username);
 	}
 	
 

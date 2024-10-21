@@ -25,11 +25,11 @@ public class SecurityConfig {
 		//セキュリティ設定
 		.authorizeHttpRequests(authz -> authz
 		//loginへのアクセスは誰でも可能
-		.requestMatchers("/login").permitAll()
+		.requestMatchers("/login/**").permitAll()
 		//formへのアクセスはUSER権限を持つ者のみ可能
 		.requestMatchers("/form/**").hasAuthority("USER")
 		//booklistへのアクセスはADMIN権限を持つ者のみ可能
-		.requestMatchers("/booklist").hasAuthority("ADMIN")
+		.requestMatchers("/adminmenu").hasAuthority("ADMIN")
 		//他はログインすればアクセス可能
 		.anyRequest().authenticated())
 		//ログイン設定
@@ -43,7 +43,7 @@ public class SecurityConfig {
 		//passwordに使う変数はpassword
 		.passwordParameter("password")
 		//ログイン成功時に飛ばすurl
-		.defaultSuccessUrl("/entry")
+//		.defaultSuccessUrl("/mypage/user")
 		//ログイン成功時に実行するメソッド
 		.successHandler(successHandler)
 		//ログイン失敗時に飛ばすurl
@@ -53,7 +53,7 @@ public class SecurityConfig {
 		//ログアウトに使うurl
 		.logoutUrl("/logout")
 		//ログアウトに成功した時に飛ばすurl
-		.logoutSuccessUrl("/login")
+		.logoutSuccessUrl("/login?logout")
 		//ログアウト時にセッションを無効化
 		.invalidateHttpSession(true)
 		//Cokkieの削除

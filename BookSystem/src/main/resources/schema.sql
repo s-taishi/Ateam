@@ -26,7 +26,7 @@ CREATE TABLE users (
 	tellnumber VARCHAR(255) NOT NULL,
 	
 	--authority(権限)カラム：NULL不許可
-	authority role NOT NULL
+	authority role default 'USER'
 );
 
 --bookテーブルの作成

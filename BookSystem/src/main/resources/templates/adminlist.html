@@ -22,8 +22,8 @@
 	<body>
 	    <h1>予約詳細確認画面</h1>
 	    
-	    <label for="dateInput">日付を選択してください:</label>
-	    <input type="date" id="dateInput">
+<!--	    <label for="dateInput">日付を選択してください:</label>-->
+<!--	    <input type="date" id="dateInput">-->
 	    
 	    <h2>選択された日付: <span id="selectedDate"></span></h2>
 	    
@@ -40,78 +40,82 @@
 	            </tr>
 	        </thead>
 			<tbody id="tableBody">
-			    <tr th:each="hour : ${#lists.range(18, 23)}" th:object="${list}">
-			        <td th:text="${hour + ':00'}">18:00</td>
-			        <td th:text="${list[hour].displayname}">名前</td>
-			        <td th:text="${list[hour].tellnumber}">電話番号</td>
-			        <td th:text="${list[hour].count}">人数</td>
-			        <td th:text="${list[hour].memo}">特記事項</td>
+			    <tr th:each="hour : ${list}">
+			        <td th:text="${hour.booktime}">18:00</td>
+			        <td th:text="${hour.userid.displayName}">名前</td>
+			        <td th:text="${hour.userid.tellNumber}">電話番号</td>
+			        <td th:text="${hour.bookcount}">人数</td>
+			        <td th:text="${hour.memo}">特記事項</td>
 			    </tr>
 			</tbody>
 	    </table>
+		
+		<form th:action="@{adminmenu}" method="get">
+			<button type="submit">戻る</button>
+		</form>
 	
-	    <script>
-	        document.addEventListener('DOMContentLoaded', function() {
-	            const dateInput = document.getElementById('dateInput');
-	            const selectedDateSpan = document.getElementById('selectedDate');
-	            const errorMessage = document.getElementById('errorMessage');
+<!--	    <script>-->
+<!--	        document.addEventListener('DOMContentLoaded', function() {-->
+<!--	            const dateInput = document.getElementById('dateInput');-->
+<!--	            const selectedDateSpan = document.getElementById('selectedDate');-->
+<!--	            const errorMessage = document.getElementById('errorMessage');-->
 	
-	            // URLパラメータから日付を取得
-	            const urlParams = new URLSearchParams(window.location.search);
-	            const date = urlParams.get('date');
+<!--	            // URLパラメータから日付を取得-->
+<!--	            const urlParams = new URLSearchParams(window.location.search);-->
+<!--	            const date = urlParams.get('date');-->
 	
-	            if (date) {
-	                dateInput.value = date;
-	                selectedDateSpan.textContent = date;
-	                fetchData(date);
-	            }
+<!--	            if (date) {-->
+<!--	                dateInput.value = date;-->
+<!--	                selectedDateSpan.textContent = date;-->
+<!--	                fetchData(date);-->
+<!--	            }-->
 	
-	            // 日付が変更されたときのイベントリスナー
-	            dateInput.addEventListener('change', function(e) {
-	                const selectedDate = e.target.value;
-	                selectedDateSpan.textContent = selectedDate;
-	                fetchData(selectedDate);
-	            });
-	        });
+<!--	            // 日付が変更されたときのイベントリスナー-->
+<!--	            dateInput.addEventListener('change', function(e) {-->
+<!--	                const selectedDate = e.target.value;-->
+<!--	                selectedDateSpan.textContent = selectedDate;-->
+<!--	                fetchData(selectedDate);-->
+<!--	            });-->
+<!--	        });-->
 	
-	        function fetchData(date) {
-	            // 本来はAPIからデータを取得する処理を実装
-	            const data = [
-	                { time: '10:00', displayname: 'user1', tellnumber: '123-456-7890', count: 2, memo: '特記事項1' },
-	                { time: '18:00', displayname: 'user2', tellnumber: '098-765-4321', count: 3, memo: '特記事項2' },
-	                { time: '12:00', displayname: 'user3', tellnumber: '111-222-3333', count: 4, memo: '特記事項3' }
-	            ];
+<!--	        function fetchData(date) {-->
+<!--	            // 本来はAPIからデータを取得する処理を実装-->
+<!--	            const data = [-->
+<!--	                { time: '10:00', displayname: 'user1', tellnumber: '123-456-7890', count: 2, memo: '特記事項1' },-->
+<!--	                { time: '18:00', displayname: 'user2', tellnumber: '098-765-4321', count: 3, memo: '特記事項2' },-->
+<!--	                { time: '12:00', displayname: 'user3', tellnumber: '111-222-3333', count: 4, memo: '特記事項3' }-->
+<!--	            ];-->
 	
-	            // データの存在をチェック
-	            const bookingsForDate = data.filter(booking => booking.date === date); // ここで日付フィルタリング
+<!--	            // データの存在をチェック-->
+<!--	            const bookingsForDate = data.filter(booking => booking.date === date); // ここで日付フィルタリング-->
 	
-	            if (bookingsForDate.length === 0) {
-	                updateTable([]);
-	                showError("指定された日付には予約がありません。");
-	            } else {
-	                showError(""); // エラーメッセージを消去
-	                updateTable(bookingsForDate);
-	            }
-	        }
+<!--	            if (bookingsForDate.length === 0) {-->
+<!--	                updateTable([]);-->
+<!--	                showError("指定された日付には予約がありません。");-->
+<!--	            } else {-->
+<!--	                showError(""); // エラーメッセージを消去-->
+<!--	                updateTable(bookingsForDate);-->
+<!--	            }-->
+<!--	        }-->
 	
-	        function updateTable(data) {
-	            const tableBody = document.getElementById('tableBody');
-	            tableBody.innerHTML = ''; // テーブルをクリア
+<!--	        function updateTable(data) {-->
+<!--	            const tableBody = document.getElementById('tableBody');-->
+<!--	            tableBody.innerHTML = ''; // テーブルをクリア-->
 	
-	            data.forEach(item => {
-	                const row = tableBody.insertRow();
-	                row.insertCell(0).textContent = item.time;
-	                row.insertCell(1).textContent = item.displayname;
-	                row.insertCell(2).textContent = item.tellnumber;
-	                row.insertCell(3).textContent = item.count;
-	                row.insertCell(4).textContent = item.memo;
-	            });
-	        }
+<!--	            data.forEach(item => {-->
+<!--	                const row = tableBody.insertRow();-->
+<!--	                row.insertCell(0).textContent = item.time;-->
+<!--	                row.insertCell(1).textContent = item.displayname;-->
+<!--	                row.insertCell(2).textContent = item.tellnumber;-->
+<!--	                row.insertCell(3).textContent = item.count;-->
+<!--	                row.insertCell(4).textContent = item.memo;-->
+<!--	            });-->
+<!--	        }-->
 	
-	        function showError(message) {
-	            const errorMessage = document.getElementById('errorMessage');
-	            errorMessage.textContent = message;
-	        }
-	    </script>
+<!--	        function showError(message) {-->
+<!--	            const errorMessage = document.getElementById('errorMessage');-->
+<!--	            errorMessage.textContent = message;-->
+<!--	        }-->
+<!--	    </script>-->
 	</body>
 	</html>

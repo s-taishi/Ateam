@@ -83,16 +83,21 @@
 
    
 
-    <a href="/logout" class="btn">ログアウト</a>
+    <form th:action="@{/logout}" method="post">
+		<input type="submit" class="btn" value="ログアウト">
+	</form>
+	<form th:action="@{/entry/{username}(username=${user.username})}" method="get">
+		<input type="submit" class="btn" value="予約画面へ">
+	</form>
 
-    <script>
-        // ログアウトボタンのイベントリスナー
-        document.querySelector('a[href="/logout"]').addEventListener('click', function(e) {
-            e.preventDefault();
-            if (confirm('ログアウトしますか？')) {
-                window.location.href = '/login.html';
-            }
-        });
-    </script>
+<!--    <script>-->
+<!--        // ログアウトボタンのイベントリスナー-->
+<!--        document.querySelector('a[href="/logout"]').addEventListener('click', function(e) {-->
+<!--            e.preventDefault();-->
+<!--            if (confirm('ログアウトしますか？')) {-->
+<!--                window.location.href = '/login.html';-->
+<!--            }-->
+<!--        });-->
+<!--    </script>-->
 </body>
 </html>
