@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クーポン詳細</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .coupon-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .coupon-details {
+            margin-bottom: 30px;
+        }
+        .coupon-details p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #666;
+        }
+        .coupon-details strong {
+            color: #333;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .button {
+            padding: 12px 24px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+        .use-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        .use-button:hover {
+            background-color: #45a049;
+        }
+        .back-button {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+        .back-button:hover {
+            background-color: #e0e0e0;
+        }
+        .flash-message {
+            color: #d9534f; /* メッセージの色 */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .coupon-container > div {
+            margin-bottom: 20px; /* ボタンのコンテナとの間にスペースを作る */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="coupon-container">
+        <h1>クーポン詳細</h1>
+
+        <!-- フラッシュメッセージの表示 -->
+        <div th:if="${message}" class="flash-message" th:text="${message}"></div>
+
+        <!-- クーポンタイプによるメッセージ -->
+        <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE1)}">
+            <a>合計金額から半額クーポン！</a>
+        </div>
+        <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE2)}">
+            <a>合計金額から1000円引きクーポン！</a>
+        </div>
+        <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE3)}">
+            <a>ドリンク1杯無料クーポン！</a>
+        </div>
+        <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE4)}">
+            <a>席料無料クーポン！</a>
+        </div>
+
+        <div class="button-container">
+            <form th:action="@{/coupondelete/{id}(id=${coupon.id})}" method="post">
+                <button type="submit" class="button use-button">今すぐ使う</button>
+            </form>
+            <a th:href="@{/couponlist}" class="button back-button">クーポン一覧に戻る</a>
+        </div>
+    </div>
+</body>
+
+</html>
