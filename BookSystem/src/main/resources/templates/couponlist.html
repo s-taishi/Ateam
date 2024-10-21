@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>クーポン一覧</title>
+	<style>
+		:root {
+			--primary-color: #4CAF50;
+			--secondary-color: #45a049;
+			--background-color: #f8f8f8;
+			--text-color: #333;
+			--card-background: #fff;
+		}
+
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			margin: 0;
+			padding: 20px;
+			background-color: var(--background-color);
+			color: var(--text-color);
+		}
+
+		.container {
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+
+		h1 {
+			text-align: center;
+			color: var(--primary-color);
+			font-size: 2.5em;
+			margin-bottom: 30px;
+		}
+
+		.coupon-list {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+			gap: 25px;
+			justify-content: center;
+		}
+
+		.coupon {
+			background-color: var(--card-background);
+			border-radius: 12px;
+			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+			padding: 25px;
+			text-align: center;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.coupon:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+		}
+
+
+		.coupon-info {
+			color: var(--primary-color);
+			margin-bottom: 15px;
+			font-weight: bold;
+		}
+
+		.button {
+			display: inline-block;
+			padding: 12px 20px;
+			background-color: var(--primary-color);
+			color: white;
+			text-decoration: none;
+			border-radius: 25px;
+			transition: background-color 0.3s, transform 0.2s;
+			font-weight: bold;
+			margin: 5px;
+		}
+
+		.button:hover {
+			background-color: var(--secondary-color);
+			transform: scale(1.05);
+		}
+
+		.detail-button {
+			background-color: #2196F3;
+		}
+
+		.detail-button:hover {
+			background-color: #1976D2;
+		}
+
+		.no-coupons {
+			text-align: center;
+			font-size: 1.2em;
+			margin-top: 50px;
+		}
+
+		.action-buttons {
+			text-align: center;
+			margin-top: 40px;
+		}
+
+		@media (max-width: 600px) {
+			.coupon-list {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h1>クーポン一覧</h1>
+
+		<div class="coupon-list" th:if="${coupons.size() > 0}">
+			<div th:each="coupon : ${coupons}" class="coupon">
+				<div class="coupon-info">
+					取得したクーポン: <span th:text="${coupon.id}"></span>
+				</div>
+				<a th:href="@{/coupondetail/{id}(id=${coupon.id})}" class="button detail-button">詳細を見る</a>
+			</div>
+		</div>
+		<p th:if="${coupons.size() == 0}" class="no-coupons">クーポンは所持していません</p>
+
+		<div class="action-buttons">
+			<a href="/couponlist" class="button">クーポン抽選ページへ</a>
+			<a href="/mypage" class="button">マイページへ</a>
+		</div>
+	</div>
+</body>
+
+</html>
