@@ -2,34 +2,46 @@ package com.example.demo.service;
 
 import java.util.Random;
 
-import com.example.demo.entity.CouponType;
+import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.Coupon;
+import com.example.demo.entity.CouponType;
+import com.example.demo.entity.User;
+import com.example.demo.repository.Coupon2Repository;
+
+import lombok.RequiredArgsConstructor;
+@Service
+@RequiredArgsConstructor
 public class CouponRouletteService {
 
-	//Randomクラスをインスタンス化
-	private static final Random random = new Random();
+	private final Coupon2Repository coupon2Repository ;
+	
+    private static final Random random = new Random();
 
-	public static CouponType spinRoulette() {
-		/* 
-		*nextDoubleメソッドは0.0以上1.0未満の
-		*double型の数値をランダムで生成する
-		*/
-		double randomValue = random.nextDouble();
+    
 
-		double cumulativeProbability = 0.0;//確率を累積する変数(初期値は0)
-		/*
-		 * //各クーポンの確率を順に加算し、
-		 * ランダム生成された確率が、累積された各クーポンの確率の合計を
-		 * 下回った時点のCouponType型のインスタンスを返す
-		 */
-		for (CouponType type : CouponType.values()) {
-			cumulativeProbability += type.getProbability();
-			if (randomValue < cumulativeProbability) {
-				return type;
-			}
+    public  Coupon spinRoulette(User user) {
+    	//sessionが切れている場合はエラーを返す
+    	if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        double randomValue = random.nextDouble();
+        
+        //確率の初期値
+        double cumulativeProbability = 0.0;
+        Coupon coupon = new Coupon();
 
-		}
-		//50%の確率でハズレ
-		return null;
-	}
+        for (CouponType type : CouponType.values()) {
+            cumulativeProbability += type.getProbability();
+            if (randomValue < cumulativeProbability) {
+                coupon.setCouponType(type);
+                coupon.setUser(user);
+             // couponType を文字列に変換して挿入
+                coupon2Repository.couponInsert(type.name(), (long) user.getId());
+                return coupon;
+            }
+        }
+
+        return null; // 50%の確率でハズレ
+    }
 }
