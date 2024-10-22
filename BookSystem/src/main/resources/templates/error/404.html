@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>404 Not Found</title>
+</head>
+<body>
+	<h2>存在しないURLにアクセスしました</h2>
+	<h1>速やかに以下のリンクより移動してください</h1>
+	<a th:href="@{/mypage}">マイページへ</a>
+	<form th:action="@{/logout}" method="post">
+		<button type="submit">ログイン画面へ</button>
+	</form>
+
+</body>
+</html>
