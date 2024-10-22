@@ -13,7 +13,7 @@
             position: relative;
             overflow: hidden;
             transform: rotate(0deg);
-            transition: transform 4s ease-out;
+            transition: transform 2s ease-out;
         }
         .sector {
             position: absolute;
@@ -38,6 +38,18 @@
             transform: rotate(270deg);
             background-color: #F0E68C;
         }
+        .pointer {
+            position: absolute;
+            top: 0; /* 針を上部に配置 */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid rgb(0, 0, 0) 針の色 */
+            z-index: 10; /* 針を前面に表示 */
+        }
         #spinButton {
             margin-top: 20px;
         }
@@ -45,32 +57,41 @@
 </head>
 <body>
     <h1>Coupon Roulette</h1>
-
     <div id="roulette">
         <div class="sector"></div>
         <div class="sector"></div>
         <div class="sector"></div>
         <div class="sector"></div>
+        <div class="pointer"></div>
     </div>
     <button id="spinButton">Spin the Roulette!</button>
+    <button id="viewCouponButton" style="display:none;">獲得したクーポンを見る</button>
 
-	<script>
-	    document.getElementById("spinButton").addEventListener("click", function() {
-	        fetch("/couponlot")
-	            .then(response => response.json())
-	            .then(data => {
-	                let rotationDegrees = Math.floor(Math.random() * 360) + (360 * 5); // 5回転させる
-	                document.getElementById("roulette").style.transform = `rotate(${rotationDegrees}deg)`;
-	                
-	                setTimeout(() => {
-	                    alert("あなたが獲得したクーポン: " + data.couponType);
-	                }, 4000); // アニメーションが終わるまで待つ
-	            })
-	            .catch(error => {
-	                console.error('クーポンの取得中にエラーが発生しました:', error);
-	                alert('クーポンの取得中にエラーが発生しました。');
-	            });
-	    });
-	</script>
+    <script>
+        const sectors = ['クーポン1', 'クーポン2', 'クーポン3', 'クーポン4'];
+        
+        document.getElementById("spinButton").addEventListener("click", function() {
+            this.style.display = 'none';
+
+            // ランダムな回転角度を計算
+            const spins = 5; // 5回転
+            const randomAngle = Math.floor(Math.random() * 360);
+            const totalRotation = 360 * spins + randomAngle;
+            document.getElementById("roulette").style.transform = `rotate(${totalRotation}deg)`;
+
+            setTimeout(() => {
+                // 針が指しているセクターを計算
+                const sectorIndex = Math.floor(((totalRotation % 360) / 360) * sectors.length) % sectors.length;
+                const selectedCoupon = sectors[sectorIndex];
+
+                alert("あなたが獲得したクーポン: " + selectedCoupon);
+                document.getElementById("viewCouponButton").style.display = 'block'; 
+            }, 2000);
+        });
+
+        document.getElementById("viewCouponButton").addEventListener("click", function() {
+            window.location.href = "/coupondetail"; 
+        });
+    </script>
 </body>
 </html>

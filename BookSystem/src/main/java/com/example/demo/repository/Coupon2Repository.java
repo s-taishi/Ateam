@@ -2,10 +2,11 @@
 package com.example.demo.repository;
 
 import org.apache.ibatis.annotations.Mapper;
-
-import com.example.demo.entity.Coupon;
+import org.springframework.stereotype.Repository;
 @Mapper
+@Repository
 public interface Coupon2Repository {
-
-	void couponInsert(Coupon coupon);
+//データベースに格納する際は列挙型CouponTypeクラスをStringに
+//キャストする必要があるらしい
+	void couponInsert(String couponType, Long userId);
 }

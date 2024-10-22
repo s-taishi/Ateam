@@ -54,6 +54,6 @@ create type coupon_type as enum('COUPON_TYPE1','COUPON_TYPE2','COUPON_TYPE3','CO
 --couponテーブル作成
 create table coupon(
 	id serial primary key,
-	coupon_type coupon_type not null,
+	coupon_type VARCHAR(50) not null,
 	user_id integer references users(id));
 	
