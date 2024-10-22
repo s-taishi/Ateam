@@ -24,10 +24,12 @@ public class Coupon2RestController {
     private final LoginUserDetailsServiceImpl userService;
     private final CouponRouletteService couponRouletteService;
     
+    
 
     @GetMapping("/couponlot")
     public String couponCreate(Model model, HttpSession session) {
-        User currentUser = (User) session.getAttribute("currentUser");
+//        User currentUser = (User) session.getAttribute("currentUser");
+    	User currentUser = couponRouletteService.getUserByUsername("user");
         Coupon coupon = couponRouletteService.spinRoulette(currentUser);
 
         model.addAttribute("couponForm", coupon);
