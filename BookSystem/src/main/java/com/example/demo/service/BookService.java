@@ -56,6 +56,12 @@ public class BookService {
     public User userFindByUserName(String username) {
         return userRepository.userSelectByUsername(username);
     }
+    public User userFindById(int id) {
+    	return userRepository.userSelectById(id);
+    }
+    public List<User> userFindAll() {
+    	return userRepository.userSelectAll();
+    }
 
     public void userInsert(UserForm user) {
         userRepository.userInsert(user);

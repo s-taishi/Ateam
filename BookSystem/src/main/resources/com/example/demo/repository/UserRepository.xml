@@ -7,6 +7,15 @@
 <select id="userSelectByUsername" resultType="com.example.demo.entity.User">
 SELECT * FROM users WHERE username =#{username}
 </select>
+<select id="userSelectById" resultType="com.example.demo.entity.User">
+SELECT * FROM users WHERE id =#{id}
+</select>
+<select id="userSelectAll" resultType="com.example.demo.entity.User">
+SELECT * FROM users 
+</select>
+<select id="userExistsByUsername" resultType="boolean">
+SELECT count(*) FROM users WHERE username =#{username}
+</select>
 
 <!--  ユーザー新規登録 -->
 <insert id="userInsert" >

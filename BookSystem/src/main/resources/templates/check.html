@@ -39,7 +39,6 @@
 		<button type="submit">戻る</button>
 	</form>
 	<form th:if="${detail}" th:action="@{/delete/{id}(id=${book.id})}" method="post">
-		<input type="hidden" name="username" th:value="${book.userid.username}">
 		<button onclick="deleteReservation()">削除</button>
 	</form>
 		
