@@ -7,8 +7,8 @@
 <id property="id" column="id"/>
 <result property="couponType" column="coupon_type"/>
 <association property="user" javaType="com.example.demo.entity.User">
-            <id property="id" column="user_id"/>
-            <result property="userName" column="username"/> 
+            <id property="id" column="id"/>
+            <result property="username" column="username"/> 
             <result property="password" column="password"/>
             <result property="displayName" column="displayname"/> 
             <result property="tellNumber" column="tellnumber"/> 
@@ -17,13 +17,13 @@
 </resultMap>
 
 <!-- 取得したクーポンを表示 -->
-<select id="couponSelectById">
-        SELECT * FROM coupon WHERE id = #{id}
+<select id="couponSelectById" resultMap="couponWithUserNameResult">
+        SELECT * FROM coupon c join users u on c.user_id = u.id WHERE c.id = #{id}
     </select>
 
 
 <!-- クーポン削除 -->
-    <delete id="couponDelete" >
+    <delete id="couponDelete">
         DELETE FROM coupon WHERE id = #{id}
     </delete>
 
