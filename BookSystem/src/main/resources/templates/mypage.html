@@ -34,10 +34,23 @@
             color: white;
             text-decoration: none;
             border-radius: 5px;
+			margin-left: 10px; /* 左の余白 */
+			margin-right: 10px; /* 右の余白 */
+			margin-bottom: 10px;
         }
         .btn:hover {
             background-color: #0056b3;
         }
+		.logout{
+			display: inline-block;
+			padding: 10px 15px;
+			background-color: #007bff;
+			color: white;
+			text-decoration: none;
+			border-radius: 5px;
+			float: right; /* 右に寄せる */
+			margin-right: 20px;
+		}
     </style>
 </head>
 <body>
@@ -83,14 +96,11 @@
 
    
 
+	<a th:href="@{/entry/{username}(username=${user.username})}" class="btn">予約画面へ</a>
+	<a th:href="@{/couponlist}" class="btn">クーポン一覧へ</a>
+	<br>
     <form th:action="@{/logout}" method="post">
-		<input type="submit" class="btn" value="ログアウト">
-	</form>
-	<form th:action="@{/entry/{username}(username=${user.username})}" method="get">
-		<input type="submit" class="btn" value="予約画面へ">
-	</form>
-	<form th:action="@{/user/couponlist/{id}(id=${user.id})}" method="post">
-		<input type="submit" class="btn" value="クーポン一覧へ">
+		<input type="submit" class="logout" value="ログアウト">
 	</form>
 
 <!--    <script>-->
