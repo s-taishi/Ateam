@@ -102,10 +102,10 @@
         </div>
 
         <div class="button-container">
-            <form th:action="@{/coupondelete/{id}(id=${coupon.id})}" method="post">
+            <form th:action="@{/coupondelete/{id}(id=${coupons.id})}" method="post">
                 <button type="submit" class="button use-button">今すぐ使う</button>
             </form>
-            <form th:action="@{/user/couponlist/{id}(id=${coupon.user.id})}" method="post">
+            <form th:action="@{/couponlist}" method="get">
                 <button type="submit" class="button use-button">クーポン一覧に戻る</button>
 			</form>
         </div>

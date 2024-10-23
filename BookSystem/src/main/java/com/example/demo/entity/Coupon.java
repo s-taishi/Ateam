@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class Coupon {
     private int id;
-    private User user; // Userオブジェクト
     private CouponType couponType; // プロパティ名を修正
+    private User user; // Userオブジェクト
 }

@@ -21,10 +21,10 @@ public class Coupon3Controller {
 	@GetMapping("/coupondetail/{id}")
 	public String couponDetail(@PathVariable int id, Model model) {
 		Coupon coupon = coupon3Service.couponFindById(id);
+		System.out.println(coupon);
 		if (coupon != null) {
 			model.addAttribute("coupons", coupon);
 			model.addAttribute("couponType", coupon.getCouponType());
-			model.addAttribute("userId", coupon.getUser().getId());  // userIdをモデルに追加
 			return "coupondetail"; 
 		} else {
 			return "lose"; 
