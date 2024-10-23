@@ -43,6 +43,9 @@
 			<label for="username">ユーザーネーム</label>	
 			<input type="text" th:field="*{username}">
 		</div>
+<!--		<div th:if="${errorname}" class="error-message">-->
+<!--			<p th:text="${errorname}" style="color: red;"></p>-->
+<!--		</div>-->
 		<div th:if="${#fields.hasErrors('username')}" class="error-message">
 		        <ul>
 		            <p th:errors="*{username}" style="color: red;"></p>

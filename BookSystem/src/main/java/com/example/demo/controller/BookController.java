@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Book;
+import com.example.demo.entity.ConnectUser;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.form.UserForm;
 import com.example.demo.form.WrapForm;
@@ -134,15 +136,15 @@ public class BookController {
 	}
 
 	//マイページを表示
-	@GetMapping("/mypage/{username}")
-	public String myPage(@PathVariable String username, Model model) {
-		if(username.equals("admin")) {
-			return "adminmenu";
+	@GetMapping("/mypage")
+	public String myPage(Model model) {
+		if(ConnectUser.authority.equals(Role.ADMIN)) {
+			return "redirect:/adminmenu";
 		}
-		User user = service.userFindByUserName(username);
+		User user = service.userFindByUserName(ConnectUser.username);
 
 		// ユーザーに関連する予約一覧を取得
-		List<Book> books = service.bookFindByUserName(username);
+		List<Book> books = service.bookFindByUserName(ConnectUser.username);
 
 		// 取得したユーザー情報と予約情報をモデルに追加
 		model.addAttribute("user", user);
@@ -174,10 +176,10 @@ public class BookController {
 
 	//予約の削除
 	@PostMapping("/delete/{id}")
-	public String delete(@PathVariable int id, @RequestParam("username") String username, RedirectAttributes attributes) {
+	public String delete(@PathVariable int id, RedirectAttributes attributes) {
 		service.bookDelete(id);
 		attributes.addFlashAttribute("message", "予約を削除しました");
-		return "redirect:/mypage/" + username;
+		return "redirect:/mypage";
 	}
 	
 	//管理者メニュー
@@ -214,13 +216,33 @@ public class BookController {
 	
 	//新規登録情報保存
 	@PostMapping("/login/create")
-	public String create(@Validated UserForm userForm,BindingResult bindingResult,Model model) {
+	public String create(@Validated UserForm userForm,BindingResult bindingResult,RedirectAttributes attributes, Model model) {
+		// ユーザー名の存在チェック
+		if(userForm.getUsername() != null) {
+			User user = service.userFindByUserName(userForm.getUsername());
+			if(user != null) {
+				if (userForm.getUsername().equals(user.getUsername())) {
+					bindingResult.rejectValue("username","error.username","このユーザー名は既に使用されています");
+				}
+			}
+		}
+		
+		// カタカナかどうかをチェック
+		String katakanaPattern = "^[\\u30A0-\\u30FF]+$";
+		if(userForm.getDisplayName() != null) {
+			if (!(userForm.getDisplayName().matches(katakanaPattern))) {
+				bindingResult.rejectValue("displayName", "error.displayName", "名前はカタカナで入力してください");
+			}
+		}
+
+		//バリデーションチェック
 		if(bindingResult.hasErrors()) {
 			return "create";
 		}
 		String hashpass = PasswordGenerator.hashGenerate(userForm.getPassword());
 		userForm.setPassword(hashpass);
 		service.userInsert(userForm);
+		attributes.addFlashAttribute("message", "新規アカウントを作成しました");
 		return "login";
 	}
 
