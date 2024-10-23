@@ -22,8 +22,9 @@ public class Coupon3Controller {
 	public String couponDetail(@PathVariable int id, Model model) {
 		Coupon coupon = coupon3Service.couponFindById(id);
 		if (coupon != null) {
-			model.addAttribute("coupon", coupon);
+			model.addAttribute("coupons", coupon);
 			model.addAttribute("couponType", coupon.getCouponType());
+			model.addAttribute("userId", coupon.getUser().getId());  // userIdをモデルに追加
 			return "coupondetail"; 
 		} else {
 			return "lose"; 

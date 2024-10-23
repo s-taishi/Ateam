@@ -56,7 +56,7 @@
         <h1>抽選結果</h1>
         <p class="message">残念ながら、今回の抽選には外れてしまいました。</p>
         <p class="message">次回の抽選をお楽しみに！</p>
-        <a th:href="@{/couponlist}" class="button">クーポン一覧に戻る</a>
+        <a th:href="@{/user/{id}/couponlist(id=${user.id})}" class="button">クーポン一覧に戻る</a>
     </div>
 </body>
 </html>

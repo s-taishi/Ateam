@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.Coupon;
-import com.example.demo.service.Coupon1Service;	
+import com.example.demo.service.Coupon1Service;
 
 @Controller
 public class Coupon1Controller {
@@ -20,9 +20,11 @@ public class Coupon1Controller {
 	}
 		
 	@PostMapping("/user/couponlist/{id}")
-	public String getCouponsByUserId(@PathVariable("id") int id, Model model) {
-	    List<Coupon> coupons = coupon1Service.couponFindByUserId(id);
-	    model.addAttribute("coupons", coupons);
-	    return "couponlist"; // couponlist.htmlを返す
-	}
+    public String getCouponsByUserId(@PathVariable("id") int id, Model model) {
+        List<Coupon> coupons = coupon1Service.couponFindByUserId(id);
+        model.addAttribute("coupons", coupons);
+        
+        return "couponlist";  // couponlist.htmlを返す
+    }
+
 }
