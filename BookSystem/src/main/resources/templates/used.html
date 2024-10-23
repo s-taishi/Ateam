@@ -76,7 +76,7 @@
             <p><strong>使用したクーポン:</strong> <span th:text="${coupon.name}">サンプルクーポン</span></p>
             
         </div>
-        <a th:href="@{/coupons}" class="button">クーポン一覧に戻る</a>
+        <a th:href="@{/user/{id}/couponlist(id=${user.id})}" class="button">クーポン一覧に戻る</a>
     </div>
 </body>
 </html>
