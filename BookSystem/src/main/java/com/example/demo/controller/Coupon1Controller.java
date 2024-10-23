@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.demo.entity.ConnectUser;
 import com.example.demo.entity.Coupon;
-import com.example.demo.service.Coupon1Service;
+import com.example.demo.service.Coupon1Service;	
 
 @Controller
 public class Coupon1Controller {
@@ -19,12 +19,10 @@ public class Coupon1Controller {
 		this.coupon1Service = coupon1Service;
 	}
 		
-	@PostMapping("/user/couponlist/{id}")
-    public String getCouponsByUserId(@PathVariable("id") int id, Model model) {
-        List<Coupon> coupons = coupon1Service.couponFindByUserId(id);
-        model.addAttribute("coupons", coupons);
-        
-        return "couponlist";  // couponlist.htmlを返す
-    }
-
+	@GetMapping("/couponlist")
+	public String getCouponsByUserId(Model model) {
+	    List<Coupon> coupons = coupon1Service.couponFindByUserId(ConnectUser.id);
+	    model.addAttribute("coupons", coupons);
+	    return "couponlist"; // couponlist.htmlを返す
+	}
 }
