@@ -43,17 +43,21 @@ public class Coupon2Controller {
 			//ユーザー名を使ってUser情報を取得
 			User currentUser = coupon2Service.userSelectByUsername(userDetails);
 		    
-			//ルーレットを回す
+			//ルーレットを回してクーポンを取得
 			Coupon coupon = couponRouletteService.spinRoulette(userDetails);
-	
-			// CouponFormのインスタンスを作成
+			
+			// 取得したクーポン名を取得
+			 String couponType = (coupon != null) ? coupon.getCouponType().name() : "はずれ"; 
+			
+			 // CouponFormのインスタンスを作成
 			CouponForm couponForm = new CouponForm();
-			couponForm.setCouponType(coupon.getCouponType());
+			couponForm.setCouponType(coupon != null ? coupon.getCouponType() : null);
 			couponForm.setUser(currentUser);
 	
 			//Modelに格納
 			model.addAttribute("couponForm", couponForm);
-	
+			model.addAttribute("couponType", coupon != null ? coupon.getCouponType() : null);
+			model.addAttribute("couponResult", couponType);
 			return "coupondetail"; // coupondetail.htmlを返す
 		}
 }
