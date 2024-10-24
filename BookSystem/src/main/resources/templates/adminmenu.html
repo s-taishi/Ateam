@@ -5,12 +5,13 @@
 	<meta charset="UTF-8">
 	<title>管理者日付選択画面</title>
 	<style>
-		
 		body {
 			font-family: Arial, sans-serif;
 			margin: 0;
 			padding: 20px;
 			color: #2e7d32;
+			position: relative; /* 位置を相対的にする */
+			height: 100vh; /* 高さを100vhに設定 */
 		}
 
 		h1 {
@@ -59,7 +60,7 @@
 		}
 
 		.logout-button {
-			padding: 8px 10px; /* サイズを小さく */
+			padding: 8px 10px;
 			width: auto; /* 幅を自動に設定 */
 		}
 
@@ -74,13 +75,15 @@
 		}
 
 		.logout-form {
-			text-align: left; /* 左寄せ */
-			margin-top: 20px;
+			position: absolute; /* 絶対位置にする */
+			bottom: 60px; /* 下から20px */
+			right: 20px; /* 右から20px */
 		}
 	</style>
 </head>
 
-<h1>営業日選択画面</h1>
+<body>
+	<h1>営業日選択画面</h1>
 	<div id="calendar">
 		<form th:action="@{/adminlist}" method="get" onsubmit="return validateDate()">
 			<input type="date" id="date-picker" name="date" required>
@@ -109,3 +112,4 @@
 		}
 	</script>
 </body>
+</html>

@@ -1,151 +1,168 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>予約内容確認</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            color: #2e7d32;
-            background-color: #f9f9f9;
-            line-height: 1.6;
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>予約内容確認</title>
+	<style>
+		body {
+			font-family: 'Arial', sans-serif;
+			margin: 0;
+			padding: 20px;
+			color: #2e7d32;
+			background-color: #f9f9f9;
+			line-height: 1.6;
+		}
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+		}
 
-        h1 {
-            color: #1b5e20;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            font-weight: 300;
-        }
+		h1 {
+			color: #1b5e20;
+			text-align: center;
+			margin-bottom: 30px;
+			font-size: 2.5em;
+			font-weight: 300;
+		}
 
-        #reservation-details {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 33.33%;
-            margin: 0 auto 30px;
-        }
+		#reservation-details {
+			background-color: #ffffff;
+			padding: 30px;
+			border-radius: 12px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			max-width: 33.33%;
+			margin: 0 auto 30px;
+		}
 
-        #reservation-details p {
-            margin: 15px 0;
-            font-size: 1.1em;
-        }
+		#reservation-details p {
+			margin: 15px 0;
+			font-size: 1.1em;
+		}
 
-        #reservation-details strong {
-            color: #1b5e20;
-            font-weight: 600;
-        }
+		#reservation-details strong {
+			color: #1b5e20;
+			font-weight: 600;
+		}
 
-        .button-container {
-            display: flex;
-            flex-direction: column; /* 縦並びにする */
-            align-items: center; /* 中央揃え */
-            margin-top: 20px;
-        }
+		.button-container {
+			display: flex;
+			flex-direction: column;
+			/* 縦並びにする */
+			align-items: center;
+			/* 中央揃え */
+			margin-top: 20px;
+		}
 
-        button {
-            border: none;
-            color: white;
-            padding: 12px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px; /* ボタン間のスペース */
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-            width: 100%; /* 幅を100%に設定 */
-        }
+		button {
+			border: none;
+			color: white;
+			padding: 12px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin: 10px;
+			/* ボタン間のスペース */
+			cursor: pointer;
+			border-radius: 4px;
+			transition: background-color 0.3s;
+			width: 100%;
+			/* 幅を100%に設定 */
+		}
 
-        .confirm-button {
-            background-color: #4caf50; /* 予約確定ボタンの色 */
-        }
+		.confirm-button {
+			background-color: #4caf50;
+			/* 予約確定ボタンの色 */
+		}
 
-        .confirm-button:hover {
-            background-color: #45a049; /* ホバー時の色 */
-        }
+		.confirm-button:hover {
+			background-color: #45a049;
+			/* ホバー時の色 */
+		}
 
-        .edit-button {
-            background-color:darkgrey; /* 戻って編集ボタンの色 */
-        }
+		.edit-button {
+			background-color: darkgrey;
+			/* 戻って編集ボタンの色 */
+		}
+
 		.back-button {
-		          background-color:#4caf50; /* 戻るボタンの色を濃く設定 */
-		      }
-		
-		      .back-button:hover {
-		          background-color:#45a049;; /* ホバー時の色 */
-		      }
+			background-color: #4caf50;
+			/* 戻るボタンの色を濃く設定 */
+		}
 
-        .edit-button:hover {
-            background-color:#d32f2f/* ホバー時の色 */
-        }
+		.back-button:hover {
+			background-color: #45a049;
+			;
+			/* ホバー時の色 */
+		}
 
-        .delete-button {
-            background-color: #f44336; /* 削除ボタンの色 */
-        }
+		.edit-button:hover {
+			background-color: #d32f2f
+				/* ホバー時の色 */
+		}
 
-        .delete-button:hover {
-            background-color: #d32f2f; /* 削除ボタンのホバー時の色 */
-        }
+		.delete-button {
+			background-color: #f44336;
+			/* 削除ボタンの色 */
+		}
 
-        @media (max-width: 600px) {
-            #reservation-details {
-                max-width: 90%; /* モバイルでは90%に */
-            }
-        }
-    </style>
+		.delete-button:hover {
+			background-color: #d32f2f;
+			/* 削除ボタンのホバー時の色 */
+		}
+
+		@media (max-width: 600px) {
+			#reservation-details {
+				max-width: 90%;
+				/* モバイルでは90%に */
+			}
+		}
+	</style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>予約内容</h1>
-        <div id="reservation-details">
-            <p><strong>日付:</strong> <span th:text="${book.bookdate}"></span></p>
-            <p><strong>来店時間:</strong> <span th:text="${book.booktime}"></span></p>
-            <p><strong>人数:</strong> <span th:text="${book.bookcount}"></span>名</p>
-            <p><strong>特記事項:</strong> <span th:text="${book.memo}"></span></p>
-        </div>
+	<div class="container">
+		<h1>予約内容</h1>
+		<div id="reservation-details">
+			<p><strong>日付:</strong> <span th:text="${book.bookdate}"></span></p>
+			<p><strong>来店時間:</strong> <span th:text="${book.booktime}"></span></p>
+			<p><strong>人数:</strong> <span th:text="${book.bookcount}"></span>名</p>
+			<p><strong>特記事項:</strong> <span th:text="${book.memo}"></span></p>
+		</div>
 
-        <div class="button-container">
-            <form th:if="${check}" th:action="@{/comp}" method="post" th:object="${book}">
-                <input type="hidden" th:field="*{bookdate}">
-                <input type="hidden" th:field="*{booktime}">
-                <input type="hidden" th:field="*{bookcount}">
-                <input type="hidden" th:field="*{memo}">
-                <input type="hidden" th:field="*{userid.id}">
-                <input type="hidden" th:field="*{userid.username}">
-                <input type="hidden" th:field="*{userid.password}">
-                <input type="hidden" th:field="*{userid.displayName}">
-                <input type="hidden" th:field="*{userid.tellNumber}">
-                <input type="hidden" th:field="*{userid.authority}">
-                <button type="submit" class="confirm-button">予約確定</button>
-            </form>
+		<div class="button-container">
+			<form th:if="${check}" th:action="@{/comp}" method="post" th:object="${book}">
+				<input type="hidden" th:field="*{bookdate}">
+				<input type="hidden" th:field="*{booktime}">
+				<input type="hidden" th:field="*{bookcount}">
+				<input type="hidden" th:field="*{memo}">
+				<input type="hidden" th:field="*{userid.id}">
+				<input type="hidden" th:field="*{userid.username}">
+				<input type="hidden" th:field="*{userid.password}">
+				<input type="hidden" th:field="*{userid.displayName}">
+				<input type="hidden" th:field="*{userid.tellNumber}">
+				<input type="hidden" th:field="*{userid.authority}">
+				<button type="submit" class="confirm-button">予約確定</button>
+			</form>
 
-            <form th:if="${check}" th:action="@{/entry/{username}(username=${book.userid.username})}" method="get" th:object="${book}">
-                <button type="submit" class="edit-button">戻って編集</button>
-            </form>
+			<form th:if="${check}" th:action="@{/entry}" method="get"th:object="${book}">
+				<button type="submit" class="edit-button">戻って編集</button>
+			</form>
 
-            <form th:if="${detail}" th:action="@{/mypage}" method="get">
-                <button type="submit" class="back-button">戻る</button>
-            </form>
+			<form th:if="${detail}" th:action="@{/mypage}" method="get">
+				<button type="submit" class="back-button">戻る</button>
+			</form>
 
-            <form th:if="${detail}" th:action="@{/delete/{id}(id=${book.id})}" method="post">
-                <input type="hidden" name="username" th:value="${book.userid.username}">
-                <button type="submit" class="delete-button" onclick="return confirm('予約を削除してもよろしいですか？');">削除</button>
-            </form>
-        </div>
-    </div>
+			<form th:if="${detail}" th:action="@{/delete/{id}(id=${book.id})}" method="post">
+				<input type="hidden" name="username" th:value="${book.userid.username}">
+				<button type="submit" class="delete-button" onclick="return confirm('予約を削除してもよろしいですか？');">削除</button>
+			</form>
+		</div>
+	</div>
 </body>
+
 </html>
