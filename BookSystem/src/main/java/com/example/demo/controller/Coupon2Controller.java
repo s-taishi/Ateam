@@ -24,7 +24,7 @@ public class Coupon2Controller {
 	private final CouponRouletteService couponRouletteService;
 	private final LoginUserDetailsServiceImpl loginUserDetailsServiceImpl;
 	
-	
+	//ルーレットの画面を表示
 	 @GetMapping("/couponlot")
 	    public String couponLot(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 		 
@@ -32,28 +32,32 @@ public class Coupon2Controller {
 	    }
 	 
 
+	 //ルーレットを回す処理
 
-//クーポン
 		@GetMapping("/couponcreate")
 		public String couponCreate(@AuthenticationPrincipal UserDetails userDetails ,Model model) {
 			//@AuthenticationPrincipalを付加したUserDetailsから
+			
 			//ログイン中のユーザー名を取得
 			String username = userDetails.getUsername();
 	
-			//ユーザー名を使ってUser情報を取得
+			//ログイン中のユーザーのユーザー名を使ってデータベースからUser情報を取得
 			User currentUser = coupon2Service.userSelectByUsername(userDetails);
 		    
 			//ルーレットを回す
 			Coupon coupon = couponRouletteService.spinRoulette(userDetails);
-	
+			
+			//取得したクーポン名を取得
+			String couponType = (coupon != null)?coupon.getCouponType().name():"はずれ";
+			
 			// CouponFormのインスタンスを作成
 			CouponForm couponForm = new CouponForm();
-			couponForm.setCouponType(coupon.getCouponType());
+			couponForm.setCouponType(coupon!= null?coupon.getCouponType():null);//nullの場合はCouponTypeにnullを設定
 			couponForm.setUser(currentUser);
 	
 			//Modelに格納
-			model.addAttribute("couponForm", couponForm);
-	
+			model.addAttribute("couponForm", couponForm );
+			model.addAttribute("couponResult",couponType);
 			return "coupondetail"; // coupondetail.htmlを返す
 		}
 }

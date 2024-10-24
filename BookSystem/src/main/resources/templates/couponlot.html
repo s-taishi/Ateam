@@ -1,129 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>クーポンルーレット</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クーポン詳細</title>
     <style>
-        #roulette-container {
-            width: 300px;
-            height: 300px;
-            position: relative;
-            margin: 20px auto;
-        }
-        #roulette {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
-            background: conic-gradient(
-                from 0deg,
-                #ff6b6b 0deg 72deg,
-                #feca57 72deg 144deg,
-                #48dbfb 144deg 216deg,
-                #ff9ff3 216deg 288deg,
-                #cfd8dc 288deg 360deg
-            );
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        }
-        .coupon-item {
-            position: absolute;
-            top: 0;
-            right: 50%;
-            transform-origin: 100% 100%;
-            width: 50%;
-            height: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
-            color: white;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            font-size: 14px;
-            text-align: center;
-            padding: 0 10px;
-        }
-        .arrow {
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-top: 30px solid #333;
-        }
-        #coupon-result {
-            margin-top: 20px;
-            font-size: 2em;
-            font-weight: bold;
-            color: green;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            cursor: pointer;
-        }
+        /* スタイルはそのまま */
     </style>
 </head>
+
 <body>
+    <div class="coupon-container">
+        <h1>クーポン詳細</h1>
 
-<h1>クーポンルーレット</h1>
+        <!-- フラッシュメッセージの表示 -->
+        <div th:if="${message}" class="flash-message" th:text="${message}"></div>
 
-<div id="roulette-container">
-    <div id="roulette">
-        <div class="coupon-item" data-coupon="COUPON_TYPE1" style="transform: rotate(0deg)">COUPON_TYPE1</div>
-        <div class="coupon-item" data-coupon="COUPON_TYPE2" style="transform: rotate(72deg)">COUPON_TYPE2</div>
-        <div class="coupon-item" data-coupon="COUPON_TYPE3" style="transform: rotate(144deg)">COUPON_TYPE3</div>
-        <div class="coupon-item" data-coupon="COUPON_TYPE4" style="transform: rotate(216deg)">COUPON_TYPE4</div>
-        <div class="coupon-item" data-coupon="MISS" style="transform: rotate(288deg)">はずれ</div>
+        <!-- クーポンタイプによるメッセージ -->
+		<!--nullチェックを実施-->
+        <div th:if="${couponType != null}">
+            <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE1)}">
+                <a>合計金額から半額クーポン！</a>
+            </div>
+            <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE2)}">
+                <a>合計金額から1000円引きクーポン！</a>
+            </div>
+            <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE3)}">
+                <a>ドリンク1杯無料クーポン！</a>
+            </div>
+            <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE4)}">
+                <a>席料無料クーポン！</a>
+            </div>
+        </div>
+
+        <div th:if="${couponType == null}">
+            <p>あなたのクーポンははずれです。</p>
+        </div>
+
+       
     </div>
-    <div class="arrow"></div>
-</div>
-
-<div id="coupon-result"></div>
-
-<button onclick="startRoulette()">ルーレットを回す</button>
-
-<input type="hidden" id="serverCoupon" th:value="${couponForm != null} ? ${couponForm.couponType} : ''">
-
-<script>
-    let totalRotation = 0;
-
-    function startRoulette() {
-        const serverCoupon = document.getElementById('serverCoupon').value;
-        const roulette = document.getElementById('roulette');
-        const couponItems = document.querySelectorAll('.coupon-item');
-
-        let targetRotation = 0;
-        let winningCoupon = '';
-        
-        couponItems.forEach((item, index) => {
-            if (item.dataset.coupon === serverCoupon) {
-                targetRotation = (360 - (index * 72)); // 72度ごとに配置
-                winningCoupon = item.dataset.coupon;
-            }
-        });
-
-        if (!winningCoupon) {
-            targetRotation = 72; // はずれの位置
-            winningCoupon = "はずれ";
-        }
-
-        const additionalRotation = 1440 + targetRotation;
-        totalRotation += additionalRotation;
-
-        roulette.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
-        roulette.style.transform = `rotate(${totalRotation}deg)`;
-
-        setTimeout(() => {
-            const result = document.getElementById('coupon-result');
-            result.innerText = "あなたのクーポンは " + winningCoupon + "です";
-        }, 5000);
-    }
-</script>
-
 </body>
+
 </html>
