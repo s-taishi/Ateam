@@ -39,7 +39,7 @@ public class Coupon2Controller {
 			//@AuthenticationPrincipalを付加したUserDetailsから
 			//ログイン中のユーザー名を取得
 			String username = userDetails.getUsername();
-			System.out.println("aaa");
+	
 			//ユーザー名を使ってUser情報を取得
 			User currentUser = coupon2Service.userSelectByUsername(userDetails);
 		    
