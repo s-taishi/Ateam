@@ -105,6 +105,10 @@
         <div th:if="${param.logout}">
             <p style="color:blue;">ログアウトしました</p>
         </div>
+		
+		<div th:if="${message}">
+			<p th:text="${message}"></p>
+		</div>
 
         <!--ログインするために必要な情報を入力する項目-->
         <form id="login" th:action="@{/authentication}" method="post" th:object="${userForm}">

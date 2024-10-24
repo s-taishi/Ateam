@@ -6,25 +6,24 @@
 		type="com.example.demo.entity.Coupon">
 		<id property="id" column="id" />
 		<result property="couponType" column="couponType" />
-		<association property="user" javaType="com.example.demo.entity.User">
-    <id property="id" column="id" />
-    <result property="userName" column="username" />
-    <result property="password" column="password" />
-    <result property="displayName" column="display_name" />
-    <result property="tellNumber" column="tell_number" />
-    <result property="authority" column="authority" />
-</association>
-
+		<association property="userName"
+			javaType="com.example.demo.entity.User">
+			<id property="id" column="id" />
+			<result property="userName" column="username" />
+			<result property="password" column="password" />
+			<result property="displayName" column="display_name" />
+			<result property="tellNumber" column="tell_number" />
+			<result property="authority" column="authority" />
+		</association>
 	</resultMap>
 
 	<!-- 【INSERT】新しいクーポンを登録 -->
 	
-	<!-- couponTypeはenum型だがマッピングの際一時的に
-	String型として扱われるそうなのでキャストしています -->
+	<!-- javaの列挙型はデータベースに格納する際(MyBatisがsqlクエリに渡す際)には
+			その値を表す文字列に変換する必要があるためキャストする -->
 	
   <insert id="couponInsert" parameterType="map">
-        INSERT INTO coupon (coupon_type, user_id) 
-VALUES (#{couponType}, #{userId});
-
-    </insert>
+    INSERT INTO coupon (coupon_type, user_id) 
+    VALUES (CAST(#{couponType} AS coupon_type), #{userId});
+</insert>
 </mapper>

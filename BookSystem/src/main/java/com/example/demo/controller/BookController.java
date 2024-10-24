@@ -240,7 +240,7 @@ public class BookController {
 		userForm.setPassword(hashpass);
 		service.userInsert(userForm);
 		attributes.addFlashAttribute("message", "新規アカウントを作成しました");
-		return "login";
+		return "redirect:/login";
 	}
 
 
