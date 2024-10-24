@@ -24,4 +24,15 @@ VALUES
 (#{username},#{password},#{displayName},#{tellNumber},'USER')
 </insert>
 
+
+
+<update id="userUpdate">
+update users 
+set username = #{username},
+	password = #{password},
+	displayname = #{displayName},
+	tellnumber = #{tellNumber}
+where id = #{id};
+</update>
+
 </mapper>

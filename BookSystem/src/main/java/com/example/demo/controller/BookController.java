@@ -197,9 +197,25 @@ public class BookController {
 //			System.out.println(a.getUserid());
 //		}
 		model.addAttribute("list", list);
+		model.addAttribute("selectedDate", date); //伊藤追記
 		return "adminlist";
 
 	}
+	
+	//伊藤追加部分
+	
+	// 管理者予約削除
+	@PostMapping("/delete-admin/{id}")
+	public String adminDelete(@PathVariable int id, @RequestParam("date") LocalDate date, RedirectAttributes attributes) {
+	    service.bookDelete(id);
+	    attributes.addFlashAttribute("message", "予約を削除しました");
+	    return "redirect:/adminlist?date=" + date; // 日付をクエリパラメーターとして追加
+	}
+	
+	
+	//ここまで伊藤
+	
+	
 	
 //	//新規登録
 //	@GetMapping("/login/createform")
