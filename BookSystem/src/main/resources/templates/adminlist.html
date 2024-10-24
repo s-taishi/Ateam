@@ -92,6 +92,12 @@
             color: red;
             margin-bottom: 15px;
         }
+		.no-reservation {
+		            text-align: center;
+		            font-size: 1.2em;
+		            color: #666;
+		            margin: 20px 0;
+		        }
     </style>
 </head>
 <body>
@@ -99,11 +105,15 @@
         <h1>予約詳細確認画面</h1>
         
         <h2>選択された日付:</h2>
-        <span id="selectedDate" class="date-label"></span>
+        <span id="selectedDate" class="date-label" th:text="${selectedDate}"></span>
         
         <div id="errorMessage" class="error"></div>
         
-        <table>
+        <div th:if="${list == null or list.isEmpty()}" class="no-reservation">
+            指定された日の予約はありません。
+        </div>
+        
+        <table th:if="${list != null and !list.isEmpty()}">
             <thead>
                 <tr>
                     <th>時間</th>
