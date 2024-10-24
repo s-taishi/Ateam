@@ -129,7 +129,7 @@
                 <label for="tellNumber">電話番号</label>    
                 <input type="tel" th:field="*{tellNumber}">
                 <div th:if="${#fields.hasErrors('tellNumber')}" class="error-message">
-                    <p th:text="${tellNumber}"></p>
+                    <p th:errors="*{tellNumber}"></p>
                 </div>
             </div>
             
