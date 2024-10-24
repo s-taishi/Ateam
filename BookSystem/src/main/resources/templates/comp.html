@@ -1,49 +1,88 @@
-<!--<!DOCTYPE html>　名称のみ作成-->
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>予約完了</title>
     <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #45a049;
+            --background-color: #f8f8f8;
+            --text-color: #333;
+            --card-background: #fff;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
+            padding: 20px;
         }
+
         h1 {
+            color: var(--primary-color);
             font-size: 24px;
             margin-bottom: 20px;
         }
+
         .reservation-info {
+            background-color: var(--card-background);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .reservation-info p {
             font-size: 18px;
             margin-bottom: 10px;
         }
-		
-        .mypage-button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
+
+        .btn {
             display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
-    <h1>以下の日時で予約承りました</h1>
-    
-    <div class="reservation-info">
-        <p>来店日: <span th:text="${book.bookdate}"></span></p>
-        <p>来店時間: <span th:text="${book.booktime}"></span></p>
+    <div class="container">
+        <h1>以下の日時で予約承りました</h1>
+        
+        <div class="reservation-info">
+            <p>来店日: <span th:text="${book.bookdate}"></span></p>
+            <p>来店時間: <span th:text="${book.booktime}"></span></p>
+        </div>
+        
+        <a th:href="@{/mypage}" class="btn">マイページへ</a>
     </div>
-    
-    <a th:href="@{/mypage}" class="mypage-button">マイページへ</a>
 </body>
 </html>
