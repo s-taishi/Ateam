@@ -19,8 +19,8 @@ import com.example.demo.entity.Book;
 import com.example.demo.entity.ConnectUser;
 import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
+import com.example.demo.form.BookForm;
 import com.example.demo.form.UserForm;
-import com.example.demo.form.WrapForm;
 import com.example.demo.security.PasswordGenerator;
 import com.example.demo.service.BookService;
 
@@ -73,46 +73,43 @@ public class BookController {
 		return "redirect:/login";
 	}
 
-	@GetMapping("/entry/{username}")
-	public String entry(@ModelAttribute WrapForm wrapForm,@PathVariable String username, Model model) {
-		wrapForm.setUsername(username);
-		model.addAttribute(wrapForm);
+	@GetMapping("/entry")
+	public String entry(@ModelAttribute BookForm bookForm) {
 		return "form";
 	}
 	
 	//予約情報を確認画面に送る
 	@PostMapping("/form")
-	public String form(@ModelAttribute WrapForm wrapForm, BindingResult bindingResult, RedirectAttributes attributes,Model model) {
-		User user = service.userFindByUserName(wrapForm.getUsername());
-		wrapForm.getBookForm().setUser(user);
+	public String form(@Validated BookForm bookForm, BindingResult bindingResult, RedirectAttributes attributes,Model model) {
+		User user = service.userFindByUserName(ConnectUser.username);
+		bookForm.setUser(user);
 		
 		// 日付と時間が未来かどうかをチェック
 		LocalDate currentDate = LocalDate.now();
 		LocalTime currentTime = LocalTime.now();
 
 		// まず日付をチェック
-		if (wrapForm.getBookForm().getBookdate().isBefore(currentDate)) {
-			bindingResult.rejectValue("bookForm.bookdate", "error.bookdate", "過去の日付は選べません");
+		if (bookForm.getBookdate().isBefore(currentDate)) {
+			bindingResult.rejectValue("bookdate", "error.bookdate", "過去の日付は選べません");
 		}
 
 		// 日付が同じ場合、時間をチェック
-		if (wrapForm.getBookForm().getBookdate().isEqual(currentDate) && wrapForm.getBookForm().getBooktime().isBefore(currentTime)) {
-			bindingResult.rejectValue("bookForm.booktime", "error.booktime", "過去の時間は選べません");
+		if (bookForm.getBookdate().isEqual(currentDate) && bookForm.getBooktime().isBefore(currentTime)) {
+			bindingResult.rejectValue("booktime", "error.booktime", "過去の時間は選べません");
 		}
 
 
 		//バリデーションチェック
 		if(bindingResult.hasErrors()) {
-			model.addAttribute("username",wrapForm.getUsername());
 			return "form";
 		}
 
 		Book book = new Book();
-		book.setBookdate(wrapForm.getBookForm().getBookdate());
-		book.setBooktime(wrapForm.getBookForm().getBooktime());
-		book.setBookcount(wrapForm.getBookForm().getBookcount());
-		book.setMemo(wrapForm.getBookForm().getMemo());
-		book.setUserid(wrapForm.getBookForm().getUser());
+		book.setBookdate(bookForm.getBookdate());
+		book.setBooktime(bookForm.getBooktime());
+		book.setBookcount(bookForm.getBookcount());
+		book.setMemo(bookForm.getMemo());
+		book.setUserid(bookForm.getUser());
 
 		model.addAttribute("book",book);
 		model.addAttribute("check","check");
