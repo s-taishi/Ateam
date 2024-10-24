@@ -70,6 +70,10 @@ public class BookService {
     public boolean userExistsByUserName(String username) {
     	return userRepository.userExistsByUsername(username);
     }
+    
+    public void userUpdate(UserForm user) {
+    	userRepository.userUpdate(user);
+    }
 }
 
 
