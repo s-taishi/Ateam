@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<title>管理者日付選択画面</title>
 	<style>
+		
 		body {
 			font-family: Arial, sans-serif;
 			margin: 0;
@@ -25,11 +26,8 @@
 			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 			max-width: 400px;
 			width: 100%;
-			/* 幅を100%に設定 */
 			margin: 0 auto;
-			/* 中央揃え */
 			box-sizing: border-box;
-			/* パディングとボーダーを含めたサイズ計算 */
 		}
 
 		#date-picker {
@@ -41,11 +39,10 @@
 			margin-bottom: 15px;
 		}
 
-		.search-button {
+		.search-button, .logout-button {
 			background-color: #4caf50;
 			border: none;
 			color: white;
-			padding: 12px 0;
 			text-align: center;
 			text-decoration: none;
 			display: block;
@@ -57,7 +54,16 @@
 			transition: background-color 0.3s;
 		}
 
-		.search-button:hover {
+		.search-button {
+			padding: 12px 0;
+		}
+
+		.logout-button {
+			padding: 8px 10px; /* サイズを小さく */
+			width: auto; /* 幅を自動に設定 */
+		}
+
+		.search-button:hover, .logout-button:hover {
 			background-color: #45a049;
 		}
 
@@ -68,44 +74,38 @@
 		}
 
 		.logout-form {
-			text-align: center;
+			text-align: left; /* 左寄せ */
 			margin-top: 20px;
-		}
-
-		.logout-button {
-			background-color: #f44336;
-			color: white;
-			border: none;
-			padding: 10px 20px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 16px;
-			margin: 4px 2px;
-			cursor: pointer;
-			border-radius: 4px;
-			transition: background-color 0.3s;
-		}
-
-		.logout-button:hover {
-			background-color: #d32f2f;
 		}
 	</style>
 </head>
 
-<body>
-	<h1>営業日選択画面</h1>
+<h1>営業日選択画面</h1>
 	<div id="calendar">
-		<form th:action="@{/adminlist}" method="get">
-			<input type="date" id="date-picker" name="date">
+		<form th:action="@{/adminlist}" method="get" onsubmit="return validateDate()">
+			<input type="date" id="date-picker" name="date" required>
 			<button type="submit" class="search-button">検索</button>
 		</form>
-		<!--        <div th:if="${#fields.hasErrors('date')}" th:errors="*{date}" class="error"></div>-->
+		<div id="error-message" class="error" style="display:none;"></div>
 	</div>
 
-	<form th:action="@{/logout}" method="post">
-		<button type="submit" value="ログアウト">ログアウト</button>
+	<form th:action="@{/logout}" method="post" class="logout-form">
+		<button type="submit" class="logout-button">ログアウト</button>
 	</form>
-</body>
 
-</html>
+	<script>
+		function validateDate() {
+			const dateInput = document.getElementById('date-picker').value;
+			const errorMessage = document.getElementById('error-message');
+
+			if (!dateInput) {
+				errorMessage.textContent = '日付を入力してください。';
+				errorMessage.style.display = 'block';
+				return false; // フォーム送信を中止
+			}
+
+			errorMessage.style.display = 'none'; // エラーメッセージを非表示
+			return true; // フォーム送信を続行
+		}
+	</script>
+</body>
