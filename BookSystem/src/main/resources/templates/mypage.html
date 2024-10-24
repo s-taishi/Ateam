@@ -13,21 +13,32 @@
             --card-background: #fff;
         }
 
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            margin: 0;
-            padding: 20px;
             background-color: var(--background-color);
             color: var(--text-color);
-            height: 100vh; /* ビューポートの高さを100%に設定 */
             display: flex;
             flex-direction: column;
         }
 
         .container {
-            flex: 1; /* 残りのスペースを占める */
-            overflow-y: auto; /* スクロールが必要な場合のみ */
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            min-height: 0;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
         }
 
         h1, h2 {
@@ -42,7 +53,7 @@
         }
 
         th, td {
-            padding: 10px;
+            padding: 8px;
             border: 1px solid #ddd;
             text-align: left;
         }
@@ -53,7 +64,7 @@
         }
 
         td {
-            background-color: white; /* 背景色を白に設定 */
+            background-color: white;
         }
 
         .btn {
@@ -65,7 +76,7 @@
             border-radius: 25px;
             transition: background-color 0.3s, transform 0.2s;
             font-weight: bold;
-            margin-right: 10px; /* ボタン間の余白 */
+            margin-left: 10px;
         }
 
         .btn:hover {
@@ -73,70 +84,131 @@
             transform: scale(1.05);
         }
 
-        .action-buttons {
-            display: flex;
-            justify-content: space-between; /* 左右に配置 */
-            margin-top: 20px;
+        .highlight-btn {
+            background-color: #FF9800;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
+
+        .highlight-btn:hover {
+            background-color: #F57C00;
+        }
+
+        .coupon-btn { 
+           padding: 10px 18px; 
+           background-color: transparent; 
+           color: var(--primary-color); 
+           border-radius: 5px; 
+           border: 2px solid var(--primary-color); 
+           transition: background-color 0.3s, color 0.3s; 
+           font-weight:bold; 
+           margin-left:10px; 
+       }
+       
+       .coupon-btn:hover { 
+           background-color: var(--primary-color); 
+           color:white; 
+       }
+
+       .action-buttons {
+           display: flex;
+           justify-content: space-between;
+           margin-top: 20px;
+       }
+
+       .no-reservations {
+           text-align: center;
+           font-size: 1.2em;
+           color: #666;
+           margin: 20px 0;
+       }
+
+       .logout-btn {
+          border:none; 
+          outline:none; 
+          cursor:pointer; 
+          padding:12px 20px; 
+          background-color:#4CAF50; 
+          color:white; 
+          border-radius:25px; 
+          transition:.3s; 
+      }
+      
+      .logout-btn:hover {
+          background-color:#45a049; 
+      }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>マイページ</h1>
-        <h2>予約情報一覧</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>予約ID</th>
-                    <th>日付</th>
-                    <th>時間</th>
-                    <th>人数</th>
-                    <th>詳細</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="booking : ${books}">
-                    <td th:text="${booking.id}"></td>
-                    <td th:text="${booking.bookdate}"></td>
-                    <td th:text="${booking.booktime}"></td>
-                    <td th:text="${booking.bookcount}"></td>
-                    <td>
-                        <a th:href="@{/check2/{id}(id=${booking.id})}" class="btn">詳細</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="content">
+            <h1>マイページ</h1>
+            
+            <div style="display: flex; align-items: center;">
+                <h2>予約情報一覧</h2>
+                <a th:href="@{/entry/{username}(username=${user.username})}" class="btn highlight-btn">予約画面へ</a>
+                <a th:href="@{/couponlist}" class="btn coupon-btn">クーポン一覧へ</a>
+            </div>
+            
+            <div th:if="${books.isEmpty()}" class="no-reservations">
+                予約はありません。
+            </div>
+            
+            <table th:if="${!books.isEmpty()}">
+                <thead>
+                    <tr>
+                        <th>予約ID</th>
+                        <th>日付</th>
+                        <th>時間</th>
+                        <th>人数</th>
+                        <th>詳細</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="booking : ${books}">
+                        <td th:text="${booking.id}"></td>
+                        <td th:text="${booking.bookdate}"></td>
+                        <td th:text="${booking.booktime}"></td>
+                        <td th:text="${booking.bookcount}"></td>
+                        <td>
+                            <a th:href="@{/check2/{id}(id=${booking.id})}" class="btn">詳細</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <h2>ユーザー情報</h2>
-        <table>
-            <tr>
-                <th>氏名</th>
-                <td th:text="${user.displayName}"></td>
-            </tr>
-            <tr>
-                <th>ユーザーネーム</th>
-                <td th:text="${user.username}"></td>
-            </tr>
-            <tr>
-                <th>電話番号</th>
-                <td th:text="${user.tellNumber}"></td>
-            </tr>
-        </table>
+           <h2>ユーザー情報</h2>
 
-    </div>
+           <!-- ユーザー情報テーブル -->
+           <table style="font-size: 0.9em; width: 50%;">
+               <tr>
+                   <th>氏名</th>
+                   <td th:text="${user.displayName}"></td>
+               </tr>
+               <tr>
+                   <th>ユーザーネーム</th>
+                   <td th:text="${user.username}"></td>
+               </tr>
+               <tr>
+                   <th>電話番号</th>
+                   <td th:text="${user.tellNumber}"></td>
+               </tr>
+           </table>
 
-    <div class="action-buttons">
-        <div class="left-buttons">
-            <a th:href="@{/entry/{username}(username=${user.username})}" class="btn">予約画面へ</a>
-            <a th:href="@{/couponlist}" class="btn">クーポン一覧へ</a>
-        </div>
+       </div>
 
-        <!-- ログアウトボタン -->
-        <form th:action="@{/logout}" method="post">
-			<input type="submit" class="btn" value="ログアウト">
-		</form>
+       <div class="action-buttons">
+           <div class="left-buttons">
+               <!-- クーポン一覧ボタンは上部に追加済み -->
+           </div>
 
-    </div>
+           <!-- ログアウトボタン -->
+           <form th:action="@{/logout}" method="post">
+               <input type="submit" class="logout-btn" value="ログアウト">
+           </form>
+
+       </div>
+
+   </div>
 
 </body>
 </html>
