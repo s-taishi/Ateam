@@ -18,7 +18,7 @@ SELECT count(*) FROM users WHERE username =#{username}
 </select>
 
 <!--  ユーザー新規登録 -->
-<insert id="userInsert" >
+<insert id="userInsert" parameterType="com.example.demo.form.UserForm">
 INSERT INTO users (username,password,displayName,tellNumber,authority)
 VALUES
 (#{username},#{password},#{displayName},#{tellNumber},'USER')
@@ -26,13 +26,13 @@ VALUES
 
 
 
-<update id="userUpdate">
+<update id="userUpdate" parameterType="com.example.demo.form.UserForm">
 update users 
 set username = #{username},
 	password = #{password},
 	displayname = #{displayName},
 	tellnumber = #{tellNumber}
-where username = #{username};
+where id = #{id};
 </update>
 
 </mapper>
