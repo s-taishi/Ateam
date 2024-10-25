@@ -3,13 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <title>404 Not Found</title>
+<style>
+	.btn {
+	           display: inline-block;
+	           padding: 12px 20px;
+	           background-color: var(--primary-color);
+	           text-decoration: none;
+	           border-radius: 25px;
+			   color: white;
+	           font-weight: bold;
+			   background-color: #4caf50;
+	       }
+		  .btn:hover{
+			background-color: var(--secondary-color);
+			          transform: scale(1.05);
+					  background-color: #4caf50;
+		  }
+	
+</style>
 </head>
 <body>
 	<h2>存在しないURLにアクセスしました</h2>
 	<h1>速やかに以下のリンクより移動してください</h1>
-	<a th:href="@{/mypage}">マイページへ</a>
+
+	<form th:action="@{/mypage}" method="get">
+		<button type="submit" class="btn" >マイページへ</button>
+	</form>	
+	<p>
 	<form th:action="@{/logout}" method="post">
-		<button type="submit">ログイン画面へ</button>
+		<button type="submit" class="btn">ログイン画面へ</button>
 	</form>
 
 </body>
