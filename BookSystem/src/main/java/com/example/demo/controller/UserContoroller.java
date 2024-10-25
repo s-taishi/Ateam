@@ -103,8 +103,9 @@ public class UserContoroller {
 
 		//バリデーションチェック
 		if(bindingResult.hasErrors()) {
-			return "create";
+			return "custom";
 		}
+		userForm.setId(ConnectUser.id);
 		String hashpass = PasswordGenerator.hashGenerate(userForm.getPassword());
 		userForm.setPassword(hashpass);
 		service.userUpdate(userForm);
