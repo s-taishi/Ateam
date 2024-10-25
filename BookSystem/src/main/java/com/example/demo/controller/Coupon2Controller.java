@@ -54,8 +54,8 @@ public class Coupon2Controller {
 		response.put("couponType", couponType);
 		
 		return response;
-		
 				
 	}
+	
 
 }

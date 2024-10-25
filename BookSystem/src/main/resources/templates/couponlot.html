@@ -122,9 +122,10 @@
                 spinButton.style.display = 'block'; // エラー時にボタンを再表示
             });
 			
-			// 音声を再生
-							sound.currentTime = 0; // 再生開始位置を0に戻す
-							sound.play();
+			//音声を再生
+			const sound = document.getElementById('roulette-sound');
+						sound.currentTime = 0; // 再生開始位置を0に戻す
+						sound.play();
 							
     }
 
