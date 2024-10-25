@@ -32,7 +32,7 @@ set username = #{username},
 	password = #{password},
 	displayname = #{displayName},
 	tellnumber = #{tellNumber}
-where id = #{id};
+where username = #{username};
 </update>
 
 </mapper>
