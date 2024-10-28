@@ -1,5 +1,9 @@
 package com.example.demo.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -34,55 +38,44 @@ public class Coupon2Controller {
 		return "couponlot"; // couponlot.htmlを返す
 	}
 
-	//ルーレットを回す処理
 	@GetMapping("/couponcreate")
-	public String couponCreate(
-	        @AuthenticationPrincipal UserDetails userDetails,
-	        Model model) {
-	    // ユーザー情報を取得
+	public ResponseEntity<Map<String, Object>> couponCreate(@AuthenticationPrincipal UserDetails userDetails) {
 	    User currentUser = coupon2Service.userSelectByUsername(userDetails);
-	    // ルーレットを回してクーポンを取得
 	    Coupon coupon = couponRouletteService.spinRoulette(userDetails);
 
-	    // クーポン情報をモデルに追加
-	    model.addAttribute("coupon", coupon); // Couponオブジェクトをモデルに追加
+	    Map<String, Object> response = new HashMap<>();
+	    if (coupon == null || coupon.getCouponType() == null) {
+	        response.put("coupon", null);
+	        response.put("couponType", null);
+	    } else {
+	        response.put("coupon", coupon); // クーポンオブジェクトを返す
+	        response.put("couponType", coupon.getCouponType().name());
+	        response.put("couponId", coupon.getId()); // クーポンIDを返す
+	    }
 
-	    return "couponlot"; // couponlot.htmlを返す
+	    return ResponseEntity.ok(response);
 	}
-
 	@GetMapping("/couponresult")
 	public String couponResult(
 	        @AuthenticationPrincipal UserDetails userDetails,
 	        @RequestParam int id,
 	        Model model) {
-	    CouponType couponType = null; 
-	    System.out.println("遷移ボタンを押下した時のID: " + id);
+	    // クーポンIDを使ってデータベースからクーポンを取得
+	    Coupon coupon = coupon3Service.couponFindById(id); // サービスクラスにメソッドを追加
 
-	    // IDに応じてcouponTypeを設定
-	    switch (id) {
-	        case 1:
-	            couponType = CouponType.COUPON_TYPE1;
-	            break;
-	        case 2:
-	            couponType = CouponType.COUPON_TYPE2;
-	            break;
-	        case 3:
-	            couponType = CouponType.COUPON_TYPE3;
-	            break;
-	        case 4:
-	            couponType = CouponType.COUPON_TYPE4;
-	            break;
-	        default:
-	            System.out.println("無効なクーポンID: " + id);
-	            break;
+	    if (coupon == null) {
+	        // クーポンが見つからない場合の処理
+	        model.addAttribute("error", "クーポンが見つかりません。");
+	        return "error"; // エラーページにリダイレクト
 	    }
 
-	    System.out.println("取得したクーポンタイプ: " + couponType); // couponTypeをログに出力
+	    // クーポンのタイプをモデルに追加
+	    CouponType couponType = coupon.getCouponType();
 
-	    model.addAttribute("couponId", id); // クーポンIDをモデルに追加
-	    model.addAttribute("couponType", couponType); // couponTypeをモデルに追加
+	    model.addAttribute("couponId", id);//クーポンID
+	    model.addAttribute("couponType", couponType);//クーポンタイプ
+	    model.addAttribute("coupons", coupon); //クーポンインスタンス
 
-	    return "coupondetail"; // IDを含むパスで遷移
+	    return "coupondetail"; // クーポン詳細ページを返す
 	}
-
 }
