@@ -34,7 +34,12 @@ public final UserRepository userRepository;
     	
     	//ユーザー名を使ってuser情報を取得
         User curretUser = userRepository.userSelectByUsername(username);
-      
+        
+        if (curretUser == null) {// ユーザーが見つからない場合
+            System.out.println("ユーザーが見つかりません: " + username);
+            return null; 
+        }
+
     	double randomValue = random.nextDouble();
         //確率の初期値
         double cumulativeProbability = 0.0;
@@ -43,14 +48,16 @@ public final UserRepository userRepository;
         for (CouponType type : CouponType.values()) {
             cumulativeProbability += type.getProbability();
             if (randomValue < cumulativeProbability) {
+            	
                 coupon.setCouponType(type);
                 coupon.setUser(curretUser);
                 
+                //
              // couponType を文字列に変換して挿入
                 try {
                 	System.out.println(type);
                 	System.out.println(curretUser.getId());
-                	coupon2Repository.couponInsert(type.name(), curretUser.getId());
+                	coupon2Repository.couponInsert(coupon);
                 } catch (Exception e) {
                     e.printStackTrace(); // または適切なロギングを行う
                 }
