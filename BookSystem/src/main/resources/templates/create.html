@@ -112,21 +112,21 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="password">パスワード</label>    
+                <label for="password">パスワード(8～12文字)</label>    
                 <input type="password" th:field="*{password}">
                 <div th:if="${#fields.hasErrors('password')}" class="error-message">
                     <p th:errors="*{password}"></p>
                 </div>
             </div>
             <div class="form-group">
-                <label for="displayName">氏名</label>    
+                <label for="displayName">氏名(カタカナ)</label>    
                 <input type="text" th:field="*{displayName}">
                 <div th:if="${#fields.hasErrors('displayName')}" class="error-message">
                     <p th:errors="*{displayName}"></p>
                 </div>
             </div>
             <div class="form-group">
-                <label for="tellNumber">電話番号</label>    
+                <label for="tellNumber">電話番号(例:123-4567-8900)</label>    
                 <input type="tel" th:field="*{tellNumber}">
                 <div th:if="${#fields.hasErrors('tellNumber')}" class="error-message">
                     <p th:errors="*{tellNumber}"></p>
