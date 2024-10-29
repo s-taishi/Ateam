@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class PasswordConfig {
 	@Bean
 	PasswordEncoder passwordEncoder() {
+		//パスワードにハッシュ値を利用するため
 		return new BCryptPasswordEncoder();
 	}
 }

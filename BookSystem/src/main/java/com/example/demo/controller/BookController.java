@@ -30,66 +30,23 @@ public class BookController {
 	/** DI */
 	private final BookService service;
 
-//	//ログイン画面の表示
-//	@GetMapping("/login")
-//	public String login(@ModelAttribute UserForm userForm) {
-//		return "login";
-//	}
-	
-
-	//新規登録ボタンを押したときの処理 アカウント作成
-//	@PostMapping("/user")
-//	public String save(@Validated UserForm userForm,HttpSession session, BindingResult bindingResult, RedirectAttributes attributes) {
-//
-//		
-//
-//		// ユーザー名の存在チェック
-//		if (service.userExistsByUserName(userForm.getUsername())) {
-//			bindingResult.rejectValue("userName", "error.userName", "このユーザー名は既に使用されています");
-//		}
-//
-//		//バリデーションチェック
-//		if(bindingResult.hasErrors()) {
-//			return "login";
-//		}
-//
-//		// カタカナかどうかをチェック
-//		String katakanaPattern = "^[\\u30A0-\\u30FF]+$";
-//		if (!userForm.getDisplayName().matches(katakanaPattern)) {
-//			bindingResult.rejectValue("displayName", "error.displayName", "名前はカタカナで入力してください");
-//		}
-
-//		User user = new User();
-//		user.setUsername(userForm.getUsername());
-//		user.setPassword(userForm.getPassword());
-//		user.setDisplayName(userForm.getDisplayName());
-//		user.setTellNumber(userForm.getTellNumber());
-//		service.userInsert(userForm);
-//		attributes.addFlashAttribute("message", "新規アカウントを作成しました");
-//		return "redirect:/login";
-//	}
-	
 	//予約情報入力画面
 	@GetMapping("/entry")
 	public String entry(@ModelAttribute BookForm bookForm,Model model) {
-		
-		return "form";
+		return "form";//予約フォームへ遷移
 	}
-	
-	
 	
 	//予約情報を確認画面に送る
 	@PostMapping("/form")
 	public String form(@Validated BookForm bookForm, BindingResult bindingResult, RedirectAttributes attributes,Model model) {
+		//現在ログイン中のユーザー情報を取得
+		User user = service.userFindByUserName(ConnectUser.username);
+		bookForm.setUser(user);
 		
-			User user = service.userFindByUserName(ConnectUser.username);
-			bookForm.setUser(user);
-	
-		
-		// 日付と時間が未来かどうかをチェック
+		// 日付が未来かどうかをチェック
 		LocalDate currentDate = LocalDate.now();
 
-		// まず日付をチェック
+		// まず日付が過去の場合
 		if (bookForm.getBookdate().isBefore(currentDate)) {
 			bindingResult.rejectValue("bookdate", "error.bookdate", "過去の日付は選べません");
 		}
@@ -105,29 +62,25 @@ public class BookController {
 			return "form";
 		}
 		
-		
-
+		//入力フォームをデータベースに入れられるように型変更
 		Book book = new Book();
 		book.setBookdate(bookForm.getBookdate());
 		book.setBooktime(bookForm.getBooktime());
 		book.setBookcount(bookForm.getBookcount());
 		book.setMemo(bookForm.getMemo());
 		book.setUserid(bookForm.getUser());
-
+		
 		model.addAttribute("book",book);
 		model.addAttribute("check","check");
-
-		return "/check";
+		
+		return "/check";//確認画面へ遷移
 	}
 
 
 	//予約完了画面
 	@PostMapping("/comp")
 	public String comp(@ModelAttribute Book book, Model model){
-		if(book.getUserid() != null) {
-			 User user = book.getUserid();
-		        book.setUserid(user);
-		}
+		//データベースに入力内容を登録
 		service.bookInsert(book);
 		model.addAttribute("book", book);
 
@@ -138,9 +91,11 @@ public class BookController {
 	//マイページを表示
 	@GetMapping("/mypage")
 	public String myPage(Model model) {
+		//ADMIN権限を持つ管理者は管理者用画面へ遷移
 		if(ConnectUser.authority.equals(Role.ADMIN)) {
 			return "redirect:/adminmenu";
 		}
+		//現在ログイン中のユーザー情報を取得
 		User user = service.userFindByUserName(ConnectUser.username);
 
 		// ユーザーに関連する予約一覧を取得
@@ -162,10 +117,6 @@ public class BookController {
 		// 指定されたIDの予約詳細を取得
 		Book book = service.bookFindById(id);
 
-		if (book == null) {
-			model.addAttribute("errorMessage", "予約が見つかりません");
-		}
-
 		// 取得した予約情報をモデルに追加
 		model.addAttribute("book", book);
 		model.addAttribute("detail","detail");
@@ -177,6 +128,7 @@ public class BookController {
 	//予約の削除
 	@PostMapping("/delete/{id}")
 	public String delete(@PathVariable int id, RedirectAttributes attributes) {
+		//予約IDをもとに予約情報を削除
 		service.bookDelete(id);
 		attributes.addFlashAttribute("message", "予約を削除しました");
 		return "redirect:/mypage";
@@ -185,7 +137,7 @@ public class BookController {
 	//管理者メニュー
 	@GetMapping("/adminmenu")
 	public String adminmenu() {
-		return "adminmenu";
+		return "adminmenu";//管理者専用画面へ遷移
 	}
 
 
@@ -193,19 +145,12 @@ public class BookController {
 	//管理者予約確認
 	@GetMapping("/adminlist")
 	public String adminlist(@RequestParam("date") LocalDate date,Model model) {
+		//指定した日付の予約情報を取得
 		List<Book> list = service.bookFindByDate(date);
-//		for(Book a : list) {
-//			System.out.println(a.getId());
-//			System.out.println(a.getBookdate());
-//			System.out.println(a.getBooktime());
-//			System.out.println(a.getBookcount());
-//			System.out.println(a.getMemo());
-//			System.out.println(a.getUserid());
-//		}
+
 		model.addAttribute("list", list);
 		model.addAttribute("selectedDate", date); //伊藤追記
-		return "adminlist";
-
+		return "adminlist";//指定日ごとの予約情報画面へ遷移
 	}
 	
 	//伊藤追加部分
@@ -213,55 +158,12 @@ public class BookController {
 	// 管理者予約削除
 	@PostMapping("/delete-admin/{id}")
 	public String adminDelete(@PathVariable int id, @RequestParam("date") LocalDate date, RedirectAttributes attributes) {
+		//指定した予約情報のIDを見て削除
 	    service.bookDelete(id);
 	    attributes.addFlashAttribute("message", "予約を削除しました");
 	    return "redirect:/adminlist?date=" + date; // 日付をクエリパラメーターとして追加
 	}
 	
-	
 	//ここまで伊藤
-	
-	
-	
-//	//新規登録
-//	@GetMapping("/login/createform")
-//	public String createUser(@ModelAttribute UserForm userForm,Model model) {
-//		model.addAttribute("userForm",userForm);
-//		return "create";
-//	}
-//	
-//	//新規登録情報保存
-//	@PostMapping("/login/create")
-//	public String create(@Validated UserForm userForm,BindingResult bindingResult,RedirectAttributes attributes, Model model) {
-//		// ユーザー名の存在チェック
-//		if(userForm.getUsername() != null) {
-//			User user = service.userFindByUserName(userForm.getUsername());
-//			if(user != null) {
-//				if (userForm.getUsername().equals(user.getUsername())) {
-//					bindingResult.rejectValue("username","error.username","このユーザー名は既に使用されています");
-//				}
-//			}
-//		}
-//		
-//		// カタカナかどうかをチェック
-//		String katakanaPattern = "^[\\u30A0-\\u30FF]+$";
-//		if(userForm.getDisplayName() != null) {
-//			if (!(userForm.getDisplayName().matches(katakanaPattern))) {
-//				bindingResult.rejectValue("displayName", "error.displayName", "名前はカタカナで入力してください");
-//			}
-//		}
-//
-//		//バリデーションチェック
-//		if(bindingResult.hasErrors()) {
-//			return "create";
-//		}
-//		String hashpass = PasswordGenerator.hashGenerate(userForm.getPassword());
-//		userForm.setPassword(hashpass);
-//		service.userInsert(userForm);
-//		attributes.addFlashAttribute("message", "新規アカウントを作成しました");
-//		return "redirect:/login";
-//	}
-
-
 
 }
