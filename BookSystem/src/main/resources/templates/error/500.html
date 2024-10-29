@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 Internal Server Error</title>
+    <style>
+		.btn {
+		           display: inline-block;
+		           padding: 12px 20px;
+		           background-color: var(--primary-color);
+		           text-decoration: none;
+		           border-radius: 25px;
+				   color: white;
+		           font-weight: bold;
+				   background-color: #4caf50;
+		       }
+		.btn:hover{
+				background-color: var(--secondary-color);
+			    transform: scale(1.05);
+			  background-color: #4caf50;
+			  }
+    </style>
+</head>
+<body>
+    <h1>500 Internal Server Error</h1>
+    <p>エラーが発生しました。</p>
+<!--    <p th:text="'エラー詳細: ' + ${errorMessage}"></p>-->
+    <p>ログインページから再度ログインしてください</p>
+	
+
+	<form th:action="@{/logout}" method="post">
+		<button type="submit" class="btn">ログイン画面へ</button>
+	</form>
+</body>
+</html>
