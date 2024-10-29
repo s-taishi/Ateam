@@ -33,15 +33,15 @@ INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
 ('2024-10-01', '16:00:00', 4, '特になし。',1);
 --クーポン情報のダミーデータ
-INSERT INTO coupon(id, coupon_type, user_id)
-VALUES (1, 'COUPON_TYPE1', 2);
+INSERT INTO coupon(coupon_type, user_id)
+VALUES ('COUPON_TYPE1', 2);
 	
-INSERT INTO coupon(id, coupon_type, user_id)
-VALUES (2, 'COUPON_TYPE2', 2);
+INSERT INTO coupon(coupon_type, user_id)
+VALUES ('COUPON_TYPE2', 2);
 	
-INSERT INTO coupon(id, coupon_type, user_id)
-VALUES (3, 'COUPON_TYPE3', 2);
+INSERT INTO coupon(coupon_type, user_id)
+VALUES ('COUPON_TYPE3', 2);
 	
-INSERT INTO coupon(id, coupon_type, user_id)
-VALUES (4, 'COUPON_TYPE4', 2);
+INSERT INTO coupon(coupon_type, user_id)
+VALUES ( 'COUPON_TYPE4', 2);
 --★テスト用機能ここまで
