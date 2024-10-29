@@ -128,11 +128,11 @@
         <form th:action="@{/form}" method="POST" th:object="${bookForm}">
 			
             <div class="form-group">
-                <label for="party-size">人数:</label>
-                <input type="number" id="party-size" th:field="*{bookcount}" min="1" required>
+                <label for="party-size">人数(1～50人以内):</label>
+                <input type="number" id="party-size" th:field="*{bookcount}" min="1" max="50" required>
             </div>
             <div class="form-group">
-                <label for="reservation-date">予約日:</label>
+                <label for="reservation-date">予約日(翌日以降の日付を選択):</label>
                 <input type="date" id="reservation-date" th:field="*{bookdate}" required>
             </div>
             

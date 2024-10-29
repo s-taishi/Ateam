@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -89,16 +88,15 @@ public class BookController {
 		
 		// 日付と時間が未来かどうかをチェック
 		LocalDate currentDate = LocalDate.now();
-		LocalTime currentTime = LocalTime.now();
 
 		// まず日付をチェック
 		if (bookForm.getBookdate().isBefore(currentDate)) {
 			bindingResult.rejectValue("bookdate", "error.bookdate", "過去の日付は選べません");
 		}
 
-		// 日付が同じ場合、時間をチェック
-		if (bookForm.getBookdate().isEqual(currentDate) && bookForm.getBooktime().isBefore(currentTime)) {
-			bindingResult.rejectValue("booktime", "error.booktime", "過去の時間は選べません");
+		// 日付が同じ場合
+		if (bookForm.getBookdate().isEqual(currentDate)) {
+			bindingResult.rejectValue("booktime", "error.booktime", "本日は選べません");
 		}
 
 
