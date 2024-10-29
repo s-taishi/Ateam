@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserForm {
+	private int id;
+	
 	@NotBlank(message="ユーザーネームは必須です")
 	private String username; // ユーザー名
 

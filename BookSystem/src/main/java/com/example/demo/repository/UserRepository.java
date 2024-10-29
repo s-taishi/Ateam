@@ -22,4 +22,7 @@ public interface UserRepository {
 	
 	//ユーザー情報が既に存在するか判定
 	boolean userExistsByUsername(@Param("username")String username);
+	
+	//ユーザー情報更新
+	void userUpdate(UserForm user);
 }

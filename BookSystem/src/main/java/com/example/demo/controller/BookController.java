@@ -69,17 +69,23 @@ public class BookController {
 //		attributes.addFlashAttribute("message", "新規アカウントを作成しました");
 //		return "redirect:/login";
 //	}
-
+	
+	//予約情報入力画面
 	@GetMapping("/entry")
-	public String entry(@ModelAttribute BookForm bookForm) {
+	public String entry(@ModelAttribute BookForm bookForm,Model model) {
+		
 		return "form";
 	}
+	
+	
 	
 	//予約情報を確認画面に送る
 	@PostMapping("/form")
 	public String form(@Validated BookForm bookForm, BindingResult bindingResult, RedirectAttributes attributes,Model model) {
-		User user = service.userFindByUserName(ConnectUser.username);
-		bookForm.setUser(user);
+		
+			User user = service.userFindByUserName(ConnectUser.username);
+			bookForm.setUser(user);
+	
 		
 		// 日付と時間が未来かどうかをチェック
 		LocalDate currentDate = LocalDate.now();
@@ -100,6 +106,8 @@ public class BookController {
 		if(bindingResult.hasErrors()) {
 			return "form";
 		}
+		
+		
 
 		Book book = new Book();
 		book.setBookdate(bookForm.getBookdate());
@@ -119,7 +127,7 @@ public class BookController {
 	@PostMapping("/comp")
 	public String comp(@ModelAttribute Book book, Model model){
 		if(book.getUserid() != null) {
-			 User user = (book.getUserid());
+			 User user = book.getUserid();
 		        book.setUserid(user);
 		}
 		service.bookInsert(book);
@@ -197,9 +205,25 @@ public class BookController {
 //			System.out.println(a.getUserid());
 //		}
 		model.addAttribute("list", list);
+		model.addAttribute("selectedDate", date); //伊藤追記
 		return "adminlist";
 
 	}
+	
+	//伊藤追加部分
+	
+	// 管理者予約削除
+	@PostMapping("/delete-admin/{id}")
+	public String adminDelete(@PathVariable int id, @RequestParam("date") LocalDate date, RedirectAttributes attributes) {
+	    service.bookDelete(id);
+	    attributes.addFlashAttribute("message", "予約を削除しました");
+	    return "redirect:/adminlist?date=" + date; // 日付をクエリパラメーターとして追加
+	}
+	
+	
+	//ここまで伊藤
+	
+	
 	
 //	//新規登録
 //	@GetMapping("/login/createform")

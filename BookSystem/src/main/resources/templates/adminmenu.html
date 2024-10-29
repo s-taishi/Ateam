@@ -1,115 +1,156 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<meta charset="UTF-8">
-	<title>管理者日付選択画面</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			margin: 0;
-			padding: 20px;
-			color: #2e7d32;
-			position: relative; /* 位置を相対的にする */
-			height: 100vh; /* 高さを100vhに設定 */
-		}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者日付選択画面</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #45a049;
+            --background-color: #f8f8f8;
+            --text-color: #333;
+            --card-background: #fff;
+        }
 
-		h1 {
-			color: #1b5e20;
-			text-align: center;
-			margin-bottom: 30px;
-		}
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-		#calendar {
-			background-color: #ffffff;
-			padding: 20px;
-			border-radius: 8px;
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-			max-width: 400px;
-			width: 100%;
-			margin: 0 auto;
-			box-sizing: border-box;
-		}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+        }
 
-		#date-picker {
-			font-size: 16px;
-			padding: 10px;
-			width: 95%;
-			border: 1px solid #4caf50;
-			border-radius: 4px;
-			margin-bottom: 15px;
-		}
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            min-height: 0;
+        }
 
-		.search-button, .logout-button {
-			background-color: #4caf50;
-			border: none;
-			color: white;
-			text-align: center;
-			text-decoration: none;
-			display: block;
-			width: 100%;
-			font-size: 16px;
-			margin-top: 10px;
-			cursor: pointer;
-			border-radius: 4px;
-			transition: background-color 0.3s;
-		}
+        .content {
+            flex: 1;
+            overflow-y: auto;
+        }
 
-		.search-button {
-			padding: 12px 0;
-		}
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-		.logout-button {
-			padding: 8px 10px;
-			width: auto; /* 幅を自動に設定 */
-		}
+        .calendar-card {
+            background-color: var(--card-background);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px; /* カードの最大幅 */
+            margin: 0 auto 20px; /* 中央寄せ */
+        }
 
-		.search-button:hover, .logout-button:hover {
-			background-color: #45a049;
-		}
+        #date-picker {
+            font-size: 16px;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
 
-		.error {
-			color: #d32f2f;
-			margin-top: 10px;
-			text-align: center;
-		}
+        .btn {
+            display: inline-block;
+            padding: 12px 20px; /* ボタンの内側の余白 */
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px; /* ボタンの角を丸くする */
+            transition: background-color 0.3s, transform 0.2s; /* ホバー時の効果 */
+            font-weight: bold; 
+            
+            /* 黒縁をなくすためのスタイル */
+            border: none; /* ボーダーなし */
+            outline: none; /* アウトラインなし */
+        }
 
-		.logout-form {
-			position: absolute; /* 絶対位置にする */
-			bottom: 60px; /* 下から20px */
-			right: 20px; /* 右から20px */
-		}
-	</style>
+        .search-button {
+            width: calc(100% - 40px); /* 幅を調整（親要素からの余白を考慮） */
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color); /* ホバー時の色 */
+        }
+
+        .highlight-btn {
+            background-color: #FF9800; /* 新規予約ボタンの色 */
+        }
+
+        .highlight-btn:hover {
+            background-color: #F57C00; /* ホバー時の色 */
+        }
+
+        .action-buttons {
+          margin-top: 20px; /* 他のコンテンツとの間隔 */
+          display:flex; /* Flexboxを使用 */
+          justify-content:center; /* 中央揃え */
+          align-items:center; /* 縦方向も中央揃え */
+      }
+      
+      .logout-btn {
+          border:none; 
+          outline:none; 
+          cursor:pointer; 
+          padding:12px 20px; 
+          background-color:#4CAF50; 
+          color:white; 
+          border-radius:25px; 
+          transition:.3s; 
+      }
+      
+      .logout-btn:hover {
+          background-color:#45a049; 
+      }
+    </style>
 </head>
-
 <body>
-	<h1>営業日選択画面</h1>
-	<div id="calendar">
-		<form th:action="@{/adminlist}" method="get" onsubmit="return validateDate()">
-			<input type="date" id="date-picker" name="date" required>
-			<button type="submit" class="search-button">検索</button>
-		</form>
-		<div id="error-message" class="error" style="display:none;"></div>
-	</div>
+    <div class="container">
+        <div class="content">
+            
+              <h1>営業日選択画面</h1>
+              
+              <!-- 日付選択用のカレンダー -->
+              <div class="calendar-card">
+                  <form th:action="@{/adminlist}" method="get">
+                      <input type="date" id="date-picker" name="date" required>
+                      <div class="action-buttons"> <!-- 中央揃えのためのラッパー -->
+                          <button type="submit" class="btn search-button">検索</button> <!-- 検索ボタン -->
+                      </div>
+                  </form>
+              </div>
 
-	<form th:action="@{/logout}" method="post" class="logout-form">
-		<button type="submit" class="logout-button">ログアウト</button>
-	</form>
+              <!-- 新規予約登録ボタンを別のセクションに配置 -->
+              <div class="action-buttons">
+                  <form th:action="@{/adminentry}" method="get">
+                      <button type="submit" class="btn highlight-btn">新規予約登録</button>
+                  </form>
+              </div>
 
-	<script>
-		function validateDate() {
-			const dateInput = document.getElementById('date-picker').value;
-			const errorMessage = document.getElementById('error-message');
+              <!-- ログアウトボタン -->
+              <div class="action-buttons">
+                  <form th:action="@{/logout}" method="post">
+                      <button type="submit" class="logout-btn">ログアウト</button>
+                  </form>
+              </div>
 
-			if (!dateInput) {
-				errorMessage.textContent = '日付を入力してください。';
-				errorMessage.style.display = 'block';
-				return false; // フォーム送信を中止
-			}
-
-			errorMessage.style.display = 'none'; // エラーメッセージを非表示
-			return true; // フォーム送信を続行
-		}
-	</script>
+         </div>
+     </div>
 </body>
 </html>

@@ -1,142 +1,213 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理者用予約詳細確認画面</title>
-    <style>
-        :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #45a049;
-            --background-color: #f8f8f8;
-            --text-color: #333;
-            --card-background: #fff;
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>管理者用予約詳細確認画面</title>
+	<style>
+		:root {
+			--primary-color: #4CAF50;
+			--secondary-color: #45a049;
+			--background-color: #f8f8f8;
+			--text-color: #333;
+			--card-background: #fff;
+		}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: var(--background-color);
-            color: var(--text-color);
-        }
+		body {
+			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+			margin: 0;
+			padding: 20px;
+			background-color: var(--background-color);
+			color: var(--text-color);
+		}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: var(--card-background);
-            border-radius: 12px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            padding: 25px;
-        }
+		.container {
+			max-width: 1200px;
+			margin: 0 auto;
+			background-color: var(--card-background);
+			border-radius: 12px;
+			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+			padding: 25px;
+		}
 
-        h1 {
-            text-align: center;
-            color: var(--text-color); /* プライマリカラーからテキストカラーに変更 */
-            font-size: 1.8em; /* フォントサイズを小さく */
-            margin-bottom: 30px;
-        }
+		h1 {
+			text-align: center;
+			color: var(--text-color);
+			font-size: 1.8em;
+			margin-bottom: 30px;
+		}
 
-        h2 {
-            text-align: left; /* 左詰め */
-            color: var(--text-color);
-            font-size: 1.2em; /* 小さく */
-            margin-bottom: 20px;
-        }
+		h2 {
+			text-align: left;
+			color: var(--text-color);
+			font-size: 1.2em;
+			margin-bottom: 20px;
+		}
 
-        .date-label {
-            font-size: 1em; /* 更に小さく */
-            color: var(--text-color);
-        }
+		.date-label {
+			font-size: 1em;
+			color: var(--text-color);
+		}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			margin: 20px 0;
+			/* 上下に20pxの隙間を追加 */
+			margin-bottom: 40px;
+			/* 下部の隙間をさらに増やしたい場合 */
+		}
 
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+		th,
+		td {
+			padding: 12px;
+			text-align: left;
+			border-bottom: 1px solid #ddd;
+		}
 
-        th {
-            background-color: var(--primary-color);
-            color: white;
-        }
+		th {
+			background-color: var(--primary-color);
+			color: white;
+		}
 
-        tr:hover {
-            background-color: #f5f5f5;
-        }
+		tr:hover {
+			background-color: #f5f5f5;
+		}
 
-        .btn {
-            display: inline-block;
-            padding: 12px 20px;
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            transition: background-color 0.3s, transform 0.2s;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-        }
+		.btn {
+			display: inline-block;
+			padding: 12px 20px;
+			background-color: var(--primary-color);
+			color: white;
+			text-decoration: none;
+			border-radius: 25px;
+			transition: background-color 0.3s, transform 0.2s;
+			font-weight: bold;
+			border: none;
+			cursor: pointer;
+		}
 
-        .btn:hover {
-            background-color: var(--secondary-color);
-            transform: scale(1.05);
-        }
+		.btn:hover {
+			background-color: var(--secondary-color);
+			transform: scale(1.05);
+		}
 
-        .error {
-            color: red;
-            margin-bottom: 15px;
-        }
+		.error {
+			color: red;
+			margin-bottom: 15px;
+		}
+
 		.no-reservation {
-		            text-align: center;
-		            font-size: 1.2em;
-		            color: #666;
-		            margin: 20px 0;
-		        }
-    </style>
+			text-align: center;
+			font-size: 1.2em;
+			color: #666;
+			margin: 20px 0;
+		}
+
+		.delete-btn {
+			display: inline-block;
+			padding: 8px 12px;
+			background-color: red;
+			color: white;
+			text-decoration: none;
+			border-radius: 12px;
+			transition: background-color 0.3s, transform 0.2s;
+			font-weight: bold;
+			border: none;
+			cursor: pointer;
+		}
+
+		.delete-btn:hover {
+			background-color: darkred;
+			transform: scale(1.05);
+		}
+
+		.alert {
+			padding: 10px;
+			margin-bottom: 20px;
+			border: 1px solid transparent;
+			border-radius: 4px;
+		}
+
+		.alert-danger {
+			color: crimson;
+		}
+	</style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>予約詳細確認画面</h1>
-        
-        <h2>選択された日付:</h2>
-        <span id="selectedDate" class="date-label" th:text="${selectedDate}"></span>
-        
-        <div id="errorMessage" class="error"></div>
-        
-        <div th:if="${list == null or list.isEmpty()}" class="no-reservation">
-            指定された日の予約はありません。
-        </div>
-        
-        <table th:if="${list != null and !list.isEmpty()}">
-            <thead>
-                <tr>
-                    <th>時間</th>
-                    <th>ユーザーネーム</th>
-                    <th>電話番号</th>
-                    <th>人数</th>
-                    <th>特記事項</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                <tr th:each="hour : ${list}">
-                    <td th:text="${hour.booktime}">18:00</td>
-                    <td th:text="${hour.userid.displayName}">名前</td>
-                    <td th:text="${hour.userid.tellNumber}">電話番号</td>
-                    <td th:text="${hour.bookcount}">人数</td>
-                    <td th:text="${hour.memo}">特記事項</td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <form th:action="@{adminmenu}" method="get">
-            <button type="submit" class="btn">戻る</button>
-        </form>
-    </div>
+	<div class="container">
+		<h1>予約詳細確認画面</h1>
+
+		<!-- フラッシュメッセージの表示 -->
+		<div th:if="${message}" class="alert alert-danger">
+			<span th:text="${message}"></span>
+		</div>
+
+		<h2>選択された日付:
+			<span id="selectedDate" class="date-label" th:text="${selectedDate}"></span>
+		</h2>
+
+		<div id="errorMessage" class="error"></div>
+		<div id="calendar">
+			<form th:action="@{/adminlist}" method="get" onsubmit="return validateDate()">
+				<input type="date" id="date-picker" name="date" required>
+				<button type="submit" class="btn">検索</button>
+			</form>
+
+			<div th:if="${list == null or list.isEmpty()}" class="no-reservation">
+				指定された日の予約はありません。
+			</div>
+
+			<table th:if="${list != null and !list.isEmpty()}">
+				<thead>
+					<tr>
+						<th>時間</th>
+						<th>ユーザーネーム</th>
+						<th>電話番号</th>
+						<th>人数</th>
+						<th>特記事項</th>
+						<th>削除</th>
+					</tr>
+				</thead>
+				<tbody id="tableBody">
+					<tr th:each="hour : ${list}">
+						<td th:text="${hour.booktime}">18:00</td>
+						<td th:text="${hour.userid.displayName}">名前</td>
+						<td th:text="${hour.userid.tellNumber}">電話番号</td>
+						<td th:text="${hour.bookcount}">人数</td>
+						<td th:text="${hour.memo}">特記事項</td>
+						<td>
+							<form th:action="@{/delete-admin/{id}(id=${hour.id})}" method="post">
+								<input type="hidden" name="date" th:value="${selectedDate}"> <!-- 日付を追加 -->
+								<input type="hidden" name="username" th:value="${hour.userid.username}">
+								<button type="submit" class="delete-btn"
+									onclick="return confirm('この予約を削除してもよろしいですか？');">削除</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<form th:action="@{adminmenu}" method="get">
+				<button type="submit" class="btn">戻る</button>
+			</form>
+		</div>
+
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				const dateElement = document.getElementById('selectedDate');
+				const dateText = dateElement.textContent; // 例: 2024-10-24
+				const date = new Date(dateText); // Dateオブジェクトに変換
+
+				// 月と日を取得
+				const options = {month: 'numeric', day: 'numeric'};
+				const formattedDate = date.toLocaleDateString('ja-JP', options).replace(/(\d+)\/(\d+)/, '$1月$2日');
+
+				dateElement.textContent = formattedDate; // フォーマットした日付を設定
+			});
+		</script>
 </body>
+
 </html>
