@@ -7,15 +7,31 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 予約情報を格納するエンティティ
+ */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book {
-	private int id; // 予約ID
-	private LocalDate bookdate; // 日付
-	private LocalTime booktime; // 時間
-	private int bookcount; // 人数
-	private String memo; // 特記事項
-	private User userid; // bookとuser の１：１の関係
+	
+	// 予約ID
+	private int id; 
+	
+	// 日付
+	private LocalDate bookdate; 
+	
+	// 時間
+	private LocalTime booktime; 
+	
+	 // 人数
+	private int bookcount;
+	
+	// 特記事項
+	private String memo; 
+	
+	// Userオブジェクト
+	private User userid; 
 
 }

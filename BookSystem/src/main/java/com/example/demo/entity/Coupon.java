@@ -4,11 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * クーポン情報を格納するエンティティ
+ */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Coupon {
-    private int id;
-    private CouponType couponType; // プロパティ名を修正
-    private User user; // Userオブジェクト
+
+	// クーポンID
+	private int id; 
+
+	// クーポンの種類
+	private CouponType couponType; 
+	
+	// Userオブジェクト
+	private User user; 
 }
