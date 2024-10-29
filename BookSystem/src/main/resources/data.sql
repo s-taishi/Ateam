@@ -11,6 +11,11 @@ INSERT INTO users
 VALUES
 ('user','$2a$10$A7MbabscmadFQD26O3SmM.ryrtLhY3sI9vgZKB3x6UjoKeLwuc17e','コキャク','000-0000-0000','USER');
 
+INSERT INTO users
+(username,password,displayname,tellnumber,authority)
+VALUES
+('user2','$2a$10$A7MbabscmadFQD26O3SmM.ryrtLhY3sI9vgZKB3x6UjoKeLwuc17e','コキャク2','000-0000-0000','USER');
+
 
 INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES

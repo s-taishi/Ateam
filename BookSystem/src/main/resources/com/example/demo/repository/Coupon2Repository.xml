@@ -21,9 +21,9 @@
 	
 	<!-- javaの列挙型はデータベースに格納する際(MyBatisがsqlクエリに渡す際)には
 			その値を表す文字列に変換する必要があるためキャストする -->
-	
-  <insert id="couponInsert" parameterType="map">
+	<!-- userGeneratedKeys="true"の属性を追加することで、挿入した行の自動生成されたキー(ID)を取得 -->
+  <insert id="couponInsert" parameterType="com.example.demo.entity.Coupon" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO coupon (coupon_type, user_id) 
-    VALUES (CAST(#{couponType} AS coupon_type), #{userId});
+    VALUES (CAST(#{couponType} AS coupon_type), #{user.id});
 </insert>
 </mapper>
