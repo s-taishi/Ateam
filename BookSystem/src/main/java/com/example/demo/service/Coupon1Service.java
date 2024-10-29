@@ -9,13 +9,17 @@ import com.example.demo.repository.Coupon1Repository;
 
 import lombok.RequiredArgsConstructor;
 
+// サービスクラスとしてアノテーションを付与
 @Service
 @RequiredArgsConstructor
 public class Coupon1Service {
 
-	private final Coupon1Repository coupon1Repository;
+    // Coupon1Repositoryを自動注入するためのフィールド
+    private final Coupon1Repository coupon1Repository;
 
-	public List<Coupon> couponFindByUserId(int userId) {
-		return coupon1Repository.couponSelectByUserId(userId);
-	}
+    // 指定したユーザーIDに基づいてクーポンを取得するメソッド
+    public List<Coupon> couponFindByUserId(int userId) {
+        // リポジトリを呼び出して、クーポンリストを取得
+        return coupon1Repository.couponSelectByUserId(userId);
+    }
 }
