@@ -147,6 +147,7 @@
     <div class="container">
         <div class="content">
             <h1>マイページ</h1>
+			<p th:if="${message}" class="no-reservations" th:text="${message}" style="color:blue; text-align:left; margin:0;"></p>
             <div style="display: flex; align-items: center;">
                 <h2>予約情報一覧</h2>
                 <a th:href="@{/entry}" class="btn highlight-btn">予約画面へ</a>
@@ -182,7 +183,7 @@
 			<div style="display: flex; align-items: center;">
            <h2>ユーザー情報</h2>
 			<a th:href="@{/custom}" class="btn highlight-btn">情報変更</a>
-			<p th:if="${message}" class="no-reservations" th:text="${message}" style="color:blue;"></p>
+			
 			</div>
 	       <!-- ユーザー情報テーブル -->
            <table style="font-size: 0.9em; width: 50%;">
