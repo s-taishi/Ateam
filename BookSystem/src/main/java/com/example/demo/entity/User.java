@@ -5,14 +5,30 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * ユーザー情報を表すエンティティクラス
+ */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-	private int id;
-	private String username;
-	private String password;
-	private String displayName;
+	
+	// ユーザーID
+	private int id; 
+	
+	// ユーザーネーム
+	private String username; 
+	
+	// パスワード
+	private String password; 
+	
+	// 表示名
+	private String displayName; 
+	
+	// 電話番号
 	private String tellNumber;
-	private Role authority;
+	
+	// 権限
+	private Role authority; 
 }

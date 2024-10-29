@@ -12,6 +12,10 @@ import com.example.demo.service.Coupon3Service;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * クーポン詳細ボタンとクーポン使用のコントローラー
+ */
+
 @Controller
 @RequiredArgsConstructor
 public class Coupon3Controller {
@@ -21,24 +25,31 @@ public class Coupon3Controller {
 	// クーポン詳細を表示
 	@GetMapping("/coupondetail/{id}")
 	public String couponDetail(@PathVariable int id, Model model) {
+
+		//クーポンidで検索
 		Coupon coupon = coupon3Service.couponFindById(id);
-		System.out.println(coupon);
-		if (coupon != null) {
-			model.addAttribute("coupons", coupon);
-			model.addAttribute("couponType", coupon.getCouponType());
-			return "coupondetail"; 
-		} else {
-			return "lose"; 
-		}
+
+		//クーポン情報とクーポンタイプをmodelに格納
+		model.addAttribute("coupons", coupon);
+		model.addAttribute("couponType", coupon.getCouponType());
+		
+		return "coupondetail"; //詳細画面
+
 	}
 
 	//クーポンを使用する
 	@PostMapping("/coupondelete/{id}")
 	public String delete(@PathVariable int id,Model model) {
+		
+		//クーポンidで検索
 		Coupon coupon=coupon3Service.couponFindById(id);
+		
+		//クーポンを使用（削除）
 		coupon3Service.couponDelete(id);
+		
+		//クーポンタイプによってバーコードを表示
 		if(coupon.getCouponType()==CouponType.COUPON_TYPE1) {
-		model.addAttribute("image","/images/coupon1.png");
+			model.addAttribute("image","/images/coupon1.png");
 		}else if(coupon.getCouponType()==CouponType.COUPON_TYPE2) {
 			model.addAttribute("image","/images/coupon2.png");
 		}else if(coupon.getCouponType()==CouponType.COUPON_TYPE3) {
@@ -46,7 +57,7 @@ public class Coupon3Controller {
 		}else if(coupon.getCouponType()==CouponType.COUPON_TYPE4) {
 			model.addAttribute("image","/images/coupon4.png");
 		}
-		
-		return "used" ; 
+
+		return "used" ; //使用済み画面
 	}
 }
