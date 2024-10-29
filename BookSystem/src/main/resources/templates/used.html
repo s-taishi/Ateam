@@ -72,10 +72,7 @@
     <div class="container">
         <h1>クーポン使用完了</h1>
         <p class="message">クーポンが正常に使用されました。</p>
-        <div class="coupon-details" th:if="${coupon}">
-            <p><strong>使用したクーポン:</strong> <span th:text="${coupon.name}">サンプルクーポン</span></p>
-            
-        </div>
+		<img th:src="${image}">
         <a th:href="@{/couponlist}" class="button">クーポン一覧に戻る</a>
     </div>
 </body>
