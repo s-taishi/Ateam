@@ -78,7 +78,7 @@ public class Coupon2Controller {
 	    // クーポンのタイプをモデルに追加
 	    CouponType couponType = coupon.getCouponType();
 
-	    model.addAttribute("couponId", id);//クーポンID
+	    //model.addAttribute("couponId", id);//クーポンID
 	    model.addAttribute("couponType", couponType);//クーポンタイプ
 	    model.addAttribute("coupons", coupon); //クーポンインスタンス
 
@@ -86,3 +86,4 @@ public class Coupon2Controller {
 	}
 
 }
+
