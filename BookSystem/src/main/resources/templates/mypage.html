@@ -1,164 +1,166 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>マイページ</title>
+    <meta charset="UTF-8"> <!-- 文字エンコーディングをUTF-8に設定 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- レスポンシブデザイン -->
+    <title>マイページ</title> <!-- ページのタイトル -->
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #45a049;
-            --background-color: #f8f8f8;
-            --text-color: #333;
-            --card-background: #fff;
+            /* カラーパレットの定義 */
+            --primary-color: #4CAF50; /* プライマリカラー */
+            --secondary-color: #45a049; /* セカンダリカラー */
+            --background-color: #f8f8f8; /* 背景色 */
+            --text-color: #333; /* テキストカラー */
+            --card-background: #fff; /* カードの背景色 */
         }
-		.user-info {
-		          display: flex;
-		          align-items: center;
-		          justify-content: space-between;
-		      }
+
+        .user-info {
+            display: flex; /* フレックスボックスでレイアウト */
+            align-items: center; /* 中央揃え */
+            justify-content: space-between; /* 空きスペースを分散 */
+        }
 
         html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+            height: 100%; /* 高さを100%に設定 */
+            margin: 0; /* デフォルトのマージンを削除 */
+            padding: 0; /* デフォルトのパディングを削除 */
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* フォントスタイル */
+            line-height: 1.6; /* 行間を設定 */
+            background-color: var(--background-color); /* 背景色を変数から取得 */
+            color: var(--text-color); /* テキストカラーを変数から取得 */
+            display: flex; /* フレックスボックスでレイアウト */
+            flex-direction: column; /* 縦方向に並べる */
         }
 
         .container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            min-height: 0;
+            flex: 1; /* コンテナが残りのスペースを占める */
+            display: flex; /* フレックスボックスでレイアウト */
+            flex-direction: column; /* 縦方向に並べる */
+            padding: 20px; /* パディングを追加 */
+            min-height: 0; /* 最小高さを0に設定 */
         }
 
         .content {
-            flex: 1;
-            overflow-y: auto;
+            flex: 1; /* コンテンツが残りのスペースを占める */
+            overflow-y: auto; /* 縦方向にオーバーフローがあればスクロール */
         }
 
         h1, h2 {
-            color: var(--primary-color);
+            color: var(--primary-color); /* 見出しの色をプライマリカラーに設定 */
         }
 
         table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            background-color: var(--card-background);
+            width: 100%; /* テーブルの幅を100%に設定 */
+            border-collapse: collapse; /* ボーダーを重ねて表示 */
+            margin-bottom: 20px; /* テーブルの下にスペースを追加 */
+            background-color: var(--card-background); /* テーブルの背景色を変数から取得 */
         }
 
         th, td {
-            padding: 8px;
-            border: 1px solid #ddd;
-            text-align: left;
+            padding: 8px; /* セル内にパディングを追加 */
+            border: 1px solid #ddd; /* セルのボーダー */
+            text-align: left; /* テキストを左揃え */
         }
 
         th {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: var(--primary-color); /* ヘッダーの背景色をプライマリカラーに設定 */
+            color: white; /* ヘッダーのテキストを白に */
         }
 
         td {
-            background-color: white;
+            background-color: white; /* デフォルトのセル背景を白に設定 */
         }
 
         .btn {
-            display: inline-block;
-            padding: 12px 20px;
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            transition: background-color 0.3s, transform 0.2s;
-            font-weight: bold;
-            margin-left: 10px;
+            display: inline-block; /* インラインブロックで表示 */
+            padding: 12px 20px; /* ボタンのパディング */
+            background-color: var(--primary-color); /* ボタンの背景色をプライマリカラーに設定 */
+            color: white; /* ボタンのテキストを白に */
+            text-decoration: none; /* リンクに下線を付けない */
+            border-radius: 25px; /* ボタンを丸くする */
+            transition: background-color 0.3s, transform 0.2s; /* 背景色と変形の遷移 */
+            font-weight: bold; /* ボタンのテキストを太字に */
+            margin-left: 10px; /* 左にマージンを追加 */
         }
 
         .btn:hover {
-            background-color: var(--secondary-color);
-            transform: scale(1.05);
+            background-color: var(--secondary-color); /* ホバー時の背景色 */
+            transform: scale(1.05); /* ホバー時に拡大 */
         }
 
         .highlight-btn {
-            background-color: #FF9800;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #FF9800; /* ハイライトボタンの背景色 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 影を追加 */
         }
 
         .highlight-btn:hover {
-            background-color: #F57C00;
+            background-color: #F57C00; /* ホバー時のハイライトボタンの背景色 */
         }
 
         .coupon-btn { 
-           padding: 10px 18px; 
-           background-color: transparent; 
-           color: var(--primary-color); 
-           border-radius: 5px; 
-           border: 2px solid var(--primary-color); 
-           transition: background-color 0.3s, color 0.3s; 
-           font-weight:bold; 
-           margin-left:10px; 
-       }
-       
-       .coupon-btn:hover { 
-           background-color: var(--primary-color); 
-           color:white; 
-       }
+            padding: 10px 18px; /* クーポンボタンのパディング */
+            background-color: transparent; /* 背景を透明に */
+            color: var(--primary-color); /* テキストカラーをプライマリカラーに */
+            border-radius: 5px; /* 角を少し丸くする */
+            border: 2px solid var(--primary-color); /* ボーダーを追加 */
+            transition: background-color 0.3s, color 0.3s; /* 背景色とテキストカラーの遷移 */
+            font-weight: bold; /* 太字 */
+            margin-left: 10px; /* 左にマージンを追加 */
+        }
 
-       .action-buttons {
-           display: flex;
-           justify-content: space-between;
-           margin-top: 20px;
-       }
+        .coupon-btn:hover { 
+            background-color: var(--primary-color); /* ホバー時の背景色 */
+            color: white; /* ホバー時のテキストカラーを白に */
+        }
 
-       .no-reservations {
-           text-align: center;
-           font-size: 1.2em;
-           color: #666;
-           margin: 20px 0;
-       }
+        .action-buttons {
+            display: flex; /* フレックスボックスでレイアウト */
+            justify-content: space-between; /* 空きスペースを分散 */
+            margin-top: 20px; /* 上にマージンを追加 */
+        }
 
-       .logout-btn {
-          border:none; 
-          outline:none; 
-          cursor:pointer; 
-          padding:12px 20px; 
-          background-color:#4CAF50; 
-          color:white; 
-          border-radius:25px; 
-          transition:.3s; 
-      }
-      
-      .logout-btn:hover {
-          background-color:#45a049; 
-      }
+        .no-reservations {
+            text-align: center; /* 中央揃え */
+            font-size: 1.2em; /* フォントサイズを設定 */
+            color: #666; /* テキストカラーをグレーに */
+            margin: 20px 0; /* 上下にマージンを追加 */
+        }
+
+        .logout-btn {
+            border: none; /* ボーダーなし */
+            outline: none; /* アウトラインなし */
+            cursor: pointer; /* カーソルをポインタに */
+            padding: 12px 20px; /* ボタンのパディング */
+            background-color: #4CAF50; /* 背景色をプライマリカラーに設定 */
+            color: white; /* テキストを白に */
+            border-radius: 25px; /* 角を丸くする */
+            transition: .3s; /* スムーズな遷移 */
+        }
+
+        .logout-btn:hover {
+            background-color: #45a049; /* ホバー時の背景色 */
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="content">
-            <h1>マイページ</h1>
-			<p th:if="${message}" class="no-reservations" th:text="${message}" style="color:blue; text-align:left; margin:0;"></p>
-            <div style="display: flex; align-items: center;">
-                <h2>予約情報一覧</h2>
-                <a th:href="@{/entry}" class="btn highlight-btn">予約画面へ</a>
-                <a th:href="@{/couponlist}" class="btn coupon-btn">クーポン一覧へ</a>
+    <div class="container"> <!-- コンテナ -->
+        <div class="content"> <!-- コンテンツ -->
+            <h1>マイページ</h1> <!-- ページの見出し -->
+            <p th:if="${message}" class="no-reservations" th:text="${message}" style="color:blue; text-align:left; margin:0;"></p> <!-- メッセージ表示 -->
+            <div style="display: flex; align-items: center;"> <!-- フレックスボックスで並べる -->
+                <h2>予約情報一覧</h2> <!-- 予約情報の見出し -->
+                <a th:href="@{/entry}" class="btn highlight-btn">予約画面へ</a> <!-- 予約画面へのリンク -->
+                <a th:href="@{/couponlist}" class="btn coupon-btn">クーポン一覧へ</a> <!-- クーポン一覧へのリンク -->
             </div>
             
-            <div th:if="${books.isEmpty()}" class="no-reservations">
+            <div th:if="${books.isEmpty()}" class="no-reservations"> <!-- 予約がない場合 -->
                 予約はありません。
             </div>
             
-            <table th:if="${!books.isEmpty()}">
+            <table th:if="${!books.isEmpty()}"> <!-- 予約がある場合のテーブル -->
                 <thead>
                     <tr>
                         <th>予約ID</th>
@@ -169,53 +171,51 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="booking : ${books}">
-                        <td th:text="${booking.id}"></td>
-                        <td th:text="${booking.bookdate}"></td>
-                        <td th:text="${booking.booktime}"></td>
-                        <td th:text="${booking.bookcount}"></td>
+                    <tr th:each="booking : ${books}"> <!-- 予約情報のループ -->
+                        <td th:text="${booking.id}"></td> <!-- 予約ID -->
+                        <td th:text="${booking.bookdate}"></td> <!-- 日付 -->
+                        <td th:text="${booking.booktime}"></td> <!-- 時間 -->
+                        <td th:text="${booking.bookcount}"></td> <!-- 人数 -->
                         <td>
-                            <a th:href="@{/check2/{id}(id=${booking.id})}" class="btn">詳細</a>
+                            <a th:href="@{/check2/{id}(id=${booking.id})}" class="btn">詳細</a> <!-- 詳細へのリンク -->
                         </td>
                     </tr>
                 </tbody>
             </table>
-			<div style="display: flex; align-items: center;">
-           <h2>ユーザー情報</h2>
-			<a th:href="@{/custom}" class="btn highlight-btn">情報変更</a>
-			
-			</div>
-	       <!-- ユーザー情報テーブル -->
-           <table style="font-size: 0.9em; width: 50%;">
-               <tr>
-                   <th>氏名</th>
-                   <td th:text="${user.displayName}"></td>
-               </tr>
-               <tr>
-                   <th>ユーザーネーム</th>
-                   <td th:text="${user.username}"></td>
-               </tr>
-               <tr>
-                   <th>電話番号</th>
-                   <td th:text="${user.tellNumber}"></td>
-               </tr>
-           </table>
 
-   
+            <div style="display: flex; align-items: center;"> <!-- ユーザー情報のヘッダー -->
+                <h2>ユーザー情報</h2> <!-- ユーザー情報の見出し -->
+                <a th:href="@{/custom}" class="btn highlight-btn">情報変更</a> <!-- 情報変更へのリンク -->
+            </div>
 
-       <div class="action-buttons">
-           <div class="left-buttons">
-               <!-- クーポン一覧ボタンは上部に追加済み -->
-           </div>
-		  
-           <!-- ログアウトボタン -->
-           <form th:action="@{/logout}" method="post">
-               <input type="submit" class="logout-btn" value="ログアウト">
-           </form>
+            <!-- ユーザー情報テーブル -->
+            <table style="font-size: 0.9em; width: 50%;"> <!-- ユーザー情報のテーブル -->
+                <tr>
+                    <th>氏名</th>
+                    <td th:text="${user.displayName}"></td> <!-- 氏名 -->
+                </tr>
+                <tr>
+                    <th>ユーザーネーム</th>
+                    <td th:text="${user.username}"></td> <!-- ユーザーネーム -->
+                </tr>
+                <tr>
+                    <th>電話番号</th>
+                    <td th:text="${user.tellNumber}"></td> <!-- 電話番号 -->
+                </tr>
+            </table>
 
-       </div>
+            <div class="action-buttons"> <!-- アクションボタンのセクション -->
+                <div class="left-buttons">
+                    <!-- クーポン一覧ボタンは上部に追加済み -->
+                </div>
+                
+                <!-- ログアウトボタン -->
+                <form th:action="@{/logout}" method="post"> <!-- ログアウトフォーム -->
+                    <input type="submit" class="logout-btn" value="ログアウト"> <!-- ログアウトボタン -->
+                </form>
+            </div>
 
-   </p>
-
+        </div>
+    </div>
 </body>
 </html>

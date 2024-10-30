@@ -1,131 +1,131 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>ログイン画面</title>
+    <meta charset="UTF-8"> <!-- 文字エンコーディングをUTF-8に設定 -->
+    <title>ログイン画面</title> <!-- ページのタイトル -->
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #45a049;
-            --background-color: #f8f8f8;
-            --text-color: #333;
-            --card-background: #fff;
+            --primary-color: #4CAF50; /* プライマリーカラーの定義 */
+            --secondary-color: #45a049; /* セカンダリーカラーの定義 */
+            --background-color: #f8f8f8; /* 背景色の定義 */
+            --text-color: #333; /* テキストの色 */
+            --card-background: #fff; /* カード背景の色 */
         }
 
         html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+            height: 100%; /* 高さを100%に設定 */
+            margin: 0; /* マージンを0に設定 */
+            padding: 0; /* パディングを0に設定 */
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* フォントスタイルの設定 */
+            line-height: 1.6; /* 行間の設定 */
+            background-color: var(--background-color); /* 背景色を変数から取得 */
+            color: var(--text-color); /* テキストの色を変数から取得 */
+            display: flex; /* フレックスボックスでレイアウト */
+            justify-content: center; /* 水平中央揃え */
+            align-items: center; /* 垂直中央揃え */
         }
 
         .container {
-            width: 100%;
-            max-width: 400px;
-            background-color: var(--card-background);
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            width: 100%; /* 幅を100%に設定 */
+            max-width: 400px; /* 最大幅の設定 */
+            background-color: var(--card-background); /* カード背景色を変数から取得 */
+            padding: 20px; /* 内側のパディング */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 影を追加 */
+            border-radius: 10px; /* 角を丸くする */
         }
 
         h2 {
-            color: var(--primary-color);
+            color: var(--primary-color); /* 見出しの色をプライマリーカラーに設定 */
         }
 
         .form-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
+            display: flex; /* フレックスボックスでレイアウト */
+            align-items: center; /* 縦方向に中央揃え */
+            margin-bottom: 10px; /* 下にマージンを追加 */
         }
 
         .form-group label {
-            width: 120px;
-            margin-right: 10px;
+            width: 120px; /* ラベルの幅 */
+            margin-right: 10px; /* 右にマージンを追加 */
         }
 
         input {
-            flex-grow: 1;
-            padding: 10px; /* Increased padding for better touch */
-            font-size: 16px; /* Increased font size */
-            border-radius: 5px; /* Rounded corners */
-            border: 2px solid #ccc; /* Thicker border */
+            flex-grow: 1; /* 入力フィールドをフレックスボックスで拡張 */
+            padding: 10px; /* パディング */
+            font-size: 16px; /* フォントサイズ */
+            border-radius: 5px; /* 角を丸くする */
+            border: 2px solid #ccc; /* ボーダーの設定 */
         }
 
         input:focus {
-            border-color: var(--primary-color); /* Change border color on focus */
-            outline: none; /* Remove default outline */
+            border-color: var(--primary-color); /* フォーカス時のボーダー色 */
+            outline: none; /* デフォルトのアウトラインを削除 */
         }
 
         button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            border-radius: 5px;
+            margin-top: 10px; /* 上にマージンを追加 */
+            padding: 10px; /* パディング */
+            background-color: var(--primary-color); /* ボタンの背景色 */
+            color: white; /* ボタンのテキスト色 */
+            border: none; /* ボーダーなし */
+            cursor: pointer; /* カーソルをポインタに変更 */
+            width: 100%; /* 幅を100%に設定 */
+            border-radius: 5px; /* 角を丸くする */
         }
 
         button:hover {
-            background-color: var(--secondary-color);
+            background-color: var(--secondary-color); /* ホバー時の背景色 */
         }
 
         a {
-           color: var(--primary-color);
-           text-decoration:none; 
-           margin-top:10px; 
-           display:inline-block; 
-       }
+           color: var(--primary-color); /* リンクの色 */
+           text-decoration: none; /* 下線なし */
+           margin-top: 10px; /* 上にマージンを追加 */
+           display: inline-block; /* インラインブロックで表示 */
+        }
        
        a:hover { 
-           text-decoration:underline; 
+           text-decoration: underline; /* ホバー時に下線を追加 */
        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>ログイン</h2>
+    <div class="container"> <!-- コンテナ -->
+        <h2>ログイン</h2> <!-- ログインの見出し -->
         
-        <!--エラー表示-->
-        <div th:if="${param.error}">
-            <p style="color:red;">usernameまたはpasswordが違います</p>
+        <!-- エラー表示 -->
+        <div th:if="${param.error}"> <!-- エラーがあれば表示 -->
+            <p style="color:red;">usernameまたはpasswordが違います</p> <!-- エラーメッセージ -->
         </div>
         
-        <!--ログアウト表示-->
-        <div th:if="${param.logout}">
-            <p style="color:blue;">ログアウトしました</p>
+        <!-- ログアウト表示 -->
+        <div th:if="${param.logout}"> <!-- ログアウトした場合の表示 -->
+            <p style="color:blue;">ログアウトしました</p> <!-- ログアウトメッセージ -->
         </div>
 		
-		<div th:if="${message}">
-			<p th:text="${message}" style="color:blue;"></p>
+		<div th:if="${message}"> <!-- メッセージがある場合 -->
+			<p th:text="${message}" style="color:blue;"></p> <!-- メッセージを表示 -->
 		</div>
 
-        <!--ログインするために必要な情報を入力する項目-->
+        <!-- ログインフォーム -->
         <form id="login" th:action="@{/authentication}" method="post" th:object="${userForm}">
             <div class="form-group">
-                <label for="username">ユーザーネーム</label>
-                <input type="text" th:field="*{username}" >
+                <label for="username">ユーザーネーム</label> <!-- ユーザーネームのラベル -->
+                <input type="text" th:field="*{username}" > <!-- ユーザーネームの入力フィールド -->
             </div>
             
             <div class="form-group">
-                <label for="password">パスワード</label>
-                <input type="password" th:field="*{password}" >
+                <label for="password">パスワード</label> <!-- パスワードのラベル -->
+                <input type="password" th:field="*{password}" > <!-- パスワードの入力フィールド -->
             </div>
             
-            <button type="submit">ログイン</button>
+            <button type="submit">ログイン</button> <!-- ログインボタン -->
         </form>
 
-        <a th:href="@{/login/createform}">新規登録はこちら</a>
+        <a th:href="@{/login/createform}">新規登録はこちら</a> <!-- 新規登録へのリンク -->
     </div>
 </body>
 </html>
