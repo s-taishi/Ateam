@@ -1,5 +1,7 @@
 --★テスト用機能ここから(本番移行時は記述を削除してください)
 --各テーブル・ENUM型が存在したら削除
+drop table if exists playtime;--必要ない場合削除
+
 drop table if exists coupon;
 DROP TABLE IF EXISTS books;
 DROP TABLE IF EXISTS users;
@@ -56,4 +58,11 @@ create table IF NOT EXISTS coupon(
 	id serial primary key,
 	coupon_type VARCHAR(50) not null,
 	user_id integer references users(id));
+	
+--ルーレットの回数制限設定用テーブル　必要なければ削除する
+
+create table playtime(
+	id integer primary key references users(id),
+	lastplay date not null,
+	playcount integer not null);
 	
