@@ -26,15 +26,14 @@ public class LoginUserDetailsServiceImpl implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO 自動生成されたメソッド・スタブ
 		//ログイン画面で入力されたユーザー名を元に鍵となるデータの呼び出し
 		User user = userRepository.userSelectByUsername(username);
 		
 		//呼び出したデータがあるかないか
 		if(user != null) {//あればそのデータが持つ情報をログイン処理用インスタンスに格納
-			return new LoginUser(user.getUsername(),
-					user.getPassword(),
-					getAuthorityList(user.getAuthority()));
+			return new LoginUser(user.getUsername(),//ユーザー名
+					user.getPassword(),				//パスワード
+					getAuthorityList(user.getAuthority()));//認可
 		}else {//なければエラーを表示する
 			throw new UsernameNotFoundException(username +" => 指定しているユーザー名は存在しません");
 		}
