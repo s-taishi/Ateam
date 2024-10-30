@@ -1,19 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>403 Forbidden</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403 Forbidden</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #45a049;
+            --background-color: #f8f8f8;
+            --text-color: #333;
+            --card-background: #fff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #f44336;
+            margin-bottom: 20px;
+        }
+
+        h2, h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        .logout-btn {
+            background-color: #f44336;
+        }
+
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
 </head>
 <body>
-	<h1>403 権限がありません</h1>
-	    <h2>このページにアクセスする権限がありません。</h2>
-	    <h3>速やかに以下のリンクから移動してください：</h3>
-		<form th:action="@{/mypage}" method="get">
-			<button type="submit" class="btn" >マイページへ</button>
-		</form>	
-		<p>
-		<form th:action="@{/logout}" method="post">
-			<button type="submit" class="btn">ログイン画面へ</button>
-		</form>
+    <div class="container">
+        <h1>403 権限がありません</h1>
+        <h2>このページにアクセスする権限がありません。</h2>
+        <h3>速やかに以下のリンクより移動してください：</h3>
+        
+		<!-- マイページに戻るボタン -->
+        <form th:action="@{/mypage}" method="get">
+            <button type="submit" class="btn">マイページへ</button>
+        </form>
+        
+		<!-- ログアウトしてログイン画面に戻るためのボタン -->
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn logout-btn">ログイン画面へ</button>
+        </form>
+    </div>
 </body>
 </html>

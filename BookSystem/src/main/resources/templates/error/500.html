@@ -1,35 +1,80 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>500 Internal Server Error</title>
     <style>
-		.btn {
-		           display: inline-block;
-		           padding: 12px 20px;
-		           background-color: var(--primary-color);
-		           text-decoration: none;
-		           border-radius: 25px;
-				   color: white;
-		           font-weight: bold;
-				   background-color: #4caf50;
-		       }
-		.btn:hover{
-				background-color: var(--secondary-color);
-			    transform: scale(1.05);
-			  background-color: #4caf50;
-			  }
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #45a049;
+            --background-color: #f8f8f8;
+            --text-color: #333;
+            --card-background: #fff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #f44336;
+            margin-bottom: 20px;
+        }
+
+		h2, h3 {
+		    color: var(--primary-color);
+		    margin-bottom: 15px;
+		}
+
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
-    <h1>500 Internal Server Error</h1>
-    <p>エラーが発生しました。</p>
-<!--    <p th:text="'エラー詳細: ' + ${errorMessage}"></p>-->
-    <p>ログインページから再度ログインしてください</p>
-	
+    <div class="container">
+        <h1>500 サーバーエラー</h1>
+        <h2>エラーが発生しました。</h2>
+        <h3>ログインページより再度ログインしてください</h3>
 
-	<form th:action="@{/logout}" method="post">
-		<button type="submit" class="btn">ログイン画面へ</button>
-	</form>
+		<!-- ログアウトしてログイン画面に戻るためのボタン -->
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn">ログイン画面へ</button>
+        </form>
+    </div>
 </body>
 </html>
