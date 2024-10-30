@@ -1,107 +1,109 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"> <!-- 文字エンコーディングをUTF-8に設定 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ビューポート設定 -->
-    <title>クーポン一覧</title> <!-- ページタイトル -->
-<!--    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クーポン一覧</title>
     <style>
-		@font-face {
-				font-family: 'nikomoji-plus';
-				src: url('/fonts/nikomoji-plus_v2-5.ttf') format('truetype'); /* フォントがある相対パス */
-			}
+        @font-face {
+            font-family: 'AmeChan';
+            src: url('/fonts/AmeChanPopMaruLight-Regular.otf') format('truetype'); /* フォントがある相対パス */
+        }
+
         :root {
-            --primary-color: #FF4081; /* ビビッドピンク */
-            --secondary-color: #F50057; /* 濃いピンク */
-            --background-color: #FFEBEE; /* 明るい背景色 */
-            --text-color: #333; /* テキスト色 */
-            --card-background: #FFFFFF; /* カード背景色 */
-            --accent-color-1: #4CAF50; /* 緑色 */
-            --accent-color-2: #2196F3; /* 青色 */
-            --accent-color-3: #FFC107; /* 黄色 */
+            --primary-color: #FF4081; /* プライマリーカラー */
+            --secondary-color: #F50057; /* セカンダリーカラー */
+            --background-color: #FFEBEE; /* 背景色 */
+            --text-color: #FFFFFF; /* テキスト色（白） */
+            --card-background: rgba(255, 255, 255, 0.9); /* カード背景色（半透明） */
+            --accent-color-1: #4CAF50; /* アクセントカラー1 */
+            --accent-color-2: #2196F3; /* アクセントカラー2 */
+            --accent-color-3: #FFC107; /* アクセントカラー3 */
         }
 
         body {
-            font-family: 'nikomoji-plus', sans-serif; /* フォント設定 */
-            margin: 0; /* マージンを0に設定 */
-            padding: 20px; /* パディング */
-            background-color: var(--background-color); /* 背景色を変数から取得 */
-            color: var(--text-color); /* テキスト色を変数から取得 */
+            font-family: 'AmeChan', sans-serif; /* フォント設定 */
+            background-image: url('img/okumono-sizen8.png'); /* 背景画像 */
+            background-size: cover; /* 背景画像をカバーする */
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color); /* テキスト色を白に設定 */
         }
 
         .container {
-            max-width: 1200px; /* 最大幅を1200pxに設定 */
-            margin: 0 auto; /* 中央揃え */
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         h1 {
-            text-align: center; /* 中央揃え */
-            color: var(--primary-color); /* 見出しの色をプライマリーカラーに設定 */
-            font-size: 2.5em; /* フォントサイズ */
-            margin-bottom: 30px; /* 下にマージンを追加 */
+            text-align: center;
+            color: #FFFFFF; /* 見出しの色をプライマリーカラーに設定 */
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* テキストの影を追加して縁取り効果を出す */
         }
 
         .coupon-list {
-            display: grid; /* グリッドレイアウト */
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* 自動的にカラムを設定 */
-            gap: 25px; /* グリッド間の隙間 */
-            justify-content: center; /* 中央揃え */
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            justify-content: center;
         }
 
         .coupon {
             background-color: var(--card-background); /* カードの背景色 */
             border-radius: 12px; /* 角を丸くする */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* シャドウ効果 */
-            padding: 25px; /* 内側のパディング */
-            text-align: center; /* 中央揃え */
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* トランジション設定 */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .coupon:nth-child(odd) {
-            background-color: var(--accent-color-1); /* 緑色の背景 */
+            background-color: var(--accent-color-1); /* アクセントカラー1 */
         }
 
         .coupon:nth-child(even) {
-            background-color: var(--accent-color-2); /* 青色の背景 */
+            background-color: var(--accent-color-2); /* アクセントカラー2 */
         }
 
         .coupon:hover {
-            transform: translateY(-5px); /* ホバー時に少し上に移動 */
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* ホバー時のシャドウ効果 */
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
         }
 
         .coupon-info {
-            color: var(--primary-color); /* クーポン情報の色 */
-            margin-bottom: 15px; /* 下にマージンを追加 */
-            font-weight: bold; /* 太字 */
+            color: var(--text-color); /* クーポン情報の色を白に設定 */
+            margin-bottom: 15px;
+            font-weight: bold;
         }
 
         .button {
-            display: inline-block; /* インラインブロック表示 */
-            padding: 12px 20px; /* パディング */
-            background-color: var(--secondary-color); /* 背景色をプライマリーカラーに設定 */
-            color: white; /* テキスト色を白に設定 */
-            text-decoration: none; /* 下線なし */
-            border-radius: 25px; /* 角を丸くする */
-            transition: background-color 0.3s, transform 0.2s; /* トランジション設定 */
-            font-weight: bold; /* 太字 */
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: var(--secondary-color); /* ボタンの背景色をセカンダリーカラーに設定 */
+            color: white; /* ボタンのテキスト色を白に設定 */
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
         }
 
         .button:hover {
-            background-color: var(--accent-color-3); /* ホバー時の背景色（黄色）*/
-            transform: scale(1.05); /* ホバー時に拡大 */
+            background-color: var(--accent-color-3); /* ホバー時の背景色（アクセントカラー3）*/
+            transform: scale(1.05);
         }
 
         .no-coupons {
-            text-align: center; /* 中央揃え */
-            font-size: 1.2em; /* フォントサイズ */
-            margin-top: 50px; /* 上にマージンを追加 */
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 50px;
         }
 
         .action-buttons {
-            display: flex; /* フレックスボックスでレイアウト */
-            justify-content: center; /* 中央揃え */
-            margin-top: 20px; /* 上にマージンを追加 */
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
         }
 
         @media (max-width: 600px) {
@@ -112,30 +114,28 @@
     </style>
 </head>
 
-<body>
+<body> 
     <div class="container">
-        <h1>クーポン一覧</h1> <!-- 見出し -->
+        <h1>クーポン一覧</h1>
 
-        <!-- クーポンがない場合のメッセージ -->
         <div class="no-coupons" th:if="${coupons.size() == 0}">
-            <div class="no-coupons-icon">&#x1F4B3;</div> <!-- アイコン -->
-            <p>クーポンがありません</p> <!-- メッセージ -->
+            <div class="no-coupons-icon">&#x1F4B3;</div>
+            <p>クーポンがありません</p>
         </div>
 
-        <!-- クーポンリストがある場合 -->
         <div class="coupon-list" th:if="${coupons.size() > 0}">
-            <div th:each="coupon : ${coupons}" class="coupon"> <!-- クーポンごとのループ -->
+            <div th:each="coupon : ${coupons}" class="coupon">
                 <div class="coupon-info">
-                    取得したクーポンID：<span th:text="${coupon.id}"></span> <!-- クーポンID -->
+                    取得したクーポンID：<span th:text="${coupon.id}"></span>
                 </div>
-                <a th:href="@{/coupondetail/{id}(id=${coupon.id})}" class="button">詳細を見る</a> <!-- 詳細ボタン -->
+                <a th:href="@{/coupondetail/{id}(id=${coupon.id})}" class="button">詳細を見る</a>
             </div>
         </div>
     </div>
     
-    <div class="action-buttons"> <!-- アクションボタンのコンテナ -->
-        <a href="/couponlot" class="button">クーポン抽選ページへ</a> <!-- 抽選ページへのリンク -->
-        <a href="/mypage" class="button">マイページへ</a> <!-- マイページへのリンク -->
+    <div class="action-buttons">
+        <a href="/couponlot" class="button">クーポン抽選ページへ</a>
+        <a href="/mypage" class="button">マイページへ</a>
     </div>
 </body>
 </html>
