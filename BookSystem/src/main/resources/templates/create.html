@@ -1,143 +1,175 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"> <!-- 文字エンコーディングをUTF-8に設定 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ビューポート設定 -->
-    <title>新規登録</title> <!-- ページタイトル -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新規登録</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4CAF50; /* プライマリーカラー */
-            --secondary-color: #45a049; /* セカンダリーカラー */
-            --background-color: #f8f8f8; /* 背景色 */
-            --text-color: #333; /* テキスト色 */
-            --card-background: #fff; /* カード背景色 */
-            --button-color: #B0BEC5; /* 落ち着いたボタン色 */
-            --button-hover-color: #90A4AE; /* ホバー時のボタン色 */
-        }
-
-        html, body {
-            height: 100%; /* 高さを100%に設定 */
-            margin: 0; /* マージンを0に設定 */
-            padding: 0; /* パディングを0に設定 */
+            --primary-color: #5D4037;
+            --secondary-color: #795548;
+            --background-color: #F5F5F5;
+            --text-color: #333333;
+            --card-background: #FFFFFF;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* フォント設定 */
-            line-height: 1.6; /* 行の高さ */
-            background-color: var(--background-color); /* 背景色を変数から取得 */
-            color: var(--text-color); /* テキスト色を変数から取得 */
-            display: flex; /* フレックスボックスでレイアウト */
-            justify-content: center; /* 水平中央揃え */
-            align-items: center; /* 垂直中央揃え */
-            height: 100vh; /* ビューポート全体の高さ */
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0'); 
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .header h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin: 0;
         }
 
         .container {
-            background-color: var(--card-background); /* カード背景色を変数から取得 */
-            border-radius: 8px; /* 角を丸くする */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* シャドウ効果 */
-            padding: 20px; /* 内側のパディング */
-            max-width: 400px; /* 最大幅を400pxに設定 */
-            width: 100%; /* 幅を100%に設定 */
+            background-color: var(--card-background);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 150px;
         }
 
-        h1 {
-            color: var(--primary-color); /* 見出しの色をプライマリーカラーに設定 */
-            text-align: center; /* 中央揃え */
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
         }
 
         .form-group {
-            display: flex; /* フレックスボックスでレイアウト */
-            flex-direction: column; /* 縦方向に配置 */
-            margin-bottom: 15px; /* 下にマージンを追加 */
+            margin-bottom: 15px;
         }
 
-        .form-group label {
-            margin-bottom: 5px; /* 下にマージンを追加 */
-            font-weight: bold; /* 太字 */
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
 
         input {
-            padding: 10px; /* パディング */
-            border: 1px solid #ddd; /* ボーダーの設定 */
-            border-radius: 4px; /* 角を丸くする */
-            font-size: 16px; /* フォントサイズ */
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
         }
 
         .error-message {
-            color: red; /* エラーメッセージの色 */
-            font-size: 0.9em; /* フォントサイズ */
-            margin-top: 5px; /* 上にマージンを追加 */
+            color: #e74c3c;
+            font-size: 0.9em;
+            margin-top: 5px;
         }
 
         .btn {
-            display: inline-block; /* インラインブロック表示 */
-            padding: 12px 20px; /* パディング */
-            background-color: var(--primary-color); /* 背景色をプライマリーカラーに設定 */
-            color: white; /* テキスト色を白に設定 */
-            text-decoration: none; /* 下線なし */
-            border-radius: 25px; /* 角を丸くする */
-            transition: background-color 0.3s, transform 0.2s; /* トランジション設定 */
-            font-weight: bold; /* 太字 */
-            border: none; /* ボーダーなし */
-            cursor: pointer; /* カーソルをポインタに変更 */
-            width: 100%; /* 幅を100%に設定 */
-            font-size: 16px; /* フォントサイズ */
-            margin-top: 10px; /* 上にマージンを追加 */
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
         }
 
         .btn:hover {
-            background-color: var(--secondary-color); /* ホバー時の背景色 */
-            transform: scale(1.05); /* ホバー時に拡大 */
+            background-color: var(--primary-color);
         }
 
-        .secondary-btn {
-            background-color: var(--button-color); /* 落ち着いたボタン色 */
+        .btn-secondary {
+            background-color: #95a5a6;
         }
 
-        .secondary-btn:hover {
-            background-color: var(--button-hover-color); /* ホバー時のボタン色 */
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
         }
     </style>
 </head>
 <body>
-    <div class="container"> <!-- メインコンテナ -->
-        <h1>新規登録</h1> <!-- 見出し -->
-        <form th:action="@{/login/create}" method="post" th:object="${userForm}"> <!-- 新規登録フォーム -->
+    <div class="header">
+        <h1>新規登録</h1>
+    </div>
+    
+    <div class="container">
+        <form th:action="@{/login/create}" method="post" th:object="${userForm}">
             <div class="form-group">
                 <label for="username">ユーザーネーム</label>    
-                <input type="text" th:field="*{username}"> <!-- ユーザーネームの入力フィールド -->
-                <div th:if="${#fields.hasErrors('username')}" class="error-message"> <!-- ユーザーネームのエラー表示 -->
+                <input type="text" th:field="*{username}">
+                <div th:if="${#fields.hasErrors('username')}" class="error-message">
                     <p th:errors="*{username}"></p>
                 </div>
             </div>
             <div class="form-group">
                 <label for="password">パスワード(8～12文字)</label>    
-                <input type="password" th:field="*{password}"> <!-- パスワードの入力フィールド -->
-                <div th:if="${#fields.hasErrors('password')}" class="error-message"> <!-- パスワードのエラー表示 -->
+                <input type="password" th:field="*{password}">
+                <div th:if="${#fields.hasErrors('password')}" class="error-message">
                     <p th:errors="*{password}"></p>
                 </div>
             </div>
             <div class="form-group">
                 <label for="displayName">氏名(カタカナ)</label>    
-                <input type="text" th:field="*{displayName}"> <!-- 氏名の入力フィールド -->
-                <div th:if="${#fields.hasErrors('displayName')}" class="error-message"> <!-- 氏名のエラー表示 -->
+                <input type="text" th:field="*{displayName}">
+                <div th:if="${#fields.hasErrors('displayName')}" class="error-message">
                     <p th:errors="*{displayName}"></p>
                 </div>
             </div>
             <div class="form-group">
                 <label for="tellNumber">電話番号(例:123-4567-8900)</label>    
-                <input type="tel" th:field="*{tellNumber}"> <!-- 電話番号の入力フィールド -->
-                <div th:if="${#fields.hasErrors('tellNumber')}" class="error-message"> <!-- 電話番号のエラー表示 -->
+                <input type="tel" th:field="*{tellNumber}">
+                <div th:if="${#fields.hasErrors('tellNumber')}" class="error-message">
                     <p th:errors="*{tellNumber}"></p>
                 </div>
             </div>
             
-            <button type="submit" class="btn">登録完了</button> <!-- 登録完了ボタン -->
+            <button type="submit" class="btn">登録完了</button>
         </form> 
         
-        <form th:action="@{/login}" method="get"> <!-- ログイン画面への戻るフォーム -->
-            <button type="submit" class="btn secondary-btn">ログイン画面に戻る</button> <!-- ログイン画面に戻るボタン -->
+        <form th:action="@{/login}" method="get">
+            <button type="submit" class="btn btn-secondary">ログイン画面に戻る</button>
         </form>
     </div>
 </body>

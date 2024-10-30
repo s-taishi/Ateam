@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8"> <!-- 文字エンコーディングをUTF-8に設定 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ビューポート設定 -->
     <title>クーポン一覧</title> <!-- ページタイトル -->
+<!--    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">-->
     <style>
+		@font-face {
+				font-family: 'nikomoji-plus';
+				src: url('/fonts/nikomoji-plus_v2-5.ttf') format('truetype'); /* フォントがある相対パス */
+			}
         :root {
-            --primary-color: #4CAF50; /* プライマリーカラー */
-            --secondary-color: #45a049; /* セカンダリーカラー */
-            --background-color: #f8f8f8; /* 背景色 */
+            --primary-color: #FF4081; /* ビビッドピンク */
+            --secondary-color: #F50057; /* 濃いピンク */
+            --background-color: #FFEBEE; /* 明るい背景色 */
             --text-color: #333; /* テキスト色 */
-            --card-background: #fff; /* カード背景色 */
+            --card-background: #FFFFFF; /* カード背景色 */
+            --accent-color-1: #4CAF50; /* 緑色 */
+            --accent-color-2: #2196F3; /* 青色 */
+            --accent-color-3: #FFC107; /* 黄色 */
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* フォント設定 */
+            font-family: 'nikomoji-plus', sans-serif; /* フォント設定 */
             margin: 0; /* マージンを0に設定 */
             padding: 20px; /* パディング */
             background-color: var(--background-color); /* 背景色を変数から取得 */
@@ -50,6 +57,14 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease; /* トランジション設定 */
         }
 
+        .coupon:nth-child(odd) {
+            background-color: var(--accent-color-1); /* 緑色の背景 */
+        }
+
+        .coupon:nth-child(even) {
+            background-color: var(--accent-color-2); /* 青色の背景 */
+        }
+
         .coupon:hover {
             transform: translateY(-5px); /* ホバー時に少し上に移動 */
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* ホバー時のシャドウ効果 */
@@ -64,26 +79,17 @@
         .button {
             display: inline-block; /* インラインブロック表示 */
             padding: 12px 20px; /* パディング */
-            background-color: var(--primary-color); /* 背景色をプライマリーカラーに設定 */
+            background-color: var(--secondary-color); /* 背景色をプライマリーカラーに設定 */
             color: white; /* テキスト色を白に設定 */
             text-decoration: none; /* 下線なし */
             border-radius: 25px; /* 角を丸くする */
             transition: background-color 0.3s, transform 0.2s; /* トランジション設定 */
             font-weight: bold; /* 太字 */
-            margin: 5px; /* マージン */
         }
 
         .button:hover {
-            background-color: var(--secondary-color); /* ホバー時の背景色 */
+            background-color: var(--accent-color-3); /* ホバー時の背景色（黄色）*/
             transform: scale(1.05); /* ホバー時に拡大 */
-        }
-
-        .detail-button {
-            background-color: #2196F3; /* 詳細ボタンの色 */
-        }
-
-        .detail-button:hover {
-            background-color: #1976D2; /* 詳細ボタンのホバー時の色 */
         }
 
         .no-coupons {
@@ -100,26 +106,8 @@
 
         @media (max-width: 600px) {
             .coupon-list {
-                grid-template-columns: 1fr; /* 幅600px以下の場合は1カラムに */
+                grid-template-columns: 1fr; /* 幅600px以下の場合は1カラムに変更 */
             }
-        }
-
-        .no-coupons {
-            background-color: var(--card-background); /* カード背景色 */
-            border-radius: 12px; /* 角を丸くする */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* シャドウ効果 */
-            padding: 25px; /* 内側のパディング */
-            text-align: center; /* 中央揃え */
-            font-size: 1.2em; /* フォントサイズ */
-            margin: 50px auto; /* 上下のマージンを自動で設定 */
-            max-width: 280px; /* 最大幅を280pxに設定 */
-            color: var(--text-color); /* テキスト色を変数から取得 */
-        }
-
-        .no-coupons-icon {
-            font-size: 3em; /* アイコンのサイズ */
-            color: var(--primary-color); /* アイコンの色 */
-            margin-bottom: 15px; /* 下にマージンを追加 */
         }
     </style>
 </head>
@@ -138,12 +126,13 @@
         <div class="coupon-list" th:if="${coupons.size() > 0}">
             <div th:each="coupon : ${coupons}" class="coupon"> <!-- クーポンごとのループ -->
                 <div class="coupon-info">
-                    取得したクーポン: <span th:text="${coupon.id}"></span> <!-- クーポンID -->
+                    取得したクーポンID：<span th:text="${coupon.id}"></span> <!-- クーポンID -->
                 </div>
-                <a th:href="@{/coupondetail/{id}(id=${coupon.id})}" class="button detail-button">詳細を見る</a> <!-- 詳細ボタン -->
+                <a th:href="@{/coupondetail/{id}(id=${coupon.id})}" class="button">詳細を見る</a> <!-- 詳細ボタン -->
             </div>
         </div>
     </div>
+    
     <div class="action-buttons"> <!-- アクションボタンのコンテナ -->
         <a href="/couponlot" class="button">クーポン抽選ページへ</a> <!-- 抽選ページへのリンク -->
         <a href="/mypage" class="button">マイページへ</a> <!-- マイページへのリンク -->

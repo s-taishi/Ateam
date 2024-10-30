@@ -41,7 +41,7 @@ public class BookForm {
 	private Integer bookcount; 
 
 	// 特記事項（100文字以内の制限）
-	@Size(max = 100, message = "100字以内でなければいけません")
+	@Size(max = 100, message = "特記事項は100字以内でなければいけません")
 	private String memo; 
 
 }
