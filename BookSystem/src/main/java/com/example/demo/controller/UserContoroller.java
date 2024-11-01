@@ -57,7 +57,7 @@ public class UserContoroller {
 		String katakanaPattern = "^[\\u30A0-\\u30FF]+$";
 		if(userForm.getDisplayName() != null) {											//displaynameが入っていることを確認
 			if (!(userForm.getDisplayName().matches(katakanaPattern))) {				//displaynameがカタカナでなければエラー表示
-				bindingResult.rejectValue("displayName", "error.displayName", "名前はカタカナで入力してください");//表示するメッセージ内容
+				bindingResult.rejectValue("displayName", "error.displayName", "氏名はカタカナで入力してください");//表示するメッセージ内容
 			}
 		}
 
