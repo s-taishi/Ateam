@@ -34,7 +34,7 @@ public class UserForm {
 
 	// 電話番号（必須フィールド、123-4567-8912の形式）
 	@NotBlank(message = "電話番号は必須です")
-	@Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$",message="電話番号は「123-4567-8912」の形式で入力してください")
+	@Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$",message="電話番号は「123-4567-8900」の形式で入力してください")
 	private String tellNumber; 
 
 	

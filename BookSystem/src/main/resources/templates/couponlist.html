@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>クーポン一覧</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- Font Awesomeのリンク -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @font-face {
             font-family: 'AmeChan';
@@ -103,18 +103,58 @@
 
         .action-buttons {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             margin-top: 20px;
-            gap: 20px; /* ボタン間の間隔を設定 */
+            gap: 15px;
         }
 
-        .button + .button {
-            margin-left: 20px; /* 隣接するボタン間の左マージンを設定 */
+        .action-buttons .button {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .lottery-button {
+            background-color: var(--accent-color-3);
+            font-size: 1.2em;
+            padding: 10px 25px;
+            animation: pulse 2s infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70px;
+        }
+
+        .lottery-button i {
+            margin-bottom: 5px;
+        }
+
+        .lottery-button:hover {
+            background-color: #FFA000;
+            transform: scale(1.1);
+        }
+
+        .mypage-button {
+            text-align: center;
+            line-height: px; /* ボタンの高さに合わせて調整 */
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
         }
 
         @media (max-width: 600px) {
             .coupon-list {
-                grid-template-columns: 1fr; /* 幅600px以下の場合は1カラムに変更 */
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -150,8 +190,10 @@
     </div>
     
     <div class="action-buttons">
-        <a th:unless="${count}" href="/couponlot" class="button">クーポン抽選ページへ</a>
-        <a href="/mypage" class="button">マイページへ</a>
+        <a th:unless="${count}" href="/couponlot" class="button lottery-button">
+            <i class="fas fa-gift"></i> クーポン抽選ページ<br> 　（1日3回まで）
+        </a>
+        <a href="/mypage" class="button mypage-button">マイページへ</a>
     </div>
 </body>
 </html>
