@@ -2,11 +2,14 @@ package com.example.demo.service;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Service;
+
 import com.example.demo.entity.ConnectUser;
 import com.example.demo.entity.PlayTime;
 
 import lombok.RequiredArgsConstructor;
 
+@Service
 @RequiredArgsConstructor
 public class RouletteCount {
 	
@@ -23,15 +26,16 @@ public class RouletteCount {
 		//ルーレット情報がないなら
 		if(playTime == null) {
 			//データベースに新規登録
-			PlayTime create = new PlayTime(ConnectUser.id,now,1);
+			PlayTime create = new PlayTime(ConnectUser.id,now,0);
 			playTimeService.playTimeInsert(create);
 		}else {//情報があれば
 			//最後に利用した日が前日なら
 			if(playTime.getLastplay().isBefore(now)) {
 				playTime.setPlaycount(1);
 				playTimeService.playTimeUpdate(playTime);
-			}else if(playTime.getPlaycount() < 3) {//今日かつ利用回数が３を超えないなら
+			}else if(playTime.getPlaycount() <= 3) {//今日かつ利用回数が３を超えないなら
 				playTime.setPlaycount(playTime.getPlaycount() + 1);
+				playTimeService.playTimeUpdate(playTime);
 			}
 			
 		}

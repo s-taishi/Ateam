@@ -12,6 +12,8 @@ import com.example.demo.entity.Coupon;
 import com.example.demo.entity.CouponType;
 import com.example.demo.service.BookService;
 import com.example.demo.service.Coupon2Service;
+import com.example.demo.service.Coupon3Service;
+import com.example.demo.service.RouletteCount;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,9 +23,13 @@ public class Coupon2Controller {
 
 	private final BookService bookService;
 	private final Coupon2Service coupon2Service;
+	private final Coupon3Service coupon3service;
+	private final RouletteCount rouletteCount;
 
 	@GetMapping("/couponlot")
 	public String couponLot(Model model) {
+		rouletteCount.playCount();
+		
 		Random rand = new Random();
 		int p = rand.nextInt(100);
 		if(p < 5) {
@@ -46,9 +52,14 @@ public class Coupon2Controller {
 	
 	@GetMapping("/detail/{id}")
 	public String couponResult(@PathVariable int id, Model model) {
+		if(id == 5) {
+			model.addAttribute("miss","残念、はずれ");
+			return "coupondetail";
+		}
 		Coupon coupon = coupon2Service.couponFindByMaxId();
-		model.addAttribute("coupons", coupon);
-		model.addAttribute("couponType", coupon.getCouponType());
+		Coupon coupon2 = coupon3service.couponFindById(coupon.getId());
+		model.addAttribute("coupons", coupon2);
+		model.addAttribute("couponType", coupon2.getCouponType());
 		return "coupondetail";
 	}
 	

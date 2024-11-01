@@ -6,10 +6,10 @@
 		type="com.example.demo.entity.Coupon">
 		<id property="id" column="id" />
 		<result property="couponType" column="couponType" />
-		<association property="userName"
+		<association property="user"
 			javaType="com.example.demo.entity.User">
-			<id property="id" column="id" />
-			<result property="userName" column="username" />
+			<id property="id" column="userId" /> <!-- userIdに変更 -->
+			<result property="username" column="username" />
 			<result property="password" column="password" />
 			<result property="displayName" column="display_name" />
 			<result property="tellNumber" column="tell_number" />
@@ -27,7 +27,7 @@
     VALUES (CAST(#{couponType} AS coupon_type), #{user.id});
 </insert>
 
-<select id="couponSelectByMaxId" parameterType="com.example.demo.entity.Coupon">
+<select id="couponSelectByMaxId" resultMap="couponWithUserNameResult">
 	select * from coupon where id = (select max(id) from coupon);
 </select>
 </mapper>

@@ -150,7 +150,7 @@
     </div>
     
     <div class="action-buttons">
-        <a href="/couponlot" class="button">クーポン抽選ページへ</a>
+        <a th:unless="${count}" href="/couponlot" class="button">クーポン抽選ページへ</a>
         <a href="/mypage" class="button">マイページへ</a>
     </div>
 </body>
