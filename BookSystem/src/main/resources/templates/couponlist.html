@@ -4,30 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>クーポン一覧</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <!-- Font Awesomeのリンク -->
     <style>
         @font-face {
             font-family: 'AmeChan';
-            src: url('/fonts/AmeChanPopMaruLight-Regular.otf') format('truetype'); /* フォントがある相対パス */
+            src: url('/fonts/irohamaru-Medium.ttf') format('truetype');
         }
 
         :root {
-            --primary-color: #FF4081; /* プライマリーカラー */
-            --secondary-color: #F50057; /* セカンダリーカラー */
-            --background-color: #FFEBEE; /* 背景色 */
-            --text-color: #FFFFFF; /* テキスト色（白） */
-            --card-background: rgba(255, 255, 255, 0.9); /* カード背景色（半透明） */
-            --accent-color-1: #4CAF50; /* アクセントカラー1 */
-            --accent-color-2: #2196F3; /* アクセントカラー2 */
-            --accent-color-3: #FFC107; /* アクセントカラー3 */
+            --primary-color: #FF4081;
+            --secondary-color: #F50057;
+            --background-color: #FFEBEE;
+            --text-color: #FFFFFF;
+            --card-background: rgba(255, 255, 255, 0.9);
+            --accent-color-1: #4CAF50;
+            --accent-color-2: #2196F3;
+            --accent-color-3: #FFC107;
         }
 
         body {
-            font-family: 'AmeChan', sans-serif; /* フォント設定 */
-            background-image: url('img/okumono-sizen8.png'); /* 背景画像 */
-            background-size: cover; /* 背景画像をカバーする */
+            font-family: 'AmeChan', sans-serif;
+            background-image: url('img/okumono-sizen8.png');
+            background-size: cover;
             margin: 0;
             padding: 20px;
-            color: var(--text-color); /* テキスト色を白に設定 */
+            color: var(--text-color);
         }
 
         .container {
@@ -37,10 +38,10 @@
 
         h1 {
             text-align: center;
-            color: #FFFFFF; /* 見出しの色をプライマリーカラーに設定 */
+            color: #FFFFFF;
             font-size: 2.5em;
             margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* テキストの影を追加して縁取り効果を出す */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
 
         .coupon-list {
@@ -51,8 +52,8 @@
         }
 
         .coupon {
-            background-color: var(--card-background); /* カードの背景色 */
-            border-radius: 12px; /* 角を丸くする */
+            background-color: var(--card-background);
+            border-radius: 12px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
             padding: 25px;
             text-align: center;
@@ -60,11 +61,11 @@
         }
 
         .coupon:nth-child(odd) {
-            background-color: var(--accent-color-1); /* アクセントカラー1 */
+            background-color: var(--accent-color-1);
         }
 
         .coupon:nth-child(even) {
-            background-color: var(--accent-color-2); /* アクセントカラー2 */
+            background-color: var(--accent-color-2);
         }
 
         .coupon:hover {
@@ -73,7 +74,7 @@
         }
 
         .coupon-info {
-            color: var(--text-color); /* クーポン情報の色を白に設定 */
+            color: var(--text-color);
             margin-bottom: 15px;
             font-weight: bold;
         }
@@ -81,8 +82,8 @@
         .button {
             display: inline-block;
             padding: 12px 20px;
-            background-color: var(--secondary-color); /* ボタンの背景色をセカンダリーカラーに設定 */
-            color: white; /* ボタンのテキスト色を白に設定 */
+            background-color: var(--secondary-color);
+            color: white;
             text-decoration: none;
             border-radius: 25px;
             transition: background-color 0.3s, transform 0.2s;
@@ -90,7 +91,7 @@
         }
 
         .button:hover {
-            background-color: var(--accent-color-3); /* ホバー時の背景色（アクセントカラー3）*/
+            background-color: var(--accent-color-3);
             transform: scale(1.05);
         }
 
@@ -104,6 +105,11 @@
             display: flex;
             justify-content: center;
             margin-top: 20px;
+            gap: 20px; /* ボタン間の間隔を設定 */
+        }
+
+        .button + .button {
+            margin-left: 20px; /* 隣接するボタン間の左マージンを設定 */
         }
 
         @media (max-width: 600px) {
@@ -119,14 +125,24 @@
         <h1>クーポン一覧</h1>
 
         <div class="no-coupons" th:if="${coupons.size() == 0}">
-            
             <p>クーポンがありません</p>
         </div>
 
         <div class="coupon-list" th:if="${coupons.size() > 0}">
             <div th:each="coupon : ${coupons}" class="coupon">
                 <div class="coupon-info">
-                    取得したクーポン
+                    <div th:if="${coupon.couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE1)}">
+                        <i class="fas fa-money-bill-wave"></i> 合計金額から半額クーポン！
+                    </div>
+                    <div th:if="${coupon.couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE2)}">
+                        <i class="fas fa-money-bill-wave"></i> 合計金額から1000円引きクーポン！
+                    </div>
+                    <div th:if="${coupon.couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE3)}">
+                        <i class="fas fa-glass-martini"></i> ドリンク1杯無料クーポン！
+                    </div>
+                    <div th:if="${coupon.couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE4)}">
+                        <i class="fas fa-chair"></i> 席料無料クーポン！
+                    </div>
                 </div>
                 <a th:href="@{/coupondetail/{id}(id=${coupon.id})}" class="button">詳細を見る</a>
             </div>
