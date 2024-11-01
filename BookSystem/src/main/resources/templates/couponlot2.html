@@ -10,7 +10,7 @@
 					margin: 0;
 					padding: 0;
 					font-family: 'Arial', sans-serif;
-					background-image: url('img/JUGGLER.jpg');
+					background-image: url('/img/JUGGLER.jpg');
 					background-size: cover;
 					background-position: center;
 					display: flex;
@@ -250,8 +250,26 @@
             font-size: 1.2em;
             cursor: pointer;
         }
+		
     </style>
-
+	<script>
+	        window.onload = function() {
+	            const couponId = /*[[${num}]]*/ 1; // ここにサーバーから送られてくるクーポンIDを設定
+	            const angleMap = {
+					1: 36,
+	                2: 108,
+	                3: 180,
+          		    4: 252,
+               		5: 324    
+					};
+	     
+	        
+	            const rotationAngle = angleMap[couponId] + 360 * 10; // 10回転後に止まる
+	            const roulette = document.getElementById('roulette');
+	            roulette.style.transform = 'rotate(' + rotationAngle + 'deg)';
+	            document.getElementById('coupon-result').style.opacity = 1; // 結果表示のためのフェードイン
+	        };
+	    </script>
 </head>
 
 <body>
@@ -259,23 +277,24 @@
 	<div id="coupon-result">
 		<span class="wave-text"></span>
 	</div>
-
+<!--	data-coupon-idこのidによって上部のanglemapと紐づけている-->
     <div id="roulette-container">
         <div id="roulette">
-            <div class="coupon-item" data-coupon="COUPON_TYPE1" style="transform: rotate(0deg)">半額</div>
-            <div class="coupon-item" data-coupon="COUPON_TYPE2" style="transform: rotate(288deg)">1000円引き</div>
-            <div class="coupon-item" data-coupon="COUPON_TYPE3" style="transform: rotate(216deg)">ドリンク１杯無料</div>
-            <div class="coupon-item" data-coupon="COUPON_TYPE4" style="transform: rotate(144deg)">席料 無料</div>
-            <div class="coupon-item" data-coupon="MISS" style="transform: rotate(72deg)">はずれ</div>
+            <div class="coupon-item" data-coupon-id="1" style="transform: rotate(0deg)">半額</div>
+            <div class="coupon-item" data-coupon-id="2" style="transform: rotate(72deg)">1000円引き</div>
+            <div class="coupon-item" data-coupon-id="3" style="transform: rotate(144deg)">ドリンク１杯無料</div>
+            <div class="coupon-item" data-coupon-id="4" style="transform: rotate(216deg)">席料 無料</div>
+            <div class="coupon-item" data-coupon-id="5" style="transform: rotate(288deg)">はずれ</div>
         </div>
         <div class="arrow"></div>
 
     </div>
 
     <div id="coupon-result"></div>
-    <button id="spin-button" onclick="startRoulette()">ルーレットを回す</button>
-    <button id="view-coupon-button" style="display:none;" onclick="viewCoupon()">獲得したクーポンを見る</button>
-    <button id="back-to-list-button" style="display:none;" onclick="backToList()">クーポン一覧に戻る</button>
+<!--    <button id="spin-button" onclick="startRoulette()">結果を表示</button>-->
+	<form th:action="@{/detail/{id}(id=${num})}" method="get">
+	<button type="submit" class="btn btn-secondary">結果を表示</button>
+	</form>
 
 
     <audio id="roulette-sound">
@@ -283,129 +302,7 @@
         お使いのブラウザは音声タグに対応していません。
     </audio>
 
-    <script>
-        let totalRotation = 0;
-        let couponType = ''; // クーポンタイプを保持
-        let coupon = null; // couponオブジェクトを保持する変数
-
-        function startRoulette() {
-            const spinButton = document.getElementById('spin-button');
-            const viewButton = document.getElementById('view-coupon-button');
-            const backToListButton = document.getElementById('back-to-list-button');
-
-
-            spinButton.style.display = 'none';
-            viewButton.style.display = 'none';
-            backToListButton.style.display = 'none';
-
-
-
-            fetch('/couponcreate')
-                .then(response => response.json())
-                .then(data => {
-                    couponType = data.couponType; // 受け取ったクーポンタイプを設定
-                    coupon = data.coupon; // couponオブジェクトを保持
-
-
-
-                    const targetRotation = calculateTargetRotation(couponType);
-                    const additionalRotation = 1440 + targetRotation; // 1440度回転させる
-                    totalRotation += additionalRotation;
-
-                    const roulette = document.getElementById('roulette');
-                    roulette.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
-                    roulette.style.transform = `rotate(${totalRotation}deg)`;
-
-                    setTimeout(() => {
-                        if (couponType === null) {
-                            displayResult('MISS');
-                            backToListButton.style.display = 'block';
-                        } else {
-                            displayResult(couponType);
-                            viewButton.style.display = 'block';
-                        }
-                    }, 5000);
-                })
-                .catch(error => {
-                    console.error('Error fetching coupon:', error);
-                    spinButton.style.display = 'block'; // エラー時にボタンを再表示
-                });
-
-            const sound = document.getElementById('roulette-sound');
-            sound.currentTime = 0;
-            sound.play();
-        }
-
-
-
-        function backToList() {
-            window.location.href = '/couponlist'; // クーポン一覧に戻る
-        }
-
-        function calculateTargetRotation(couponType) {
-            let min, max;
-
-            switch (couponType) {
-                case 'COUPON_TYPE1':
-                    min = 1; max = 71;
-                    break;
-                case 'COUPON_TYPE2':
-                    min = 73; max = 143;
-                    break;
-                case 'COUPON_TYPE3':
-                    min = 145; max = 215;
-                    break;
-                case 'COUPON_TYPE4':
-                    min = 217; max = 287;
-                    break;
-                case 'MISS':
-                default:
-                    min = 289; max = 359;
-                    break;
-            }
-
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-
-        function displayResult(couponType) {
-            const result = document.getElementById('coupon-result');
-            let couponMessage;
-
-            switch (couponType) {
-                case 'COUPON_TYPE1':
-                    couponMessage = "半額のクーポンを獲得しました！";
-                    break;
-                case 'COUPON_TYPE2':
-                    couponMessage = "1000円引きのクーポンを獲得しました！";
-                    break;
-                case 'COUPON_TYPE3':
-                    couponMessage = "ドリンク１杯無料のクーポンを獲得しました！";
-                    break;
-                case 'COUPON_TYPE4':
-                    couponMessage = "席料無料のクーポンを獲得しました！";
-                    break;
-                default:
-                    couponMessage = "残念ですが、はずれです";
-                    break;
-            }
-
-            result.innerText = couponMessage;
-			result.style.opacity = 1;
-        }
-
-        function viewCoupon() {
-            const couponIdMap = {
-                'COUPON_TYPE1': 1,
-                'COUPON_TYPE2': 2,
-                'COUPON_TYPE3': 3,
-                'COUPON_TYPE4': 4,
-                'MISS': 0 // はずれの場合のID
-            };
-            const couponId = couponIdMap[couponType];
-            window.location.href = `/couponresult?id=${couponId}`; // 取得したクーポンを表示する
-        }
-    </script>
-
+ 
 </body>
 
 </html>
