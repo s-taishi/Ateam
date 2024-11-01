@@ -21,4 +21,9 @@ public class Coupon {
 	
 	// Userオブジェクト
 	private User user; 
+	
+	public Coupon(CouponType couponType,User user) {
+		this.couponType = couponType;
+		this.user = user;
+	}
 }
