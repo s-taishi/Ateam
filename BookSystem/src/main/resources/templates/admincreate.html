@@ -113,11 +113,21 @@
             border: none;
             cursor: pointer;
             width: 100%;
+            margin-bottom: 10px;
+            text-align: center;
         }
 
         .btn:hover {
             background-color: var(--primary-color);
         }
+		
+		.btn-secondary {
+		    background-color: #95a5a6;
+		}
+		
+		.btn-secondary:hover {
+		    background-color: #7f8c8d;
+		}
     </style>
 </head>
 <body>
@@ -145,6 +155,10 @@
             
             <button type="submit" class="btn">登録完了</button>
         </form>
+        <!-- マイページに戻るボタン -->
+		<form th:action="@{/mypage}" method="get">
+		    <button type="submit" class="btn btn-secondary">マイページに戻る</button>
+		</form>
     </div>
 </body>
 </html>

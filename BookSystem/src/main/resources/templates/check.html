@@ -84,6 +84,13 @@
             font-weight: 600;
         }
 
+        .reservation-details span {
+            display: inline-block; /* 行内ブロックにして幅を指定可能にする */
+            max-width: 100%; /* 最大幅を親要素に合わせる */
+            word-wrap: break-word; /* 単語の途中での改行を許可 */
+            overflow-wrap: break-word; /* 同様の機能を持たせる */
+        }
+
         .btn {
             display: inline-block;
             padding: 15px 30px;
@@ -136,7 +143,7 @@
                 <p><strong>日付:</strong> <span th:text="${book.bookdate}"></span></p>
                 <p><strong>来店時間:</strong> <span th:text="${book.booktime}"></span></p>
                 <p><strong>人数:</strong> <span th:text="${book.bookcount}"></span>名</p>
-                <p><strong>特記事項:</strong> <span th:text="${book.memo}"></span></p>
+                <p><strong>特記事項:</strong> <span th:text="${book.memo}" class="memo"></span></p>
             </div>
         </div>
 

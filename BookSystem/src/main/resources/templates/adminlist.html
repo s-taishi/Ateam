@@ -91,6 +91,12 @@
             color: white;
         }
 
+        .memo-cell {
+            max-width: 200px; /* 幅を適宜調整 */
+            word-wrap: break-word; /* 単語の途中で改行 */
+            overflow-wrap: break-word; /* 互換性のために追加 */
+        }
+
         .btn {
             display: inline-block;
             padding: 10px 20px;
@@ -181,7 +187,7 @@
                         <td th:text="${hour.userid.displayName}"></td>
                         <td th:text="${hour.userid.tellNumber}"></td>
                         <td th:text="${hour.bookcount}"></td>
-                        <td th:text="${hour.memo}"></td>
+                        <td class="memo-cell" th:text="${hour.memo}"></td>
                         <td>
                             <form th:action="@{/delete-admin/{id}(id=${hour.id})}" method="post">
                                 <input type="hidden" name="date" th:value="${selectedDate}">

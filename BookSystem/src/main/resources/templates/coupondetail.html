@@ -1,128 +1,141 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <meta charset="UTF-8"> <!-- 文字エンコーディングをUTF-8に設定 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ビューポート設定 -->
-    <title>クーポン詳細</title> <!-- ページタイトル -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クーポン詳細</title>
     <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif; /* フォント設定 */
-            background-color: #f0f0f0; /* 背景色 */
-            margin: 0; /* マージンを0に設定 */
-            padding: 20px; /* パディング */
-            display: flex; /* フレックスボックスでレイアウト */
-            justify-content: center; /* 中央揃え */
-            align-items: center; /* 垂直中央揃え */
-            min-height: 100vh; /* ビューポートの最小高さを設定 */
+        @font-face {
+            font-family: 'AmeChan';
+            src: url('/fonts/AmeChanPopMaruLight-Regular.otf') format('truetype');
         }
 
-        .coupon-container {
-            background-color: white; /* カードの背景色 */
-            border-radius: 8px; /* 角を丸くする */
-            padding: 30px; /* 内側のパディング */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* シャドウ効果 */
-            max-width: 500px; /* 最大幅を500pxに設定 */
-            width: 100%; /* 幅を100%に設定 */
+        :root {
+            --primary-color: #FF4081;
+            --secondary-color: #F50057;
+            --background-color: #FFEBEE;
+            --text-color: #FFFFFF;
+            --card-background: rgba(255, 255, 255, 0.9);
+            --accent-color-1: #4CAF50;
+            --accent-color-2: #2196F3;
+            --accent-color-3: #FFC107;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'AmeChan', sans-serif;
+            background-image: url('/img/okumono-sizen8.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 90%;
+            width: 400px;
+            margin: 0 auto;
         }
 
         h1 {
-            color: #333; /* 見出しの色 */
-            margin-bottom: 20px; /* 下にマージンを追加 */
-            text-align: center; /* 中央揃え */
+            text-align: center;
+            color: #FFFFFF;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
 
-        .coupon-details {
-            margin-bottom: 30px; /* 下にマージンを追加 */
+        .coupon-card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
         }
 
-        .coupon-details p {
-            margin: 10px 0; /* 上下のマージン */
-            font-size: 16px; /* フォントサイズ */
-            color: #666; /* テキスト色 */
-        }
-
-        .coupon-details strong {
-            color: #333; /* 太字のテキスト色 */
-        }
-
-        .button-container {
-            display: flex; /* フレックスボックスでレイアウト */
-            justify-content: space-between; /* ボタンを左右に配置 */
+        .coupon-message {
+            font-size: 1.1em;
+            color: var(--primary-color);
+            margin: 15px 0;
+            font-weight: bold;
         }
 
         .button {
-            padding: 12px 24px; /* パディング */
-            font-size: 16px; /* フォントサイズ */
-            text-align: center; /* 中央揃え */
-            text-decoration: none; /* 下線なし */
-            border-radius: 4px; /* 角を丸くする */
-            transition: background-color 0.3s; /* 背景色のトランジション */
-            cursor: pointer; /* カーソルをポインタに変更 */
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            width: calc(100% - 10px);
+        }
+
+        .button:hover {
+            background-color: var(--accent-color-3);
+            transform: scale(1.05);
         }
 
         .use-button {
-            background-color: #4CAF50; /* 今すぐ使うボタンの背景色 */
-            color: white; /* テキスト色を白に設定 */
-            border: none; /* ボーダーなし */
-        }
-
-        .use-button:hover {
-            background-color: #45a049; /* ホバー時の背景色 */
+            background-color: var(--accent-color-1);
         }
 
         .back-button {
-            background-color: #f0f0f0; /* 戻るボタンの背景色 */
-            color: #333; /* テキスト色 */
-            border: 1px solid #ccc; /* ボーダー */
+            background-color: var(--accent-color-2);
         }
 
-        .back-button:hover {
-            background-color: #e0e0e0; /* ホバー時の背景色 */
-        }
-
-        .flash-message {
-            color: #d9534f; /* メッセージの色 */
-            text-align: center; /* 中央揃え */
-            margin-bottom: 20px; /* 下にマージンを追加 */
-        }
-
-        .coupon-container > div {
-            margin-bottom: 20px; /* ボタンのコンテナとの間にスペースを作る */
+        .alert {
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            background-color: var(--accent-color-3);
+            color: var(--text-color);
+            text-align: center;
+            font-weight: bold;
         }
     </style>
 </head>
-
 <body>
-    <div class="coupon-container">
-        <h1>クーポン詳細</h1> <!-- 見出し -->
+    <div class="container">
+        <h1>クーポン詳細</h1>
+        
+        <div class="coupon-card">
+            <div th:if="${message}" class="alert" th:text="${message}"></div>
 
-        <!-- フラッシュメッセージの表示 -->
-        <div th:if="${message}" class="flash-message" th:text="${message}"></div>
+            <div class="coupon-message">
+                <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE1)}">
+                    合計金額から半額クーポン！
+                </div>
+                <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE2)}">
+                    合計金額から1000円引きクーポン！
+                </div>
+                <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE3)}">
+                    ドリンク1杯無料クーポン！
+                </div>
+                <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE4)}">
+                    席料無料クーポン！
+                </div>
+            </div>
 
-        <!-- クーポンタイプによるメッセージ -->
-        <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE1)}">
-            <a>合計金額から半額クーポン！</a>
-        </div>
-        <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE2)}">
-            <a>合計金額から1000円引きクーポン！</a>
-        </div>
-        <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE3)}">
-            <a>ドリンク1杯無料クーポン！</a>
-        </div>
-        <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE4)}">
-            <a>席料無料クーポン！</a>
-        </div>
-
-        <div class="button-container"> <!-- ボタンのコンテナ -->
             <form th:action="@{/coupondelete/{id}(id=${coupons.id})}" method="post">
-                <button type="submit" class="button use-button">今すぐ使う</button> <!-- 今すぐ使うボタン -->
+                <button type="submit" class="button use-button">今すぐ使う</button>
             </form>
             <form th:action="@{/couponlist}" method="get">
-                <button type="submit" class="button back-button">クーポン一覧に戻る</button> <!-- 戻るボタン -->
+                <button type="submit" class="button back-button">クーポン一覧に戻る</button>
             </form>
         </div>
     </div>
 </body>
-
 </html>

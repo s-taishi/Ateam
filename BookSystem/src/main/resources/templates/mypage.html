@@ -119,6 +119,23 @@
             background-color: var(--primary-color);
         }
 
+        .btn-coupon {
+            display: inline-block;
+            padding: 8px 16px; /* サイズを大きく */
+            background-color: rgb(128, 128, 192); /* 明るい色に変更 */
+            color: white;
+            text-decoration: none;
+            border-radius: 20px; /* 丸みを帯びた形にする */
+            transition: background-color 0.3s, transform 0.2s; /* 拡大効果の追加 */
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 影を追加 */
+        }
+
+        .btn-coupon:hover {
+            background-color: #795548; /* ホバー時の色変更 */
+            transform: scale(1.05); /* ホバー時に少し大きくする */
+        }
+
         .highlight-btn {
             background-color: rgb(205, 110, 99);
         }
@@ -194,7 +211,7 @@
                 <h2 class="section-title">予約情報一覧</h2>
                 <div class="section-buttons">
                     <a th:href="@{/entry}" class="btn highlight-btn">予約画面へ</a>
-                    <a th:href="@{/couponlist}" class="btn">クーポン一覧へ</a>
+                    <a th:href="@{/couponlist}" class="btn-coupon">クーポン一覧へ</a>
                 </div>
             </div>
             
@@ -255,16 +272,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             var flashMessage = document.getElementById('flashMessage');
             if (flashMessage) {
-                setTimeout(function() {
-                    flashMessage.style.opacity = '1';
-                }, 100);
-
+                flashMessage.style.opacity = '1';
                 setTimeout(function() {
                     flashMessage.style.opacity = '0';
-                    setTimeout(function() {
-                        flashMessage.remove();
-                    }, 500);
-                }, 5000);
+                }, 3000);
             }
         });
         /*]]>*/
