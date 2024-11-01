@@ -115,38 +115,41 @@
 </head>
 <body>
     <div class="container">
-        <h1>クーポン詳細</h1>
-        
-        <div class="coupon-card">
-            <div th:if="${message}" class="alert" th:text="${message}"></div>
-
-            <div class="coupon-message">
-                <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE1)}">
-                    合計金額から半額クーポン！
-                </div>
-                <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE2)}">
-                    合計金額から1000円引きクーポン！
-                </div>
-                <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE3)}">
-                    ドリンク1杯無料クーポン！
-                </div>
-                <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE4)}">
-                    席料無料クーポン！
-                </div>
+		<h1 th:if="${miss}" th:text="${miss}"></h1>
+		<div th:unless="${miss}">
+			
+	        <h1>クーポン詳細</h1>
+			
+    	    <div class="coupon-card">
+        	    <div th:if="${message}" class="alert" th:text="${message}"></div>
+        	    <div class="coupon-message">
+        		    <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE1)}">
+        		         合計金額から半額クーポン！
+           	    	</div>
+					<div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE2)}">
+                	    合計金額から1000円引きクーポン！
+                	</div>
+                	<div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE3)}">
+                	    ドリンク1杯無料クーポン！
+                	</div>
+                	<div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE4)}">
+                	    席料無料クーポン！
+                	</div>
                 
-				<div class="coupon-info" th:text="'クーポンID：' + ${coupons.id}"></div>
-                <div class="coupon-info">有効期限：取得から3ヶ月</div>
-                <div class="coupon-info">併用区分：併用不可</div>
-                <div class="coupon-info">利用条件：本店舗のみでご利用可能</div>
-            </div>
+					<div class="coupon-info" th:text="'クーポンID：' + ${coupons.id}"></div>
+                	<div class="coupon-info">有効期限：取得から3ヶ月</div>
+                	<div class="coupon-info">併用区分：併用不可</div>
+                	<div class="coupon-info">利用条件：本店舗のみでご利用可能</div>
+            	</div>
+			</div>
 
             <form th:action="@{/coupondelete/{id}(id=${coupons.id})}" method="post">
                 <button type="submit" class="button use-button">今すぐ使う</button>
             </form>
-            <form th:action="@{/couponlist}" method="get">
-                <button type="submit" class="button back-button">クーポン一覧に戻る</button>
-            </form>
         </div>
+		<form th:action="@{/couponlist}" method="get">
+			<button type="submit" class="button back-button">クーポン一覧に戻る</button>
+		</form>
     </div>
 </body>
 </html>
