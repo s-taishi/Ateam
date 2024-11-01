@@ -87,6 +87,12 @@
             margin: 10px 0;
         }
 
+        .reservation-info p strong {
+            word-wrap: break-word; /* 追加: 特記事項の強調した部分の改行を許可 */
+            max-width: 100%; /* 追加: 幅を100%に設定 */
+            display: inline-block; /* 追加: inline-blockで表示 */
+        }
+
         .btn {
             display: inline-block;
             padding: 8px 16px;
@@ -130,7 +136,7 @@
                 <p><strong>来店日:</strong> <span th:text="${book.bookdate}"></span></p>
                 <p><strong>来店時間:</strong> <span th:text="${book.booktime}"></span></p>
                 <p><strong>人数:</strong> <span th:text="${book.bookcount}"></span>名</p>
-                <p><strong>特記事項:</strong> <span th:text="${book.memo}"></span></p>
+                <p><strong>特記事項:</strong> <span th:text="${book.memo}" style="word-wrap: break-word;"></span></p>
             </div>
         </div>
         <div class="action-buttons">

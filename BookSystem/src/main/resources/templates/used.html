@@ -1,79 +1,91 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"> <!-- 文字エンコーディングをUTF-8に設定 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- レスポンシブデザイン -->
-    <title>クーポン使用完了</title> <!-- ページのタイトル -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クーポン使用完了</title>
     <style>
+        @font-face {
+            font-family: 'AmeChan';
+            src: url('/fonts/AmeChanPopMaruLight-Regular.otf') format('truetype');
+        }
+
+        :root {
+            --primary-color: #FF4081;
+            --secondary-color: #F50057;
+            --background-color: #FFEBEE;
+            --text-color: #FFFFFF;
+            --card-background: rgba(255, 255, 255, 0.9);
+            --accent-color-1: #4CAF50;
+            --accent-color-2: #2196F3;
+            --accent-color-3: #FFC107;
+        }
+
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif; /* 本文のフォントスタイル */
-            background-color: #f0f0f0; /* 明るいグレーの背景色 */
-            margin: 0; /* デフォルトのマージンを削除 */
-            padding: 20px; /* 本文の周りにパディングを追加 */
-            display: flex; /* フレックスボックスレイアウトで中央揃え */
-            justify-content: center; /* 水平方向に中央に配置 */
-            align-items: center; /* 垂直方向に中央に配置 */
-            min-height: 100vh; /* ビューポートの高さに合わせる */
+            font-family: 'AmeChan', sans-serif;
+            background-image: url('/img/okumono-sizen8.png'); /* 修正済みの背景画像パス */
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
         }
+
         .container {
-            background-color: white; /* コンテナの背景色を白に */
-            border-radius: 8px; /* 角を丸くする */
-            padding: 30px; /* コンテナ内のパディング */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 深みを出すための影 */
-            max-width: 500px; /* コンテナの最大幅 */
-            width: 100%; /* 小さい画面でのフル幅 */
-            text-align: center; /* コンテナ内のテキストを中央揃え */
+            background-color: var(--card-background);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
         }
+
         h1 {
-            color: #4CAF50; /* 見出しの色を緑に */
-            margin-bottom: 20px; /* 見出しの下にスペースを追加 */
+            font-size: 2.2em;
+            color: var(--accent-color-1);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
+
         .message {
-            font-size: 18px; /* メッセージのフォントサイズ */
-            color: #333; /* メッセージテキストの色をダークグレーに */
-            margin-bottom: 30px; /* メッセージの下にスペースを追加 */
-            line-height: 1.6; /* 読みやすさのための行間 */
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.6;
         }
-        .coupon-details {
-            background-color: #f9f9f9; /* クーポン詳細の背景色を明るく */
-            border: 1px solid #ddd; /* クーポン詳細の周りに薄いボーダー */
-            border-radius: 4px; /* 角を少し丸くする */
-            padding: 15px; /* クーポン詳細内のパディング */
-            margin-bottom: 30px; /* クーポン詳細の下にスペースを追加 */
-        }
-        .coupon-details p {
-            margin: 10px 0; /* 段落の上下マージン */
-            font-size: 16px; /* クーポン詳細の段落のフォントサイズ */
-            color: #666; /* テキストの色をグレーに */
-        }
-        .coupon-details strong {
-            color: #333; /* 強調テキストの色をダークグレーに */
-        }
+
         .button {
-            background-color: #4CAF50; /* ボタンの背景色を緑に */
-            border: none; /* ボーダーなし */
-            color: white; /* テキストの色を白に */
-            padding: 12px 24px; /* ボタンのパディング */
-            text-align: center; /* ボタン内のテキストを中央揃え */
-            text-decoration: none; /* リンクに下線を付けない */
-            display: inline-block; /* ボタンをインラインブロックにする */
-            font-size: 16px; /* ボタンテキストのフォントサイズ */
-            margin: 4px 2px; /* ボタンの周りにマージンを追加 */
-            cursor: pointer; /* ホバー時にポインターカーソルを表示 */
-            border-radius: 4px; /* 角を少し丸くする */
-            transition: background-color 0.3s; /* 背景色のスムーズな遷移 */
+            background-color: var(--secondary-color);
+            border: none;
+            color: var(--text-color);
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
         }
+
         .button:hover {
-            background-color: #45a049; /* ホバー時にダークグリーンに */
+            background-color: var(--accent-color-3);
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
-    <div class="container"> <!-- メインコンテンツのコンテナ -->
-        <h1>クーポン使用完了</h1> <!-- ページの見出し -->
-        <p class="message">クーポンが正常に使用されました。</p> <!-- 確認メッセージ -->
-		<img th:src="${image}"> <!-- Thymeleafを使った画像プレースホルダー -->
-        <a th:href="@{/couponlist}" class="button">クーポン一覧に戻る</a> <!-- クーポン一覧に戻るボタン -->
+    <div class="container">
+        <h1>クーポン使用完了</h1>
+        <p class="message">クーポンが正常に使用されました。</p>
+        <img th:src="${image}" alt="クーポン画像"> <!-- Thymeleafを使った画像プレースホルダー -->
+        <a th:href="@{/couponlist}" class="button">クーポン一覧に戻る</a>
     </div>
 </body>
 </html>

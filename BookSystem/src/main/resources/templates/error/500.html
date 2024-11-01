@@ -4,77 +4,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>500 Internal Server Error</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #45a049;
-            --background-color: #f8f8f8;
-            --text-color: #333;
-            --card-background: #fff;
+            --primary-color: #5D4037;
+            --secondary-color: #795548;
+            --background-color: #F5F5F5;
+            --text-color: #333333;
+            --card-background: #FFFFFF;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Noto Sans JP', sans-serif;
             line-height: 1.6;
             background-color: var(--background-color);
             color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0'); 
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .header h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
             margin: 0;
         }
 
         .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
             background-color: var(--card-background);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        h1 {
-            color: #f44336;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
             margin-bottom: 20px;
+            text-align: center;
         }
 
-		h2, h3 {
-		    color: var(--primary-color);
-		    margin-bottom: 15px;
-		}
+        .section-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
 
+        .section-title {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 1.5em;
+        }
 
         .btn {
             display: inline-block;
-            padding: 12px 20px;
-            background-color: var(--primary-color);
+            padding: 8px 16px;
+            background-color: var(--secondary-color);
             color: white;
             text-decoration: none;
-            border-radius: 25px;
-            transition: background-color 0.3s, transform 0.2s;
+            border-radius: 4px;
+            transition: background-color 0.3s;
             font-weight: bold;
             border: none;
             cursor: pointer;
+            margin: 5px;
         }
 
         .btn:hover {
-            background-color: var(--secondary-color);
-            transform: scale(1.05);
+            background-color: var(--primary-color);
+        }
+
+        .action-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .logout-btn {
+            background-color: #f44336;
+        }
+
+        .logout-btn:hover {
+            background-color: #d32f2f;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
         <h1>500 サーバーエラー</h1>
-        <h2>エラーが発生しました。</h2>
-        <h3>ログインページより再度ログインしてください</h3>
-
-		<!-- ログアウトしてログイン画面に戻るためのボタン -->
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn">ログイン画面へ</button>
-        </form>
+    </div>
+    
+    <div class="container">
+        <div class="card">
+            <div class="section-header">
+                <h2 class="section-title">エラーが発生しました</h2>
+            </div>
+            <p>ログインページより再度ログインしてください。</p>
+            <div class="action-buttons">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn logout-btn">ログイン画面へ</button>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>

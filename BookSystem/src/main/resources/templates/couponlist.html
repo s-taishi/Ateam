@@ -119,14 +119,14 @@
         <h1>クーポン一覧</h1>
 
         <div class="no-coupons" th:if="${coupons.size() == 0}">
-            <div class="no-coupons-icon">&#x1F4B3;</div>
+            
             <p>クーポンがありません</p>
         </div>
 
         <div class="coupon-list" th:if="${coupons.size() > 0}">
             <div th:each="coupon : ${coupons}" class="coupon">
                 <div class="coupon-info">
-                    取得したクーポンID：<span th:text="${coupon.id}"></span>
+                    取得したクーポン
                 </div>
                 <a th:href="@{/coupondetail/{id}(id=${coupon.id})}" class="button">詳細を見る</a>
             </div>
