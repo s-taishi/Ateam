@@ -35,10 +35,14 @@ public class Coupon1Controller {
         	playTimeService.playTimeInsert(new PlayTime(ConnectUser.id,LocalDate.now(),0));
         	playTime = playTimeService.playTimeFindById(ConnectUser.id);
         }
+        if(playTime.getLastplay().isBefore(LocalDate.now())) {
+        	playTime.setLastplay(LocalDate.now());
+    		playTime.setPlaycount(0);
+    		playTimeService.playTimeUpdate(playTime);
+        }
         if(playTime.getPlaycount() >= 3) {
         	model.addAttribute("count",playTime.getPlaycount());
         }
-        
         // 取得したクーポンリストをモデルに追加
         model.addAttribute("coupons", coupons);
         
