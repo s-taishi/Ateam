@@ -7,7 +7,7 @@
     <style>
         @font-face {
             font-family: 'AmeChan';
-            src: url('/fonts/AmeChanPopMaruLight-Regular.otf') format('truetype');
+            src: url('/fonts/irohamaru-Medium.ttf') format('truetype');
         }
 
         :root {
@@ -62,10 +62,16 @@
         }
 
         .coupon-message {
-            font-size: 1.1em;
+            font-size: 1.2em;
             color: var(--primary-color);
             margin: 15px 0;
             font-weight: bold;
+        }
+
+        .coupon-info {
+            color: rgb(128, 128, 128); /* ここで色を指定 */
+            margin: 10px 0; /* 余白を追加 */
+			font-size: 0.8em;
         }
 
         .button {
@@ -127,6 +133,11 @@
                 <div th:if="${couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE4)}">
                     席料無料クーポン！
                 </div>
+                
+				<div class="coupon-info" th:text="'クーポンID：' + ${coupons.id}"></div>
+                <div class="coupon-info">有効期限：取得から3ヶ月</div>
+                <div class="coupon-info">併用区分：併用不可</div>
+                <div class="coupon-info">利用条件：本店舗のみでご利用可能</div>
             </div>
 
             <form th:action="@{/coupondelete/{id}(id=${coupons.id})}" method="post">
