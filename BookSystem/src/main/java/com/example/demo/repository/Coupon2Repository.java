@@ -9,4 +9,6 @@ import com.example.demo.entity.Coupon;
 public interface Coupon2Repository {
 
 	void couponInsert(Coupon coupon);
+	
+	Coupon couponSelectByMaxId();
 }

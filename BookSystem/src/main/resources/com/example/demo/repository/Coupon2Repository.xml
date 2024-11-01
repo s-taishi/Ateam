@@ -26,4 +26,8 @@
     INSERT INTO coupon (coupon_type, user_id) 
     VALUES (CAST(#{couponType} AS coupon_type), #{user.id});
 </insert>
+
+<select id="couponSelectByMaxId" parameterType="com.example.demo.entity.Coupon">
+	select * from coupon where id = (select max(id) from coupon);
+</select>
 </mapper>
