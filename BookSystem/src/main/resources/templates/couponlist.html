@@ -192,6 +192,8 @@
     <div class="action-buttons">
         <a th:unless="${count}" href="/couponlot" class="button lottery-button">
             <i class="fas fa-gift"></i> クーポン抽選ページ<br> 　（1日3回まで）
+			<br>
+			<span th:text="'残り ' + ${playCount} + '回'"></span>
         </a>
         <a href="/mypage" class="button mypage-button">マイページへ</a>
     </div>

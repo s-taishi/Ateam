@@ -45,7 +45,8 @@ public class Coupon1Controller {
         }
         // 取得したクーポンリストをモデルに追加
         model.addAttribute("coupons", coupons);
-        
+        int p = 3-playTime.getPlaycount();
+        model.addAttribute("playCount", p);
         return "couponlist"; // couponlist.htmlを返す
     }
 }
