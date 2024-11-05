@@ -1,153 +1,201 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>クーポン一覧</title>
-	<style>
-		:root {
-			--primary-color: #4CAF50;
-			--secondary-color: #45a049;
-			--background-color: #f8f8f8;
-			--text-color: #333;
-			--card-background: #fff;
-		}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クーポン一覧</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'AmeChan';
+            src: url('/fonts/irohamaru-Medium.ttf') format('truetype');
+        }
 
-		body {
-			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-			margin: 0;
-			padding: 20px;
-			background-color: var(--background-color);
-			color: var(--text-color);
-		}
+        :root {
+            --primary-color: #FF4081;
+            --secondary-color: #F50057;
+            --background-color: #FFEBEE;
+            --text-color: #FFFFFF;
+            --card-background: rgba(255, 255, 255, 0.9);
+            --accent-color-1: #4CAF50;
+            --accent-color-2: #2196F3;
+            --accent-color-3: #FFC107;
+        }
 
-		.container {
-			max-width: 1200px;
-			margin: 0 auto;
-		}
+        body {
+            font-family: 'AmeChan', sans-serif;
+            background-image: url('img/okumono-sizen8.png');
+            background-size: cover;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+        }
 
-		h1 {
-			text-align: center;
-			color: var(--primary-color);
-			font-size: 2.5em;
-			margin-bottom: 30px;
-		}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-		.coupon-list {
-			display: grid;
-			grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-			gap: 25px;
-			justify-content: center;
-		}
+        h1 {
+            text-align: center;
+            color: #FFFFFF;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
 
-		.coupon {
-			background-color: var(--card-background);
-			border-radius: 12px;
-			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-			padding: 25px;
-			text-align: center;
-			transition: transform 0.3s ease, box-shadow 0.3s ease;
-		}
+        .coupon-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            justify-content: center;
+        }
 
-		.coupon:hover {
-			transform: translateY(-5px);
-			box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-		}
+        .coupon {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
+        .coupon:nth-child(odd) {
+            background-color: var(--accent-color-1);
+        }
 
-		.coupon-info {
-			color: var(--primary-color);
-			margin-bottom: 15px;
-			font-weight: bold;
-		}
+        .coupon:nth-child(even) {
+            background-color: var(--accent-color-2);
+        }
 
-		.button {
-			display: inline-block;
-			padding: 12px 20px;
-			background-color: var(--primary-color);
-			color: white;
-			text-decoration: none;
-			border-radius: 25px;
-			transition: background-color 0.3s, transform 0.2s;
-			font-weight: bold;
-			margin: 5px;
-		}
+        .coupon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
 
-		.button:hover {
-			background-color: var(--secondary-color);
-			transform: scale(1.05);
-		}
+        .coupon-info {
+            color: var(--text-color);
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
 
-		.detail-button {
-			background-color: #2196F3;
-		}
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
+        }
 
-		.detail-button:hover {
-			background-color: #1976D2;
-		}
+        .button:hover {
+            background-color: var(--accent-color-3);
+            transform: scale(1.05);
+        }
 
-		.no-coupons {
-			text-align: center;
-			font-size: 1.2em;
-			margin-top: 50px;
-		}
+        .no-coupons {
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: 50px;
+        }
 
-		.action-buttons {
-			display: flex;
-			justify-content: center;
-			margin-top: 20px;
-			/* 上に少しスペースを追加 */
-		}
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
 
-		@media (max-width: 600px) {
-			.coupon-list {
-				grid-template-columns: 1fr;
-			}
-		}
-		.no-coupons {
-		            background-color: var(--card-background);
-		            border-radius: 12px;
-		            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-		            padding: 25px;
-		            text-align: center;
-		            font-size: 1.2em;
-		            margin: 50px auto;
-		            max-width: 280px;
-		            color: var(--text-color);
-		        }
-		
-		        .no-coupons-icon {
-		            font-size: 3em;
-		            color: var(--primary-color);
-		            margin-bottom: 15px;
-		        }
-	</style>
+        .action-buttons .button {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .lottery-button {
+            background-color: var(--accent-color-3);
+            font-size: 1.2em;
+            padding: 10px 25px;
+            animation: pulse 2s infinite;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70px;
+        }
+
+        .lottery-button i {
+            margin-bottom: 5px;
+        }
+
+        .lottery-button:hover {
+            background-color: #FFA000;
+            transform: scale(1.1);
+        }
+
+        .mypage-button {
+            text-align: center;
+            line-height: px; /* ボタンの高さに合わせて調整 */
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .coupon-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body> 
     <div class="container">
         <h1>クーポン一覧</h1>
-        
-        <!-- クーポンがない場合のメッセージ -->
+
         <div class="no-coupons" th:if="${coupons.size() == 0}">
-            <div class="no-coupons-icon">&#x1F4B3;</div>
             <p>クーポンがありません</p>
         </div>
-        
-        <!-- クーポンリストがある場合 -->
+
         <div class="coupon-list" th:if="${coupons.size() > 0}">
             <div th:each="coupon : ${coupons}" class="coupon">
                 <div class="coupon-info">
-                    取得したクーポン: <span th:text="${coupon.id}"></span>
+                    <div th:if="${coupon.couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE1)}">
+                        <i class="fas fa-money-bill-wave"></i> 合計金額から半額クーポン！
+                    </div>
+                    <div th:if="${coupon.couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE2)}">
+                        <i class="fas fa-money-bill-wave"></i> 合計金額から1000円引きクーポン！
+                    </div>
+                    <div th:if="${coupon.couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE3)}">
+                        <i class="fas fa-glass-martini"></i> ドリンク1杯無料クーポン！
+                    </div>
+                    <div th:if="${coupon.couponType.equals(T(com.example.demo.entity.CouponType).COUPON_TYPE4)}">
+                        <i class="fas fa-chair"></i> 席料無料クーポン！
+                    </div>
                 </div>
-                <a th:href="@{/coupondetail/{id}(id=${coupon.id})}" class="button detail-button">詳細を見る</a>
+                <a th:href="@{/coupondetail/{id}(id=${coupon.id})}" class="button">詳細を見る</a>
             </div>
         </div>
     </div>
+    
     <div class="action-buttons">
-        <a href="/couponlot" class="button">クーポン抽選ページへ</a>
-        <a href="/mypage" class="button">マイページへ</a>
+        <a th:unless="${count}" href="/couponlot" class="button lottery-button">
+            <i class="fas fa-gift"></i> クーポン抽選ページ<br> 　（1日3回まで）
+			<br>
+			<span th:text="'残り ' + ${playCount} + '回'"></span>
+        </a>
+        <a href="/mypage" class="button mypage-button">マイページへ</a>
     </div>
 </body>
 </html>

@@ -1,5 +1,10 @@
 package com.example.demo.entity;
 
+/**
+ * クーポンの種類を表す列挙型クラス
+ * 各クーポンタイプには異なる当選確率を設定
+ */
+
 public enum CouponType {
 
 	//各定数にフィールドとして確率の情報を付加

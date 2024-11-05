@@ -24,10 +24,10 @@ public class SecurityConfig {
 		http
 		//セキュリティ設定
 		.authorizeHttpRequests(authz -> authz
-		//loginへのアクセスは誰でも可能
+		//ログインに関わる画面へのアクセスは誰でも可能
 		.requestMatchers("/login/**").permitAll()
-		//booklistへのアクセスはADMIN権限を持つ者のみ可能
-		.requestMatchers("/adminmenu").hasAuthority("ADMIN")
+		//管理者画面へのアクセスはADMIN権限を持つ者のみ可能
+		.requestMatchers("/adminmenu","/adminlist/**").hasAuthority("ADMIN")
 		//他はログインすればアクセス可能
 		.anyRequest().authenticated())
 		//ログイン設定
@@ -40,8 +40,6 @@ public class SecurityConfig {
 		.usernameParameter("username")
 		//passwordに使う変数はpassword
 		.passwordParameter("password")
-		//ログイン成功時に飛ばすurl
-//		.defaultSuccessUrl("/mypage/user")
 		//ログイン成功時に実行するメソッド
 		.successHandler(successHandler)
 		//ログイン失敗時に飛ばすurl

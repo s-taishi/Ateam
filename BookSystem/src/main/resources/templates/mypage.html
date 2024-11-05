@@ -4,159 +4,220 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>マイページ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #45a049;
-            --background-color: #f8f8f8;
-            --text-color: #333;
-            --card-background: #fff;
+            --primary-color: #5D4037;
+            --secondary-color: #795548;
+            --background-color: #F5F5F5;
+            --text-color: #333333;
+            --card-background: #FFFFFF;
         }
-		.user-info {
-		          display: flex;
-		          align-items: center;
-		          justify-content: space-between;
-		      }
 
-        html, body {
-            height: 100%;
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
             margin: 0;
             padding: 0;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
+        .header {
+            background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0'); 
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .header h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin: 0;
         }
 
         .container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            max-width: 1000px;
+            margin: 0 auto;
             padding: 20px;
-            min-height: 0;
         }
 
-        .content {
-            flex: 1;
-            overflow-y: auto;
+        .card {
+            background-color: var(--card-background);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
-        h1, h2 {
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .section-title {
             color: var(--primary-color);
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .section-buttons {
+            display: flex;
+            gap: 10px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            background-color: var(--card-background);
         }
 
         th, td {
-            padding: 8px;
-            border: 1px solid #ddd;
+            padding: 12px;
             text-align: left;
+            border-bottom: 1px solid #ddd;
         }
 
         th {
-            background-color: var(--primary-color);
+            background-color: var(--secondary-color);
             color: white;
-        }
-
-        td {
-            background-color: white;
         }
 
         .btn {
             display: inline-block;
-            padding: 12px 20px;
-            background-color: var(--primary-color);
+            padding: 8px 16px;
+            background-color: var(--secondary-color);
             color: white;
             text-decoration: none;
-            border-radius: 25px;
-            transition: background-color 0.3s, transform 0.2s;
+            border-radius: 4px;
+            transition: background-color 0.3s;
             font-weight: bold;
-            margin-left: 10px;
         }
 
         .btn:hover {
-            background-color: var(--secondary-color);
-            transform: scale(1.05);
+            background-color: var(--primary-color);
+        }
+
+        .btn-coupon {
+            display: inline-block;
+            padding: 8px 16px; /* サイズを大きく */
+            background-color: #795548; /* 明るい色に変更 */
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            border-radius: 20px; /* 丸みを帯びた形にする */
+            transition: background-color 0.3s, transform 0.2s; /* 拡大効果の追加 */
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 影を追加 */
+        }
+
+        .btn-coupon:hover {
+            background-color:#5D4037; /* ホバー時の色変更 */
+            transform: scale(1.05); /* ホバー時に少し大きくする */
         }
 
         .highlight-btn {
-            background-color: #FF9800;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: rgb(205, 110, 99);
         }
 
         .highlight-btn:hover {
-            background-color: #F57C00;
+            background-color: #6D4C41;
         }
 
-        .coupon-btn { 
-           padding: 10px 18px; 
-           background-color: transparent; 
-           color: var(--primary-color); 
-           border-radius: 5px; 
-           border: 2px solid var(--primary-color); 
-           transition: background-color 0.3s, color 0.3s; 
-           font-weight:bold; 
-           margin-left:10px; 
-       }
-       
-       .coupon-btn:hover { 
-           background-color: var(--primary-color); 
-           color:white; 
-       }
+        .no-reservations {
+            text-align: center;
+            font-size: 1.1em;
+            color: #757575;
+            margin: 20px 0;
+            font-weight: bold;
+        }
 
-       .action-buttons {
-           display: flex;
-           justify-content: space-between;
-           margin-top: 20px;
-       }
+        .logout-form {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 3;
+        }
 
-       .no-reservations {
-           text-align: center;
-           font-size: 1.2em;
-           color: #666;
-           margin: 20px 0;
-       }
+        .flash-message {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 5px;
+            background-color: rgba(205, 110, 99, 0.9);
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
 
-       .logout-btn {
-          border:none; 
-          outline:none; 
-          cursor:pointer; 
-          padding:12px 20px; 
-          background-color:#4CAF50; 
-          color:white; 
-          border-radius:25px; 
-          transition:.3s; 
-      }
-      
-      .logout-btn:hover {
-          background-color:#45a049; 
-      }
+        .logout-btn {
+            background-color: rgb(214, 111, 75);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .logout-btn:hover {
+            background-color: #E64A19;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>マイページ</h1>
+        <form th:action="@{/logout}" method="post" class="logout-form">
+            <button type="submit" class="logout-btn">ログアウト</button>
+        </form>
+    </div>
+
+    <!-- フラッシュメッセージ -->
+    <div id="flashMessage" th:if="${message}" class="flash-message" th:text="${message}"></div>
+    
     <div class="container">
-        <div class="content">
-            <h1>マイページ</h1>
-            <div style="display: flex; align-items: center;">
-                <h2>予約情報一覧</h2>
-                <a th:href="@{/entry}" class="btn highlight-btn">予約画面へ</a>
-                <a th:href="@{/couponlist}" class="btn coupon-btn">クーポン一覧へ</a>
+        <div class="card">
+            <div class="section-header">
+                <h2 class="section-title">予約情報一覧</h2>
+                <div class="section-buttons">
+                    <a th:href="@{/entry}" class="btn highlight-btn">予約画面へ</a>
+                    <a th:href="@{/couponlist}" class="btn-coupon">クーポン一覧へ</a>
+                </div>
             </div>
             
             <div th:if="${books.isEmpty()}" class="no-reservations">
-                予約はありません。
+                予約はありません
             </div>
-            
             <table th:if="${!books.isEmpty()}">
                 <thead>
                     <tr>
@@ -179,42 +240,45 @@
                     </tr>
                 </tbody>
             </table>
-			<div style="display: flex; align-items: center;">
-           <h2>ユーザー情報</h2>
-			<a th:href="@{/custom}" class="btn highlight-btn">情報変更</a>
-			<p th:if="${message}" class="no-reservations" th:text="${message}" style="color:blue;"></p>
-			</div>
-	       <!-- ユーザー情報テーブル -->
-           <table style="font-size: 0.9em; width: 50%;">
-               <tr>
-                   <th>氏名</th>
-                   <td th:text="${user.displayName}"></td>
-               </tr>
-               <tr>
-                   <th>ユーザーネーム</th>
-                   <td th:text="${user.username}"></td>
-               </tr>
-               <tr>
-                   <th>電話番号</th>
-                   <td th:text="${user.tellNumber}"></td>
-               </tr>
-           </table>
+        </div>
 
-   
+        <div class="card">
+            <div class="section-header">
+                <h2 class="section-title">ユーザー情報</h2>
+                <div class="section-buttons">
+                    <a th:href="@{/custom}" class="btn">情報変更</a>
+                </div>
+            </div>
+            
+            <table>
+                <tr>
+                    <th>氏名</th>
+                    <td th:text="${user.displayName}"></td>
+                </tr>
+                <tr>
+                    <th>ユーザーネーム</th>
+                    <td th:text="${user.username}"></td>
+                </tr>
+                <tr>
+                    <th>電話番号</th>
+                    <td th:text="${user.tellNumber}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
 
-       <div class="action-buttons">
-           <div class="left-buttons">
-               <!-- クーポン一覧ボタンは上部に追加済み -->
-           </div>
-		  
-           <!-- ログアウトボタン -->
-           <form th:action="@{/logout}" method="post">
-               <input type="submit" class="logout-btn" value="ログアウト">
-           </form>
-
-       </div>
-
-   </p>
-
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', function() {
+            var flashMessage = document.getElementById('flashMessage');
+            if (flashMessage) {
+                flashMessage.style.opacity = '1';
+                setTimeout(function() {
+                    flashMessage.style.opacity = '0';
+                }, 3000);
+            }
+        });
+        /*]]>*/
+    </script>
 </body>
 </html>

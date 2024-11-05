@@ -19,22 +19,24 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler{
 
+	//DI
 	private final BookService service;
 	
+	//ログイン成功時に実行されるメソッド
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		// TODO 自動生成されたメソッド・スタブ
+		//ログインしたユーザー情報をログイン中、静的に保持し続ける
 		String username = authentication.getName();
-		User user = service.userFindByUserName(username);
+		User user = service.userFindByUserName(username);//入力したユーザー名の情報を取得
+		//静的なフィールドを持つクラスにユーザーの全情報を格納
 		ConnectUser.id = user.getId();
 		ConnectUser.username = user.getUsername();
 		ConnectUser.password = user.getPassword();
 		ConnectUser.displayName = user.getDisplayName();
 		ConnectUser.tellNumber = user.getTellNumber();
 		ConnectUser.authority = user.getAuthority();
-		response.sendRedirect("/mypage");
+		response.sendRedirect("/mypage");//格納処理終了後、mypageをリクエスト
 	}
 	
-
 }

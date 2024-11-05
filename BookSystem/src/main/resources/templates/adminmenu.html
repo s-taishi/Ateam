@@ -3,154 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理者日付選択画面</title>
+    <title>管理者メニュー</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #45a049;
-            --background-color: #f8f8f8;
-            --text-color: #333;
-            --card-background: #fff;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+            --primary-color: #5D4037;
+            --secondary-color: #795548;
+            --background-color: #F5F5F5;
+            --text-color: #333333;
+            --card-background: #FFFFFF;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Noto Sans JP', sans-serif;
             line-height: 1.6;
             background-color: var(--background-color);
             color: var(--text-color);
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0'); 
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+            position: relative;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .header h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin: 0;
         }
 
         .container {
             flex: 1;
             display: flex;
             flex-direction: column;
+            align-items: center;
             padding: 20px;
-            min-height: 0;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .content {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        h1 {
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .calendar-card {
+        .card {
             background-color: var(--card-background);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            max-width: 400px; /* カードの最大幅 */
-            margin: 0 auto 20px; /* 中央寄せ */
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
         }
 
         #date-picker {
-            font-size: 16px;
-            padding: 10px;
             width: 100%;
-            border: 1px solid var(--primary-color);
+            padding: 8px;
+            border: 1px solid #ddd;
             border-radius: 4px;
-            margin-bottom: 15px;
             box-sizing: border-box;
+            margin-bottom: 15px;
         }
 
         .btn {
             display: inline-block;
-            padding: 12px 20px; /* ボタンの内側の余白 */
-            background-color: var(--primary-color);
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
             color: white;
             text-decoration: none;
-            border-radius: 25px; /* ボタンの角を丸くする */
-            transition: background-color 0.3s, transform 0.2s; /* ホバー時の効果 */
-            font-weight: bold; 
-            
-            /* 黒縁をなくすためのスタイル */
-            border: none; /* ボーダーなし */
-            outline: none; /* アウトラインなし */
-        }
-
-        .search-button {
-            width: calc(100% - 40px); /* 幅を調整（親要素からの余白を考慮） */
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
         }
 
         .btn:hover {
-            background-color: var(--secondary-color); /* ホバー時の色 */
+            background-color: var(--primary-color);
         }
 
         .highlight-btn {
-            background-color: #FF9800; /* 新規予約ボタンの色 */
+            background-color: rgb(205, 110, 99);
         }
 
         .highlight-btn:hover {
-            background-color: #F57C00; /* ホバー時の色 */
+            background-color: #6D4C41;
         }
 
         .action-buttons {
-          margin-top: 20px; /* 他のコンテンツとの間隔 */
-          display:flex; /* Flexboxを使用 */
-          justify-content:center; /* 中央揃え */
-          align-items:center; /* 縦方向も中央揃え */
-      }
-      
-      .logout-btn {
-          border:none; 
-          outline:none; 
-          cursor:pointer; 
-          padding:12px 20px; 
-          background-color:#4CAF50; 
-          color:white; 
-          border-radius:25px; 
-          transition:.3s; 
-      }
-      
-      .logout-btn:hover {
-          background-color:#45a049; 
-      }
+            width: 100%;
+            max-width: 400px;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>管理者メニュー</h1>
+    </div>
+    
     <div class="container">
-        <div class="content">
-            
-              <h1>営業日選択画面</h1>
-              
-              <!-- 日付選択用のカレンダー -->
-              <div class="calendar-card">
-                  <form th:action="@{/adminlist}" method="get">
-                      <input type="date" id="date-picker" name="date" required>
-                      <div class="action-buttons"> <!-- 中央揃えのためのラッパー -->
-                          <button type="submit" class="btn search-button">検索</button> <!-- 検索ボタン -->
-                      </div>
-                  </form>
-              </div>
+        <div class="card">
+            <h2>日付選択</h2>
+            <form th:action="@{/adminlist}" method="get">
+                <input type="date" id="date-picker" name="date" required>
+                <button type="submit" class="btn">検索</button>
+            </form>
+        </div>
 
-              <!-- 新規予約登録ボタンを別のセクションに配置 -->
-              <div class="action-buttons">
-                  <form th:action="@{/adminentry}" method="get">
-                      <button type="submit" class="btn highlight-btn">新規予約登録</button>
-                  </form>
-              </div>
+        <div class="action-buttons">
+            <form th:action="@{/adminentry}" method="get">
+                <button type="submit" class="btn highlight-btn">ゲスト予約</button>
+            </form>
+        </div>
 
-              <!-- ログアウトボタン -->
-              <div class="action-buttons">
-                  <form th:action="@{/logout}" method="post">
-                      <button type="submit" class="logout-btn">ログアウト</button>
-                  </form>
-              </div>
-
-         </div>
-     </div>
+        <div class="action-buttons">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn">ログアウト</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

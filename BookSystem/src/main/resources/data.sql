@@ -32,16 +32,24 @@ VALUES
 INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
 ('2024-10-01', '16:00:00', 4, '特になし。',1);
---クーポン情報のダミーデータ
-INSERT INTO coupon(id, coupon_type, user_id)
-VALUES (1, 'COUPON_TYPE1', 2);
-	
-INSERT INTO coupon(id, coupon_type, user_id)
-VALUES (2, 'COUPON_TYPE2', 2);
-	
-INSERT INTO coupon(id, coupon_type, user_id)
-VALUES (3, 'COUPON_TYPE3', 2);
-	
-INSERT INTO coupon(id, coupon_type, user_id)
-VALUES (4, 'COUPON_TYPE4', 2);
---★テスト用機能ここまで
+
+-- クーポン情報のダミーデータ
+INSERT INTO coupon (coupon_type, user_id, issue_date, expiration_date)
+VALUES ('COUPON_TYPE1', 2, '2024-11-05', '2025-02-05');
+
+INSERT INTO coupon (coupon_type, user_id, issue_date, expiration_date)
+VALUES ('COUPON_TYPE2', 2, '2024-11-05', '2025-02-05');
+
+INSERT INTO coupon (coupon_type, user_id, issue_date, expiration_date)
+VALUES ('COUPON_TYPE3', 2, '2024-11-05', '2025-02-05');
+
+INSERT INTO coupon (coupon_type, user_id, issue_date, expiration_date)
+VALUES ('COUPON_TYPE4', 2, '2024-11-05', '2025-02-05');
+
+--期限切れクーポン
+INSERT INTO coupon (coupon_type, user_id, issue_date, expiration_date)
+VALUES ('COUPON_TYPE1', 2, '2024-09-04', '2024-11-04');
+
+
+
+-- ★テスト用機能ここまで

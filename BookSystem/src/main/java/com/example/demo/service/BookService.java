@@ -17,60 +17,44 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BookService {
 	
+	//DI
 	private final BookRepository bookRepository;  // BookRepositoryのインスタンス
     private final UserRepository userRepository;  // UserRepositoryのインスタンス
 
 
     // Bookに関するメソッド
+    //ID別予約情報取得
     public Book bookFindById(int id) {
         return bookRepository.bookSelectById(id);
     }
-
+    //予約情報登録
     public void bookInsert(Book book) {
         bookRepository.bookInsert(book);
     }
-
+    //指定IDの予約情報削除
     public void bookDelete(int id) {
         bookRepository.bookDelete(id);
     }
-
+    //日付別予約情報取得
     public List<Book> bookFindByDate(LocalDate date) {
         return bookRepository.bookSelectBybookdate(date);
     }
-
-    public List<Book> bookFindByMonth(LocalDate localDate) {
-        return bookRepository.bookSelectByMonth(localDate);
-    }
-    
+    //ユーザー名別予約情報取得
     public List<Book> bookFindByUserName(String userName){
     	return bookRepository.bookSelectByName(userName);
     }
     
-    public String displayNameFindByUserName(String userName){
-    	return bookRepository.displayNameSelectByUsername(userName);
-    }
-
     // Userに関するメソッド
 
-
+    //ユーザー名別ユーザー情報取得
     public User userFindByUserName(String username) {
         return userRepository.userSelectByUsername(username);
     }
-    public User userFindById(int id) {
-    	return userRepository.userSelectById(id);
-    }
-    public List<User> userFindAll() {
-    	return userRepository.userSelectAll();
-    }
-
+    //ユーザー情報登録
     public void userInsert(UserForm user) {
         userRepository.userInsert(user);
     }
-    
-    public boolean userExistsByUserName(String username) {
-    	return userRepository.userExistsByUsername(username);
-    }
-    
+    //ユーザー情報削除
     public void userUpdate(UserForm user) {
     	userRepository.userUpdate(user);
     }

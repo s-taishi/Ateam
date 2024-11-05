@@ -2,130 +2,177 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ログイン画面</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #45a049;
-            --background-color: #f8f8f8;
-            --text-color: #333;
-            --card-background: #fff;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+            --primary-color: #5D4037;
+            --secondary-color: #795548;
+            --background-color: #F5F5F5;
+            --text-color: #333333;
+            --card-background: #FFFFFF;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Noto Sans JP', sans-serif;
             line-height: 1.6;
             background-color: var(--background-color);
             color: var(--text-color);
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0'); 
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .header h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin: 0;
         }
 
         .container {
+            background-color: var(--card-background);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
             width: 100%;
             max-width: 400px;
-            background-color: var(--card-background);
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            margin-top: 150px;
         }
 
         h2 {
             color: var(--primary-color);
+            border-bottom: 1px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
         }
 
         .form-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
 
-        .form-group label {
-            width: 120px;
-            margin-right: 10px;
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
 
         input {
-            flex-grow: 1;
-            padding: 10px; /* Increased padding for better touch */
-            font-size: 16px; /* Increased font size */
-            border-radius: 5px; /* Rounded corners */
-            border: 2px solid #ccc; /* Thicker border */
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
         }
 
-        input:focus {
-            border-color: var(--primary-color); /* Change border color on focus */
-            outline: none; /* Remove default outline */
-        }
-
-        button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: var(--primary-color);
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
             color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-weight: bold;
             border: none;
             cursor: pointer;
             width: 100%;
-            border-radius: 5px;
         }
 
-        button:hover {
-            background-color: var(--secondary-color);
+        .btn:hover {
+            background-color: var(--primary-color);
         }
 
-        a {
-           color: var(--primary-color);
-           text-decoration:none; 
-           margin-top:10px; 
-           display:inline-block; 
-       }
-       
-       a:hover { 
-           text-decoration:underline; 
-       }
+        .error-message {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .success-message {
+            color: #2ecc71;
+            margin-bottom: 10px;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .signup-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>ログイン</h1>
+    </div>
+    
     <div class="container">
-        <h2>ログイン</h2>
-        
-        <!--エラー表示-->
-        <div th:if="${param.error}">
-            <p style="color:red;">usernameまたはpasswordが違います</p>
+        <div th:if="${param.error}" class="error-message">
+            <p>ユーザーネームまたはパスワードが違います</p>
         </div>
         
-        <!--ログアウト表示-->
-        <div th:if="${param.logout}">
-            <p style="color:blue;">ログアウトしました</p>
+        <div th:if="${param.logout}" class="success-message">
+            <p>ログアウトしました</p>
         </div>
-		
-		<div th:if="${message}">
-			<p th:text="${message}"></p>
-		</div>
+        
+        <div th:if="${message}" class="success-message">
+            <p th:text="${message}"></p>
+        </div>
 
-        <!--ログインするために必要な情報を入力する項目-->
         <form id="login" th:action="@{/authentication}" method="post" th:object="${userForm}">
             <div class="form-group">
                 <label for="username">ユーザーネーム</label>
-                <input type="text" th:field="*{username}" >
+                <input type="text" th:field="*{username}">
             </div>
             
             <div class="form-group">
                 <label for="password">パスワード</label>
-                <input type="password" th:field="*{password}" >
+                <input type="password" th:field="*{password}">
             </div>
             
-            <button type="submit">ログイン</button>
+            <button type="submit" class="btn">ログイン</button>
         </form>
 
-        <a th:href="@{/login/createform}">新規登録はこちら</a>
+        <div class="signup-link">
+            <a th:href="@{/login/createform}">新規登録はこちら</a>
+        </div>
     </div>
 </body>
 </html>

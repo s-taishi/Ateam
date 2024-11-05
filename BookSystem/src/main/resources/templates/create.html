@@ -4,105 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新規登録</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #45a049;
-            --background-color: #f8f8f8;
-            --text-color: #333;
-            --card-background: #fff;
-            --button-color: #B0BEC5; /* 落ち着いた色 */
-            --button-hover-color: #90A4AE; /* ホバー時の色 */
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+            --primary-color: #5D4037;
+            --secondary-color: #795548;
+            --background-color: #F5F5F5;
+            --text-color: #333333;
+            --card-background: #FFFFFF;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Noto Sans JP', sans-serif;
             line-height: 1.6;
             background-color: var(--background-color);
             color: var(--text-color);
+            margin: 0;
+            padding: 0;
             display: flex;
-            justify-content: center; /* 中央揃え */
-            align-items: center; /* 垂直中央揃え */
-            height: 100vh; /* ビューポート全体の高さ */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0'); 
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .header h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin: 0;
         }
 
         .container {
             background-color: var(--card-background);
-            border-radius: 8px; /* 角を丸くする */
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* シャドウ効果 */
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             padding: 20px;
+            width: 100%;
             max-width: 400px;
-            width: 100%; /* 幅を100%に設定 */
+            margin-top: 150px;
         }
 
-        h1 {
+        h2 {
             color: var(--primary-color);
-            text-align: center;
+            border-bottom: 1px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
         }
 
         .form-group {
-            display: flex;
-            flex-direction: column;
             margin-bottom: 15px;
         }
 
-        .form-group label {
+        label {
+            display: block;
             margin-bottom: 5px;
             font-weight: bold;
         }
 
         input {
-            padding: 10px;
+            width: 100%;
+            padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            font-size: 16px;
+            box-sizing: border-box;
         }
 
         .error-message {
-            color: red;
+            color: #e74c3c;
             font-size: 0.9em;
             margin-top: 5px;
         }
 
         .btn {
             display: inline-block;
-            padding: 12px 20px;
-            background-color: var(--primary-color);
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
             color: white;
             text-decoration: none;
-            border-radius: 25px;
-            transition: background-color 0.3s, transform 0.2s;
+            border-radius: 4px;
+            transition: background-color 0.3s;
             font-weight: bold;
             border: none;
             cursor: pointer;
             width: 100%;
-            font-size: 16px;
             margin-top: 10px;
         }
 
         .btn:hover {
-            background-color: var(--secondary-color);
-            transform: scale(1.05);
+            background-color: var(--primary-color);
         }
 
-        .secondary-btn {
-            background-color: var(--button-color); /* 落ち着いた色 */
+        .btn-secondary {
+            background-color: #95a5a6;
         }
 
-        .secondary-btn:hover {
-            background-color: var(--button-hover-color); /* ホバー時の色 */
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header">
         <h1>新規登録</h1>
+    </div>
+    
+    <div class="container">
         <form th:action="@{/login/create}" method="post" th:object="${userForm}">
             <div class="form-group">
                 <label for="username">ユーザーネーム</label>    
@@ -112,21 +144,21 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="password">パスワード</label>    
+                <label for="password">パスワード(8～12文字)</label>    
                 <input type="password" th:field="*{password}">
                 <div th:if="${#fields.hasErrors('password')}" class="error-message">
                     <p th:errors="*{password}"></p>
                 </div>
             </div>
             <div class="form-group">
-                <label for="displayName">氏名</label>    
+                <label for="displayName">氏名(カタカナ)</label>    
                 <input type="text" th:field="*{displayName}">
                 <div th:if="${#fields.hasErrors('displayName')}" class="error-message">
                     <p th:errors="*{displayName}"></p>
                 </div>
             </div>
             <div class="form-group">
-                <label for="tellNumber">電話番号</label>    
+                <label for="tellNumber">電話番号(例:123-4567-8900)</label>    
                 <input type="tel" th:field="*{tellNumber}">
                 <div th:if="${#fields.hasErrors('tellNumber')}" class="error-message">
                     <p th:errors="*{tellNumber}"></p>
@@ -137,7 +169,7 @@
         </form> 
         
         <form th:action="@{/login}" method="get">
-            <button type="submit" class="btn secondary-btn">ログイン画面に戻る</button>
+            <button type="submit" class="btn btn-secondary">ログイン画面に戻る</button>
         </form>
     </div>
 </body>

@@ -2,28 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repository.Coupon2Repository">
-	<resultMap id="couponWithUserNameResult"
-		type="com.example.demo.entity.Coupon">
-		<id property="id" column="id" />
-		<result property="couponType" column="couponType" />
-		<association property="userName"
-			javaType="com.example.demo.entity.User">
-			<id property="id" column="id" />
-			<result property="userName" column="username" />
-			<result property="password" column="password" />
-			<result property="displayName" column="display_name" />
-			<result property="tellNumber" column="tell_number" />
-			<result property="authority" column="authority" />
-		</association>
-	</resultMap>
+    <resultMap id="couponWithUserNameResult" type="com.example.demo.entity.Coupon">
+        <id property="id" column="id" />
+        <result property="couponType" column="couponType" />
+        <result property="issueDate" column="issue_date" />
+        <result property="expirationDate" column="expiration_date" />
+        <association property="user" javaType="com.example.demo.entity.User">
+            <id property="id" column="userId" />
+            <result property="username" column="username" />
+            <result property="password" column="password" />
+            <result property="displayName" column="display_name" />
+            <result property="tellNumber" column="tell_number" />
+            <result property="authority" column="authority" />
+        </association>
+    </resultMap>
 
-	<!-- 【INSERT】新しいクーポンを登録 -->
-	
-	<!-- javaの列挙型はデータベースに格納する際(MyBatisがsqlクエリに渡す際)には
-			その値を表す文字列に変換する必要があるためキャストする -->
-	<!-- userGeneratedKeys="true"の属性を追加することで、挿入した行の自動生成されたキー(ID)を取得 -->
-  <insert id="couponInsert" parameterType="com.example.demo.entity.Coupon" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO coupon (coupon_type, user_id) 
-    VALUES (CAST(#{couponType} AS coupon_type), #{user.id});
-</insert>
+    <!-- 【INSERT】新しいクーポンを登録 -->
+    <insert id="couponInsert" parameterType="com.example.demo.entity.Coupon" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO coupon (coupon_type, issue_date, expiration_date, user_id) 
+        VALUES (CAST(#{couponType} AS coupon_type), #{issueDate}, #{expirationDate}, #{user.id});
+    </insert>
+
+    <select id="couponSelectByMaxId" resultMap="couponWithUserNameResult">
+        SELECT * FROM coupon WHERE id = (SELECT max(id) FROM coupon);
+    </select>
 </mapper>

@@ -1,94 +1,144 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ゲストアカウント作成</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4CAF50;
-            --secondary-color: #45a049;
-            --background-color: #f8f8f8;
-            --text-color: #333;
-            --card-background: #fff;
+            --primary-color: #5D4037;
+            --secondary-color: #795548;
+            --background-color: #F5F5F5;
+            --text-color: #333333;
+            --card-background: #FFFFFF;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.6;
             background-color: var(--background-color);
             color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0'); 
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 50px 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .header h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin: 0;
         }
 
         .container {
-            max-width: 600px;
-            margin: 0 auto;
             background-color: var(--card-background);
-            border-radius: 12px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            padding: 25px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 150px;
         }
 
-        h1 {
-            text-align: center;
-            color: var(--text-color);
-            font-size: 1.8em;
-            margin-bottom: 30px;
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         label {
             display: block;
             margin-bottom: 5px;
-            color: var(--text-color);
+            font-weight: bold;
         }
 
-        input[type="text"],
-        input[type="tel"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            border-radius: 5px;
+        input {
+            width: 100%;
+            padding: 8px;
             border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
         }
 
-        .error-message p {
-            color: red;
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9em;
             margin-top: 5px;
         }
 
         .btn {
             display: inline-block;
-            width: 100%;
-            padding: 12px 20px;
-            background-color: var(--primary-color);
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
             color: white;
             text-decoration: none;
-            border-radius: 25px;
-            transition: background-color 0.3s, transform 0.2s;
+            border-radius: 4px;
+            transition: background-color 0.3s;
             font-weight: bold;
             border: none;
             cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            text-align: center;
         }
 
         .btn:hover {
-            background-color: var(--secondary-color);
-            transform: scale(1.05);
+            background-color: var(--primary-color);
         }
+		
+		.btn-secondary {
+		    background-color: #95a5a6;
+		}
+		
+		.btn-secondary:hover {
+		    background-color: #7f8c8d;
+		}
     </style>
 </head>
-
 <body>
-    <div class="container">
+    <div class="header">
         <h1>ゲスト登録</h1>
+    </div>
+    
+    <div class="container">
         <form th:action="@{/guest/create}" method="POST" th:object="${wrapForm}">
-            
             <div class="form-group">
-                <label for="displayName">氏名</label>    
+                <label for="displayName">氏名(カタカナ)</label>    
                 <input type="text" th:field="*{displayName}">
                 <div th:if="${#fields.hasErrors('displayName')}" class="error-message">
                     <p th:errors="*{displayName}"></p>
@@ -96,7 +146,7 @@
             </div>
             
             <div class="form-group">
-                <label for="tellNumber">電話番号</label>    
+                <label for="tellNumber">電話番号(例:123-4567-8900)</label>    
                 <input type="tel" th:field="*{tellNumber}">
                 <div th:if="${#fields.hasErrors('tellNumber')}" class="error-message">
                     <p th:errors="*{tellNumber}"></p>
@@ -105,7 +155,10 @@
             
             <button type="submit" class="btn">登録完了</button>
         </form>
+        <!-- マイページに戻るボタン -->
+		<form th:action="@{/mypage}" method="get">
+		    <button type="submit" class="btn btn-secondary">マイページに戻る</button>
+		</form>
     </div>
 </body>
-
 </html>

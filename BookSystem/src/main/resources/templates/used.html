@@ -5,75 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>クーポン使用完了</title>
     <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f0f0f0;
+        @font-face {
+            font-family: 'AmeChan';
+            src: url('/fonts/irohamaru-Medium.ttf') format('truetype');
+        }
+
+        :root {
+            --primary-color: #FF4081;
+            --secondary-color: #F50057;
+            --background-color: #FFEBEE;
+            --text-color: #FFFFFF;
+            --card-background: rgba(255, 255, 255, 0.9);
+            --accent-color-1: #4CAF50;
+            --accent-color-2: #2196F3;
+            --accent-color-3: #FFC107;
+        }
+
+        html, body {
+            height: 100%;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'AmeChan', sans-serif;
+            background-image: url('/img/okumono-sizen8.png');
+            background-size: cover;
+            background-position: center;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            color: var(--text-color);
         }
+
         .container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
+            max-width: 90%;
+            width: 400px;
+            margin: 0 auto;
+        }
+
+        .coupon-card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
             text-align: center;
         }
+
         h1 {
-            color: #4CAF50;
-            margin-bottom: 20px;
-        }
-        .message {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-        .coupon-details {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 15px;
-            margin-bottom: 30px;
-        }
-        .coupon-details p {
-            margin: 10px 0;
-            font-size: 16px;
-            color: #666;
-        }
-        .coupon-details strong {
-            color: #333;
-        }
-        .button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 12px 24px;
             text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s;
+            color: #FFFFFF;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
+
+        .message {
+            font-size: 1.2em;
+            color: var(--primary-color);
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .coupon-info {
+            color: rgb(128, 128, 128);
+            margin: 10px 0;
+            font-size: 1em;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.2s;
+            font-weight: bold;
+            margin: 5px 0;
+            border: none;
+            cursor: pointer;
+            width: calc(100% - 30px);
+        }
+
         .button:hover {
-            background-color: #45a049;
+            background-color: var(--accent-color-3);
+            transform: scale(1.05);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 15px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>クーポン使用完了</h1>
-        <p class="message">クーポンが正常に使用されました。</p>
-		<img th:src="${image}">
-        <a th:href="@{/couponlist}" class="button">クーポン一覧に戻る</a>
+		<h1>クーポン使用完了</h1>
+        <div class="coupon-card">
+            <p class="message">クーポンが正常に使用されました。</p>
+            <img th:src="${image}" alt="クーポン画像">
+            <div class="coupon-info">ご利用ありがとうございました。</div>
+            <a th:href="@{/couponlist}" class="button">クーポン一覧に戻る</a>
+        </div>
     </div>
 </body>
 </html>

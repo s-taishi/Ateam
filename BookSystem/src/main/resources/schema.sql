@@ -1,5 +1,7 @@
 --★テスト用機能ここから(本番移行時は記述を削除してください)
 --各テーブル・ENUM型が存在したら削除
+drop table if exists playtime;--必要ない場合削除
+
 drop table if exists coupon;
 DROP TABLE IF EXISTS books;
 DROP TABLE IF EXISTS users;
@@ -11,7 +13,7 @@ drop type if exists coupon_type;
 CREATE TYPE role AS ENUM('ADMIN','USER');
 
 --userテーブルの作成
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
 	id serial primary key,
 	--user(ユーザー名)カラム；主キー
 	username VARCHAR(255) not null,
@@ -30,7 +32,7 @@ CREATE TABLE users (
 );
 
 --bookテーブルの作成
-CREATE TABLE books (
+CREATE TABLE IF NOT EXISTS books (
 	--ID(予約ID)カラム：主キー
 	id SERIAL PRIMARY KEY,
 	
@@ -51,9 +53,19 @@ CREATE TABLE books (
 
 --coupon_type enum型作成
 create type coupon_type as enum('COUPON_TYPE1','COUPON_TYPE2','COUPON_TYPE3','COUPON_TYPE4');
+
 --couponテーブル作成
-create table coupon(
+create table IF NOT EXISTS coupon(
 	id serial primary key,
 	coupon_type VARCHAR(50) not null,
+	issue_date DATE DEFAULT CURRENT_DATE,
+	expiration_date DATE,
 	user_id integer references users(id));
+	
+--ルーレットの回数制限設定用テーブル　必要なければ削除する
+
+create table playtime(
+	id integer primary key references users(id),
+	lastplay date not null,
+	playcount integer not null);
 	

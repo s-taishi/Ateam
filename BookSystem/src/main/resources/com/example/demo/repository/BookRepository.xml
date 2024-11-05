@@ -29,23 +29,12 @@
         SELECT * FROM books join users on books.user_id = users.id WHERE username = #{username}
     </select>
 
-    <!-- 指定された年と月の予約検索 -->
-    <select id="bookSelectByMonth" resultMap="BookWithUserResult">
-        SELECT * FROM books join users on books.user_id = users.id 
-        WHERE EXTRACT(YEAR FROM bookdate) = EXTRACT(YEAR FROM #{localdate}) 
-          AND EXTRACT(MONTH FROM bookdate) = EXTRACT(MONTH FROM #{localdate})
-    </select>
 
     <!-- 日毎の予約検索 -->
     <select id="bookSelectBybookdate" resultMap="BookWithUserResult">
         SELECT * FROM books join users on books.user_id = users.id WHERE bookdate = #{localDate} order by booktime asc
     </select>
 
-    <!-- 指定された時間の予約検索 -->
-    <select id="bookSelectByHour" resultMap="BookWithUserResult">
-        SELECT * FROM books join users on books.user_id = users.id 
-        WHERE EXTRACT(HOUR FROM booktime) = EXTRACT(HOUR FROM #{localtime})
-    </select>
 
     <!-- 新規予約登録 -->
     <insert id="bookInsert" parameterType="com.example.demo.entity.Book">
@@ -58,11 +47,5 @@
         DELETE FROM books WHERE id = #{id}
     </delete>
     
-    <select id="displayNameSelectByUsername" parameterType="string" resultType="com.example.demo.entity.Book">
-        SELECT *
-        FROM Book b
-        JOIN User u ON b.user_id = u.id
-        WHERE u.username = #{username}
-    </select>
 
 </mapper>
