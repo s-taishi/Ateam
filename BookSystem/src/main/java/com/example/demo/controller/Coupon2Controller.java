@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.example.demo.entity.ConnectUser;
 import com.example.demo.entity.Coupon;
 import com.example.demo.entity.CouponType;
+import com.example.demo.entity.PlayTime;
 import com.example.demo.service.BookService;
 import com.example.demo.service.Coupon2Service;
 import com.example.demo.service.Coupon3Service;
+import com.example.demo.service.PlayTimeService;
 import com.example.demo.service.RouletteCount;
 
 import lombok.RequiredArgsConstructor;
@@ -25,17 +27,24 @@ public class Coupon2Controller {
 	private final Coupon2Service coupon2Service;
 	private final Coupon3Service coupon3service;
 	private final RouletteCount rouletteCount;
+	 private final PlayTimeService playTimeService;
 
 	@GetMapping("/couponlot")
 	public String couponLot(Model model) {
-	    rouletteCount.playCount();
-	    
+	    rouletteCount.playCount();						//playcountを追加していく
+	    PlayTime playTime = playTimeService.playTimeFindById(ConnectUser.id);
 	    Random rand = new Random();
 	    int p = rand.nextInt(100);
-	    
+	   
 	    // クーポンIDをランダムに決定
 	    int couponId = 5; // デフォルトは「はずれ」
-	    if (p < 5) {
+	    if(playTime.getPlaycount()==4) {				//playcountの最終値は４のため４であれば外れに設定
+	    	couponId=5;
+	    	 model.addAttribute("num", couponId);
+	 	    return "couponlot2";
+	    }
+	    
+		if (p < 5) {
 	        coupon2Service.couponInsert(new Coupon(CouponType.COUPON_TYPE1, bookService.userFindByUserName(ConnectUser.username)));
 	        couponId = 1;
 	    } else if (p < 10) {
@@ -48,7 +57,8 @@ public class Coupon2Controller {
 	        coupon2Service.couponInsert(new Coupon(CouponType.COUPON_TYPE4, bookService.userFindByUserName(ConnectUser.username)));
 	        couponId = 4;
 	    }
-	    
+	   
+		
 	    // クーポンIDをモデルに追加してHTMLに渡す
 	    model.addAttribute("num", couponId);
 	   
