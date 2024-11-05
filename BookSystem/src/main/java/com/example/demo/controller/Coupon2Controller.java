@@ -28,27 +28,33 @@ public class Coupon2Controller {
 
 	@GetMapping("/couponlot")
 	public String couponLot(Model model) {
-		rouletteCount.playCount();
-		
-		Random rand = new Random();
-		int p = rand.nextInt(100);
-		if(p < 5) {
-			coupon2Service.couponInsert(new Coupon(CouponType.COUPON_TYPE1,bookService.userFindByUserName(ConnectUser.username)));
-			model.addAttribute("num",1);
-		}else if(p < 10) {
-			coupon2Service.couponInsert(new Coupon(CouponType.COUPON_TYPE2,bookService.userFindByUserName(ConnectUser.username)));
-			model.addAttribute("num",2);
-		}else if(p < 30) {
-			coupon2Service.couponInsert(new Coupon(CouponType.COUPON_TYPE3,bookService.userFindByUserName(ConnectUser.username)));
-			model.addAttribute("num",3);
-		}else if(p < 50) {
-			coupon2Service.couponInsert(new Coupon(CouponType.COUPON_TYPE4,bookService.userFindByUserName(ConnectUser.username)));
-			model.addAttribute("num",4);
-		}else {
-			model.addAttribute("num",5);
-		}
-		return "couponlot2";
+	    rouletteCount.playCount();
+	    
+	    Random rand = new Random();
+	    int p = rand.nextInt(100);
+	    
+	    // クーポンIDをランダムに決定
+	    int couponId = 5; // デフォルトは「はずれ」
+	    if (p < 5) {
+	        coupon2Service.couponInsert(new Coupon(CouponType.COUPON_TYPE1, bookService.userFindByUserName(ConnectUser.username)));
+	        couponId = 1;
+	    } else if (p < 10) {
+	        coupon2Service.couponInsert(new Coupon(CouponType.COUPON_TYPE2, bookService.userFindByUserName(ConnectUser.username)));
+	        couponId = 2;
+	    } else if (p < 30) {
+	        coupon2Service.couponInsert(new Coupon(CouponType.COUPON_TYPE3, bookService.userFindByUserName(ConnectUser.username)));
+	        couponId = 3;
+	    } else if (p < 50) {
+	        coupon2Service.couponInsert(new Coupon(CouponType.COUPON_TYPE4, bookService.userFindByUserName(ConnectUser.username)));
+	        couponId = 4;
+	    }
+	    
+	    // クーポンIDをモデルに追加してHTMLに渡す
+	    model.addAttribute("num", couponId);
+	   
+	    return "couponlot2";
 	}
+
 	
 	@GetMapping("/detail/{id}")
 	public String couponResult(@PathVariable int id, Model model) {
