@@ -53,10 +53,13 @@ CREATE TABLE IF NOT EXISTS books (
 
 --coupon_type enum型作成
 create type coupon_type as enum('COUPON_TYPE1','COUPON_TYPE2','COUPON_TYPE3','COUPON_TYPE4');
+
 --couponテーブル作成
 create table IF NOT EXISTS coupon(
 	id serial primary key,
 	coupon_type VARCHAR(50) not null,
+	issue_date DATE DEFAULT CURRENT_DATE,
+	expiration_date DATE,
 	user_id integer references users(id));
 	
 --ルーレットの回数制限設定用テーブル　必要なければ削除する
