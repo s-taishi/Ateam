@@ -52,6 +52,9 @@ public class Coupon2Controller {
 	    // クーポンIDをモデルに追加してHTMLに渡す
 	    model.addAttribute("num", couponId);
 	   
+	    //テスト用機能ここから
+	    System.out.println(couponId);
+	    //テスト用機能ここまで
 	    return "couponlot2";
 	}
 
