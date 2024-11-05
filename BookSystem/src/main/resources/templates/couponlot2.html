@@ -252,32 +252,59 @@
         }
 		
     </style>
+	
 	<script>
-	        window.onload = function() {
-	            const couponId = /*[[${num}]]*/ 1; // ここにサーバーから送られてくるクーポンIDを設定
-	            const angleMap = {
-					1: 36,
-	                2: 108,
-	                3: 180,
-          		    4: 252,
-               		5: 324    
-					};
-	     
-	        
-	            const rotationAngle = angleMap[couponId] + 360 * 10; // 10回転後に止まる
-	            const roulette = document.getElementById('roulette');
-	            roulette.style.transform = 'rotate(' + rotationAngle + 'deg)';
-	            document.getElementById('coupon-result').style.opacity = 1; // 結果表示のためのフェードイン
-	        };
-	    </script>
+		window.onload = function() {
+		    // サーバーサイドから渡されたcouponIdを取得
+		   const couponId = [[${num}]] || 5;  // サーバーサイドから値を渡す
+
+		    // couponIdに応じた回転角度を設定
+		    let rotationAngle;
+		    switch (couponId) {
+		        case 1:
+		            rotationAngle = 36;  // COUPON_TYPE1
+		            break;
+		        case 2:
+		            rotationAngle = 324; // COUPON_TYPE2
+		            break;
+		        case 3:
+		            rotationAngle = 252; // COUPON_TYPE3
+		            break;
+		        case 4:
+		            rotationAngle = 180; // COUPON_TYPE4
+		            break;
+		        case 5:
+		        default:
+		            rotationAngle = 108; // MISS (はずれ)
+		            break;
+		    }
+
+		    // 10回転後に止まるように設定
+		    const finalAngle = rotationAngle + 360 * 10;
+
+		    // ルーレットの回転を設定
+		    const roulette = document.getElementById('roulette');
+		    roulette.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
+		    roulette.style.transform = 'rotate(' + finalAngle + 'deg)';
+
+		    // 結果をフェードインで表示
+		    document.getElementById('coupon-result').style.opacity = 1;
+
+		    // サウンドの再生（任意）
+		    const rouletteSound = document.getElementById('roulette-sound');
+		    rouletteSound.play();
+		};
+
+	</script>
+
+
 </head>
 
 <body>
-	
-	<div id="coupon-result">
-		<span class="wave-text"></span>
-	</div>
-<!--	data-coupon-idこのidによって上部のanglemapと紐づけている-->
+    <div id="coupon-result">
+        <span class="wave-text"></span>
+    </div>
+
     <div id="roulette-container">
         <div id="roulette">
             <div class="coupon-item" data-coupon-id="1" style="transform: rotate(0deg)">半額</div>
@@ -287,22 +314,21 @@
             <div class="coupon-item" data-coupon-id="5" style="transform: rotate(288deg)">はずれ</div>
         </div>
         <div class="arrow"></div>
-
     </div>
 
     <div id="coupon-result"></div>
-<!--    <button id="spin-button" onclick="startRoulette()">結果を表示</button>-->
-	<form th:action="@{/detail/{id}(id=${num})}" method="get">
-	<button type="submit" class="btn btn-secondary">結果を表示</button>
-	</form>
 
+    <form th:action="@{/detail/{id}(id=${num})}" method="get">
+        <button type="submit" class="btn btn-secondary">結果を表示</button>
+    </form>
 
     <audio id="roulette-sound">
         <source src="/audio/SE114.mp3" type="audio/mpeg">
         お使いのブラウザは音声タグに対応していません。
     </audio>
 
- 
+   
 </body>
+
 
 </html>
