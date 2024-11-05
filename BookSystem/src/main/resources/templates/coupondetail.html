@@ -59,6 +59,7 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
             padding: 20px;
             text-align: center;
+			margin-bottom: 20px;
         }
 
         .coupon-message {
@@ -95,7 +96,8 @@
         }
 
         .use-button {
-            background-color: var(--accent-color-1);
+            background-color: #F50057;
+			padding: 20px 15px;
         }
 
         .back-button {
@@ -103,20 +105,19 @@
         }
 
         .alert {
-            padding: 8px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            background-color: var(--accent-color-3);
-            color: var(--text-color);
             text-align: center;
             font-weight: bold;
+			font-size: 1.6em;
         }
     </style>
 </head>
 <body>
     <div class="container">
 		<h1 th:if="${miss}" th:text="${miss}"></h1>
+		<h1 th:if="${loss}" class="alert" th:text="${loss}"></h1> 
+		
 		<div th:unless="${miss}">
+		<div th:unless="${loss}">
 			
 	        <h1>クーポン詳細</h1>
 			
@@ -137,7 +138,7 @@
                 	</div>
                 
 					<div class="coupon-info" th:text="'クーポンID：' + ${coupons.id}"></div>
-                	<div class="coupon-info">有効期限：取得から3ヶ月</div>
+					<div class="coupon-info" th:text="'有効期限：' + ${coupons.expirationDate}"></div>
                 	<div class="coupon-info">併用区分：併用不可</div>
                 	<div class="coupon-info">利用条件：本店舗のみでご利用可能</div>
             	</div>
@@ -147,6 +148,7 @@
                 <button type="submit" class="button use-button">今すぐ使う</button>
             </form>
         </div>
+		</div>
 		<form th:action="@{/couponlist}" method="get">
 			<button type="submit" class="button back-button">クーポン一覧に戻る</button>
 		</form>

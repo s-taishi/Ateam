@@ -1,33 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repository.Coupon1Repository">
-	<resultMap id="couponWithUserNameResult"
-		type="com.example.demo.entity.Coupon">
-		<id property="id" column="id" />
-		<result property="couponType" column="couponType" />
-		<association property="user"
-			javaType="com.example.demo.entity.User">
-			<id property="id" column="userId" /> <!-- userIdに変更 -->
-			<result property="username" column="username" />
-			<result property="password" column="password" />
-			<result property="displayName" column="display_name" />
-			<result property="tellNumber" column="tell_number" />
-			<result property="authority" column="authority" />
-		</association>
-	</resultMap>
+	<resultMap id="couponWithUserNameResult" type="com.example.demo.entity.Coupon">
+    <id property="id" column="id" />
+    <result property="couponType" column="couponType" />
+    <result property="issueDate" column="issue_date" />
+    <result property="expirationDate" column="expiration_date" />
+    <association property="user" javaType="com.example.demo.entity.User">
+        <id property="id" column="userId" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="displayName" column="display_name" />
+        <result property="tellNumber" column="tell_number" />
+        <result property="authority" column="authority" />
+    </association>
+</resultMap>
+
 
 	<!-- ユーザーネームでの検索 -->
-	<select id="couponSelectByUserId"
-		resultMap="couponWithUserNameResult">
-		SELECT u.id AS userId, c.id AS id, c.coupon_type AS
-		couponType,
-		u.username, u.password, u.displayname AS displayName,
-		u.tellnumber AS tellNumber, u.authority
-		FROM users u
-		JOIN coupon c ON
-		u.id = c.user_id
-		WHERE u.id = #{userId}
-	</select>
+<select id="couponSelectByUserId" resultMap="couponWithUserNameResult">
+    SELECT 
+        u.id AS userId, 
+        c.id AS id, 
+        c.coupon_type AS couponType,
+        u.username, 
+        u.password, 
+        u.displayname AS displayName,
+        u.tellnumber AS tellNumber, 
+        u.authority,
+        c.issue_date AS issueDate,  -- クーポンの取得日
+        c.expiration_date AS expirationDate  -- エンティティで計算された有効期限を取得
+    FROM 
+        users u
+    JOIN 
+        coupon c ON u.id = c.user_id
+    WHERE 
+        u.id = #{userId}
+</select>
+
 
 
 </mapper>

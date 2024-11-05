@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +45,15 @@ public class Coupon3Controller {
 		
 		//クーポンidで検索
 		Coupon coupon=coupon3Service.couponFindById(id);
+		
+		// 現在の日付と有効期限を比較
+	    if (coupon.getExpirationDate().isBefore(LocalDate.now())) {
+	        model.addAttribute("loss", "このクーポンは有効期限切れです");
+	        coupon3Service.couponDelete(id);
+	        model.addAttribute("coupons", coupon);
+	        model.addAttribute("couponType", coupon.getCouponType());
+	        return "coupondetail"; // 詳細ページに戻す
+	    }
 		
 		//クーポンを使用（削除）
 		coupon3Service.couponDelete(id);
