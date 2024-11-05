@@ -52,9 +52,6 @@ public class Coupon2Controller {
 	    // クーポンIDをモデルに追加してHTMLに渡す
 	    model.addAttribute("num", couponId);
 	   
-	    //テスト用機能ここから
-	    System.out.println(couponId);
-	    //テスト用機能ここまで
 	    return "couponlot2";
 	}
 
@@ -72,32 +69,6 @@ public class Coupon2Controller {
 		return "coupondetail";
 	}
 	
-<<<<<<< HEAD
-	@GetMapping("/couponresult")
-	public String couponResult(
-	        @AuthenticationPrincipal UserDetails userDetails,
-	        @RequestParam int id,
-	        Model model) {
-	    // クーポンIDを使ってデータベースからクーポンを取得
-	    Coupon coupon = coupon3Service.couponFindById(id); // サービスクラスにメソッドを追加
-
-
-	    if (coupon == null) {
-	        // クーポンが見つからない場合の処理
-	        model.addAttribute("error", "クーポンが見つかりません。");
-	        return "error"; // エラーページにリダイレクト
-	    }
-
-	    // クーポンのタイプをモデルに追加
-	    CouponType couponType = coupon.getCouponType();
-
-	    //model.addAttribute("couponId", id);//クーポンID
-	    model.addAttribute("couponType", couponType);//クーポンタイプ
-	    model.addAttribute("coupons", coupon); //クーポンインスタンス
-
-	    return "coupondetail"; // クーポン詳細ページを返す
-	}
-=======
 	
 //	//ルーレットの画面を表示
 //	@GetMapping("/couponlot")
@@ -148,7 +119,5 @@ public class Coupon2Controller {
 //
 //	    return "coupondetail"; // クーポン詳細ページを返す
 //	}
->>>>>>> refs/heads/master
 
 }
-

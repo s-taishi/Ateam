@@ -79,13 +79,19 @@ public class BookController {
 
 	//予約完了画面
 	@PostMapping("/comp")
-	public String comp(@ModelAttribute Book book, Model model){
+	public String comp(RedirectAttributes attributes,@ModelAttribute Book book, Model model){
 		//データベースに入力内容を登録
 		service.bookInsert(book);
 		model.addAttribute("book", book);
+		attributes.addFlashAttribute("book",book);
+		return "redirect:/complete"; // 予約完了画面を表示
 
-		return "comp"; // 予約完了画面を表示
-
+	}
+	
+	@GetMapping("/complete")
+	public String complete(@ModelAttribute Book book,Model model) {
+	
+		return "/comp";
 	}
 
 	//マイページを表示
