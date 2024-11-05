@@ -4,17 +4,20 @@
 
 
 <resultMap id="couponWithUserNameResult" type="com.example.demo.entity.Coupon">
-<id property="id" column="id"/>
-<result property="couponType" column="coupon_type"/>
-<association property="user" javaType="com.example.demo.entity.User">
-            <id property="id" column="id"/>
-            <result property="username" column="username"/> 
-            <result property="password" column="password"/>
-            <result property="displayName" column="displayname"/> 
-            <result property="tellNumber" column="tellnumber"/> 
-            <result property="authority" column="authority"/>
-        </association>
+    <id property="id" column="id" />
+    <result property="couponType" column="coupon_type" />
+    <result property="issueDate" column="issue_date" />
+    <result property="expirationDate" column="expiration_date" />
+    <association property="user" javaType="com.example.demo.entity.User">
+        <id property="id" column="userId" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="displayName" column="display_name" />
+        <result property="tellNumber" column="tell_number" />
+        <result property="authority" column="authority" />
+    </association>
 </resultMap>
+
 
 <!-- 取得したクーポンを表示 -->
 <select id="couponSelectById" resultMap="couponWithUserNameResult">
