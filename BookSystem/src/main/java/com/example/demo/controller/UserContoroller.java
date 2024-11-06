@@ -71,6 +71,8 @@ public class UserContoroller {
 		attributes.addFlashAttribute("message", "新規アカウントを作成しました");		//作成できたことを表示するメッセージ
 		return "redirect:/login";
 	}
+	
+	
 	//ユーザーの登録情報変更（ConnectUserは現在ログイン中のユーザー）
 	@GetMapping("/custom")
 	public String customUser(@ModelAttribute UserForm userForm,Model model) {	//ページを表示した際に元情報を表示したいため、データベースに登録されている情報をFormに格納する
@@ -81,6 +83,9 @@ public class UserContoroller {
 		model.addAttribute("userForm", userForm);								//userFormとしてcustomへ情報を渡す
 		return "custom";
 	}
+	
+	
+	
 	//ユーザーの登録情報より変更した情報がバリデーションエラーないかチェックし登録
 	@PostMapping("/update")
 	public String updateUser(@Validated UserForm userForm, BindingResult bindingResult, RedirectAttributes attributes) {
@@ -169,7 +174,6 @@ public class UserContoroller {
 			}
 		}
 		
-		attributes.addFlashAttribute("message", "ゲストアカウントを作成しました");	//作成に成功したことをメッセージで表示
 		return "redirect:/entry";
 	}
 }
