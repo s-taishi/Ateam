@@ -10,8 +10,8 @@
         <id property="id" column="userId" />
         <result property="username" column="username" />
         <result property="password" column="password" />
-        <result property="displayName" column="display_name" />
-        <result property="tellNumber" column="tell_number" />
+        <result property="displayName" column="displayname" />
+        <result property="tellNumber" column="tellnumber" />
         <result property="authority" column="authority" />
     </association>
 </resultMap>
@@ -25,11 +25,11 @@
         c.coupon_type AS couponType,
         u.username, 
         u.password, 
-        u.displayname AS displayName,
-        u.tellnumber AS tellNumber, 
+        u.displayname ,
+        u.tellnumber , 
         u.authority,
-        c.issue_date AS issueDate,  -- クーポンの取得日
-        c.expiration_date AS expirationDate  -- エンティティで計算された有効期限を取得
+        c.issue_date,  -- クーポンの取得日
+        c.expiration_date  -- エンティティで計算された有効期限を取得
     FROM 
         users u
     JOIN 

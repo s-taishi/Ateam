@@ -62,6 +62,18 @@ public class BookController {
 			return "form";
 		}
 		
+		List<Book> books = service.bookFindByDate(bookForm.getBookdate());
+		int count = bookForm.getBookcount();
+		for(Book b : books) {
+			if(b.getBooktime().equals(bookForm.getBooktime())) {
+				count += b.getBookcount();
+			}
+		}
+		if(count > 50) {
+			attributes.addFlashAttribute("message","その時間帯の予約はできません。再度入力してください");
+			return "redirect:/entry";
+		}
+		
 		//入力フォームをデータベースに入れられるように型変更
 		Book book = new Book();
 		book.setBookdate(bookForm.getBookdate());
