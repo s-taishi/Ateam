@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -118,6 +119,20 @@ public class BookController {
 
 		// ユーザーに関連する予約一覧を取得
 		List<Book> books = service.bookFindByUserName(ConnectUser.username);
+		List<Integer> removes = new ArrayList<Integer>();
+		int roop = 0;
+		for(Book b : books) {
+			if(b.getBookdate().isBefore(LocalDate.now())) {
+				removes.add(roop);
+			}
+			roop++;
+		}
+		int deletes = 0;
+		
+		for(int i : removes) {
+			books.remove(i-deletes);
+			deletes++;
+		}
 
 		// 取得したユーザー情報と予約情報をモデルに追加
 		model.addAttribute("user", user);

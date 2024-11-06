@@ -19,19 +19,19 @@ VALUES
 
 INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
-('2024-10-01', '16:00:00', 4, '特になし。',1);
+('2024-10-01', '16:00:00', 4, '特になし。',2);
 --ダミー予約データ
 INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
-('2024-10-01', '14:00:00', 4, '特になし。',1);
+('2024-10-01', '14:00:00', 4, '特になし。',2);
 --ダミー予約データ
 INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
-('2024-10-01', '15:00:00', 4, 'aqwsedrftgyhujikolp;@:[ ]qawsedrftgyhujikolpaqwsedrftgyhujikolp;aqwsedrftgyhujik]',1);
+('2024-10-01', '15:00:00', 4, 'aqwsedrftgyhujikolp;@:[ ]qawsedrftgyhujikolpaqwsedrftgyhujikolp;aqwsedrftgyhujik]',2);
 --ダミー予約データ
 INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
-('2024-10-01', '16:00:00', 4, '特になし。',1);
+('2024-10-01', '16:00:00', 4, '特になし。',2);
 
 -- クーポン情報のダミーデータ
 INSERT INTO coupon (coupon_type, user_id, issue_date, expiration_date)
