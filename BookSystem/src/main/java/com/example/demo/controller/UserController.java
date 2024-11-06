@@ -169,7 +169,6 @@ public class UserController {
 			}
 		}
 		
-		attributes.addFlashAttribute("message", "ゲストアカウントを作成しました");	//作成に成功したことをメッセージで表示
 		return "redirect:/entry";
 	}
 }
