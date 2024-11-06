@@ -23,6 +23,7 @@ public class BookService {
 
 
     // Bookに関するメソッド
+    
     //ID別予約情報取得
     public Book bookFindById(int id) {
         return bookRepository.bookSelectById(id);
@@ -44,6 +45,8 @@ public class BookService {
     	return bookRepository.bookSelectByName(userName);
     }
     
+    
+    
     // Userに関するメソッド
 
     //ユーザー名別ユーザー情報取得
@@ -54,7 +57,7 @@ public class BookService {
     public void userInsert(UserForm user) {
         userRepository.userInsert(user);
     }
-    //ユーザー情報削除
+    //ユーザー情報更新
     public void userUpdate(UserForm user) {
     	userRepository.userUpdate(user);
     }
