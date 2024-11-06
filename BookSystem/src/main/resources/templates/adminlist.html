@@ -205,17 +205,19 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const dateElement = document.getElementById('selectedDate');
-            const dateText = dateElement.textContent;
-            const date = new Date(dateText);
+	<script>
+	    document.addEventListener('DOMContentLoaded', function () {
+	        const dateElement = document.getElementById('selectedDate');
+	        const dateText = dateElement.textContent;
+	        const date = new Date(dateText);
+	
+	        // 年、月、日を含むフォーマットに変更
+	        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+	        const formattedDate = date.toLocaleDateString('ja-JP', options).replace(/(\d+)\/(\d+)\/(\d+)/, '$1年$2月$3日');
+	
+	        dateElement.textContent = formattedDate;
+	    });
+	</script>
 
-            const options = {month: 'numeric', day: 'numeric'};
-            const formattedDate = date.toLocaleDateString('ja-JP', options).replace(/(\d+)\/(\d+)/, '$1月$2日');
-
-            dateElement.textContent = formattedDate;
-        });
-    </script>
 </body>
 </html>

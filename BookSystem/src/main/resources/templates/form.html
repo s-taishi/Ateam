@@ -12,6 +12,7 @@
             --background-color: #F5F5F5;
             --text-color: #333333;
             --card-background: #FFFFFF;
+            --error-color: #e74c3c;
         }
 
         body {
@@ -110,9 +111,16 @@
             background-color: var(--primary-color);
         }
 
+        .message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
         .error-message {
-            color: #e74c3c;
-            margin-bottom: 10px;
+            background-color: #fce4e4;
+            border: 1px solid var(--error-color);
+            color: var(--error-color);
         }
 
         .action-buttons {
@@ -160,10 +168,10 @@
     </div>
     
     <div class="container">
-		<p th:if="${message}" th:text="${message}"></p>
+        <div th:if="${message}" class="message error-message" th:text="${message}"></div>
         <div class="card">
            <form th:action="@{/form}" method="POST" th:object="${bookForm}">
-                <div th:if="${#fields.hasErrors('*')}" class="error-message">
+                <div th:if="${#fields.hasErrors('*')}" class="message error-message">
                     <ul>
                         <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
                     </ul>

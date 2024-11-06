@@ -71,7 +71,7 @@ public class BookController {
 			}
 		}
 		if(count > 50) {
-			attributes.addFlashAttribute("message","その時間帯の予約はできません。再度入力してください");
+			attributes.addFlashAttribute("message","選択された時間帯は満席です。別の時間をご指定ください。");
 			return "redirect:/entry";
 		}
 		
