@@ -49,6 +49,8 @@ VALUES ('COUPON_TYPE4', 2, '2024-11-05', '2025-02-05');
 --期限切れクーポン
 INSERT INTO coupon (coupon_type, user_id, issue_date, expiration_date)
 VALUES ('COUPON_TYPE1', 2, '2024-09-04', '2024-11-04');
+INSERT INTO coupon (coupon_type, user_id, issue_date, expiration_date)
+VALUES ('COUPON_TYPE1', 2, '2024-09-06', '2024-11-06');
 
 
 

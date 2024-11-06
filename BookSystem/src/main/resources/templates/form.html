@@ -160,6 +160,7 @@
     </div>
     
     <div class="container">
+		<p th:if="${message}" th:text="${message}"></p>
         <div class="card">
            <form th:action="@{/form}" method="POST" th:object="${bookForm}">
                 <div th:if="${#fields.hasErrors('*')}" class="error-message">
