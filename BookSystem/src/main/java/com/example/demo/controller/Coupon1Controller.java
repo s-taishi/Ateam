@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,16 @@ public class Coupon1Controller {
     public String getCouponsByUserId(Model model) {
         // ConnectUserからユーザーIDを取得して、クーポンを取得
         List<Coupon> coupons = coupon1Service.couponFindByUserId(ConnectUser.id);
-        
+       
+        Iterator<Coupon> iterator = coupons.iterator();
+        while (iterator.hasNext()) {
+            Coupon coupon = iterator.next();
+            
+            // expirationDateがnullでないかをチェックし、現在の日付より前なら削除
+            if (coupon.getExpirationDate() != null && coupon.getExpirationDate().isBefore(LocalDate.now())) {
+                iterator.remove();  // 条件に合うクーポンをリストから削除
+            }
+        }
         
         PlayTime playTime = playTimeService.playTimeFindById(ConnectUser.id);
         if(playTime == null) {
