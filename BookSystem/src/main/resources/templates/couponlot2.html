@@ -6,10 +6,16 @@
 	<meta charset="UTF-8">
 	<title>クーポンルーレット</title>
 	<style>
+		
+		@font-face {
+			font-family: 'AmeChan';
+			src: url('/fonts/irohamaru-Medium.ttf') format('truetype');
+		}
+
 		body {
 			margin: 0;
 			padding: 0;
-			font-family: 'Arial', sans-serif;
+			font-family: 'AmeChan', sans-serif;
 			background-image: url('/img/JUGGLER.jpg');
 			background-size: cover;
 			background-position: center;
@@ -25,114 +31,130 @@
 			/* テキストを中央に揃え */
 		}
 
-		#coupon-result {
-			margin-bottom: 20px;
-			/* 下に余白 */
-			font-size: 3em;
-			font-weight: bold;
-			color: #FFF566;
-			/* 文字色 */
-			text-shadow:
-				0 0 10px rgba(0, 0, 0, 0.8),
-				/* 黒の影 */
-				0 0 20px rgba(255, 255, 0, 0.8),
-				/* 明るい影 */
-				0 0 30px rgba(255, 0, 255, 0.8);
-			/* ネオンピンクの影 */
-			opacity: 0;
-			/* 初期は透明 */
-			transition: opacity 0.5s ease;
-			/* フェードイン用 */
-		}
 
 		#roulette-container {
-			width: 300px;
-			height: 300px;
+			width: 400px;
+			height: 400px;
 			position: relative;
 			margin: 20px 0;
 			/* 上下のマージン */
 		}
-
 		#roulette {
-			width: 100%;
-			height: 100%;
-			border-radius: 50%;
-			transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
-			background: conic-gradient(from 0deg,
-					#ff00ff 0deg 72deg,
-					#00ff00 72deg 144deg,
-					#ff6600 144deg 216deg,
-					#ffff00 216deg 288deg,
-					#00ffff 288deg 360deg);
-			box-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
-				0 0 30px rgba(255, 255, 255, 0.6),
-				0 0 40px rgba(255, 255, 255, 0.4);
-			animation: glow 2s infinite alternate;
+		    width: 100%;
+		    height: 100%;
+		    border-radius: 50%;
+		    transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
+		    background: conic-gradient(from 0deg,
+		            #ff00ff 0deg 72deg,
+		            #00ff00 72deg 144deg,
+		            #ff6600 144deg 216deg,
+		            rgb(128, 0, 255) 216deg 288deg,
+		            #00ffff 288deg 360deg);
+		    box-shadow: 0 0 60px rgba(255, 255, 255, 1),      /* 強い白い影（初期状態） */
+		                0 0 100px rgba(255, 255, 255, 0.8),    /* より強い影 */
+		                0 0 150px rgba(255, 255, 255, 0.6),    /* 強くて大きな影 */
+		                0 0 200px rgba(255, 255, 255, 0.3);    /* さらに強い大きな影 */
+		    animation: glow 2s infinite alternate;
 		}
 
 		@keyframes glow {
-			from {
-				box-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
-					0 0 30px rgba(255, 255, 255, 0.6),
-					0 0 40px rgba(255, 255, 255, 0.4);
-			}
+		    from {
+		        box-shadow: 0 0 60px rgba(255, 255, 255, 1),      /* 最大の強さの白い影 */
+		                    0 0 100px rgba(255, 255, 255, 0.8),  /* さらに強い影 */
+		                    0 0 150px rgba(255, 255, 255, 0.6),  /* 影の広がりを強化 */
+		                    0 0 200px rgba(255, 255, 255, 0.3);  /* さらに広い影 */
+		    }
 
-			to {
-				box-shadow: 0 0 40px rgba(255, 255, 255, 0.8),
-					0 0 50px rgba(255, 255, 255, 0.6),
-					0 0 60px rgba(255, 255, 255, 0.4);
-			}
+		    to {
+		        box-shadow: 0 0 120px rgba(255, 255, 255, 1),      /* 最大の強さの白い影 */
+		                    0 0 200px rgba(255, 255, 255, 0.8),  /* さらに強い影 */
+		                    0 0 300px rgba(255, 255, 255, 0.6),  /* 影の広がりを強化 */
+		                    0 0 400px rgba(255, 255, 255, 0.3);  /* さらに広い影 */
+		    }
 		}
 
+
+		/* ルーレットのアイテム */
 		.coupon-item {
-			position: absolute;
-			top: 0;
-			right: 50%;
-			transform-origin: 100% 100%;
-			width: 50%;
-			height: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			box-sizing: border-box;
-			color: white;
-			font-weight: bold;
-			text-shadow: 0 0 5px rgba(0, 0, 0, 0.8),
-				0 0 10px rgba(255, 255, 255, 0.8);
-			font-size: 14px;
-			text-align: center;
-			padding: 0 5px;
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    transform-origin: 0% 0%;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    color: white;
+		    font-weight: bold;
+		    text-shadow: 4px 4px 0 rgba(0, 0, 0, 1), -4px -4px 0 rgba(0, 0, 0, 1); /* 強い影で塗りつぶしたように */
+		    text-align: center;
+		    padding: 0 20px; /* 余白を広げてテキストが切れないように */
+		    white-space: nowrap; /* 改行を防ぐ */
+		    font-size: 16px; /* テキストのデフォルトサイズ */
+		    width: 140px; /* アイテムの幅を広げて文字が収まりやすくする */
+		    height: 40px; /* 高さはそのまま */
 		}
 
-		.arrow {
-			position: absolute;
-			top: -30px;
-			left: 50%;
-			transform: translateX(-50%);
-			width: 0;
-			height: 0;
-			border-left: 20px solid transparent;
-			border-right: 20px solid transparent;
-			border-top: 30px solid #333;
+		/* 半額のアイテム */
+		.coupon-item[data-coupon-id="1"] {
+		    transform: rotate(0deg) translate(140px) rotate(0deg);
+		    font-size: 40px; /* 半額の文字サイズ */
+		    width: 150px; /* 文字の長さに合わせて幅を広げる */
+		    text-shadow: 4px 4px 0 rgba(0, 0, 0, 1); /* 半額の文字に強い影をつける */
 		}
 
+		/* 1000円引き */
+		.coupon-item[data-coupon-id="2"] {
+		    transform: rotate(72deg) translate(140px) rotate(72deg);
+		    font-size: 30px; /* 1000円引きの文字サイズ */
+		    width: 150px; /* 文字の長さに合わせて幅を広げる */
+		    text-shadow: 4px 4px 0 rgba(0, 0, 0, 1); /* 1000円引きの文字に強い影をつける */
+		}
+
+		/* ドリンク１杯無料 */
+		.coupon-item[data-coupon-id="3"] {
+		    transform: rotate(144deg) translate(140px) rotate(144deg);
+		    font-size: 30px; /* ドリンク１杯無料の文字サイズ */
+		    width: 160px; /* 長いテキストに対応するため幅を広げる */
+		    text-shadow: 3px 2px 0 rgba(1, 0, 0, 1); /* ドリンク１杯無料の文字に強い影をつける */
+		}
+
+		/* 席料無料 */
+		.coupon-item[data-coupon-id="4"] {
+		    transform: rotate(216deg) translate(140px) rotate(216deg);
+		    font-size: 35px; /* 席料無料の文字サイズ */
+		    width: 150px; /* 文字の長さに合わせて幅を広げる */
+		    text-shadow: 3px 2px 0 rgba(0, 0, 0, 1); /* 席料無料の文字に強い影をつける */
+		}
+
+		/* はずれ */
+		.coupon-item[data-coupon-id="5"] {
+		    transform: rotate(288deg) translate(140px) rotate(288deg);
+		    font-size: 40px; /* はずれの文字サイズ */
+		    width: 150px; /* はずれは短いので幅を少し狭めてもOK */
+		    text-shadow: 4px 4px 0 rgba(0, 0, 0, 1); /* はずれの文字に強い影をつける */
+		}
+
+		
 		button {
-			margin-top: 20px;
-			padding: 10px 20px;
-			font-size: 1.2em;
-			cursor: pointer;
-			background-color: #ff00ff;
-			border: none;
-			border-radius: 5px;
-			color: white;
-			text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-			box-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
-			transition: all 0.3s ease;
+		    margin-top: 20px;
+		    padding: 10px 20px;
+		    font-size: 2em;
+		    cursor: pointer;
+		    background-color: rgb(255, 255, 0); /* 黄色の背景 */
+		    border: none;
+		    border-radius: 5px;
+		    color: rgb(0, 0, 0); /* 黒色の文字 */
+		    font-weight: bold; /* 文字を太くする */
+		    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+		    box-shadow: 0 -6px 8px rgba(0, 0, 0, 0.6), /* 上部にぼかし影 */
+		                0 6px 8px rgba(0, 0, 0, 0.4); /* 下部にぼかし影 */
+		    transition: all 0.3s ease;
 		}
 
 		button:hover {
-			background-color: #ff66ff;
-			box-shadow: 0 0 20px rgba(255, 0, 255, 0.8);
+		    background-color: rgb(255, 255, 128); /* ホバー時の背景色 */
+		    box-shadow: 0 -10px 12px rgba(0, 0, 0, 0.8), /* ホバー時の上部に強めのぼかし影 */
+		                0 8px 10px rgba(0, 0, 0, 0.5); /* ホバー時の下部にぼかし影 */
 		}
 
 		@keyframes rainbow {
@@ -157,7 +179,7 @@
 			}
 
 			71% {
-				color: #8b00ff;
+				color: rgb(255, 0, 0);
 			}
 
 			85% {
@@ -165,7 +187,7 @@
 			}
 
 			100% {
-				color: #ff0000;
+				color: rgb(128, 0, 255);
 			}
 		}
 
@@ -173,15 +195,7 @@
 			animation: rainbow 6s linear infinite;
 		}
 
-		#coupon-result {
-			margin-bottom: 20px;
-			font-weight: bold;
-			text-shadow:
-				0 0 10px rgb(255, 128, 192),
-				0 0 50px rgb(128, 0, 255),
-				0 0 30px rgb(255, 255, 128)(255, 255, 255, 0.8);
-			opacity: 0;
-		}
+
 
 		.wave-text {
 			display: inline-block;
@@ -202,57 +216,32 @@
 				transform: translateY(-10px);
 			}
 		}
-
-		#roulette-container {
-			width: 300px;
-			height: 300px;
-			position: relative;
-			margin: 20px auto;
-		}
-
-		.coupon-item {
-			position: absolute;
-			top: 0;
-			right: 50%;
-			transform-origin: 100% 100%;
-			width: 50%;
-			height: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			color: white;
-			font-weight: bold;
-			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-			font-size: 14px;
-			text-align: center;
-			padding: 0 10px;
-		}
-
 		.arrow {
-			position: absolute;
-			top: -30px;
-			left: 50%;
-			transform: translateX(-50%);
-			width: 0;
-			height: 0;
-			border-left: 20px solid transparent;
-			border-right: 20px solid transparent;
-			border-top: 30px solid #333;
+		    position: absolute;  /* 画面上での位置を指定 */
+		    z-index: 9999;       /* 最前面に表示 */
+		    top: 39px;           /* 上端に配置 */
+		    left: 50%;           /* 水平中央に配置 */
+		    transform: translateX(-50%); /* 横方向中央揃え */
+		    width: 100px;        /* 必要に応じて画像の幅を指定 */
+		    height: auto;        /* 高さは自動的に調整 */
+		    animation: floatUpDown 2s ease-in-out infinite; /* アニメーション追加 */
+		    animation-play-state: paused; /* 初期状態ではアニメーションを停止 */
 		}
 
-		#coupon-result {
-			margin-top: 20px;
-			font-size: 2em;
-			font-weight: bold;
-			color: green;
+		/* アニメーションの定義 */
+		@keyframes floatUpDown {
+		    0% {
+		        transform: translateX(-50%) translateY(0); /* 初期位置 */
+		    }
+		    50% {
+		        transform: translateX(-50%) translateY(7px); /* 上に移動 */
+		    }
+		    100% {
+		        transform: translateX(-50%) translateY(0); /* 元の位置に戻る */
+		    }
 		}
 
-		button {
-			margin-top: 20px;
-			padding: 10px 20px;
-			font-size: 1.2em;
-			cursor: pointer;
-		}
+
 	</style>
 
 	<script>
@@ -264,25 +253,25 @@
 			let min, max;
 			switch (couponId) {
 				case 1:
-					min = 1;
-					max = 71;  // COUPON_TYPE1
+					min = 217;
+					max = 287;// COUPON_TYPE1
 					break;
 				case 2:
-					min = 289;
-					max = 359; // COUPON_TYPE2
+					min = 145;
+					max = 215;// COUPON_TYPE2
 					break;
 				case 3:
-					min = 217;
-					max = 287; // COUPON_TYPE3
+					min = 73;
+					max = 143;// COUPON_TYPE3
 					break;
 				case 4:
-					min = 145;
-					max = 215; // COUPON_TYPE4
+					min = 1;
+					max = 71;// COUPON_TYPE4
 					break;
 				case 5:
 				default:
-					min = 73;
-					max = 143; // MISS (はずれ)
+					min = 289;
+					max = 359;// MISS (はずれ)
 					break;
 			}
 
@@ -296,9 +285,12 @@
 			roulette.style.transition = 'transform 5s cubic-bezier(0.25, 0.1, 0.25, 1)';
 			roulette.style.transform = 'rotate(' + finalAngle + 'deg)';
 
-			// 結果をフェードインで表示
-			document.getElementById('coupon-result').style.opacity = 1;
-
+			// ルーレットが回転を終えた後にアニメーションを再開
+			   setTimeout(function() {
+			       // ルーレットが停止した後、矢印（.arrow）のアニメーションを開始
+			       const arrow = document.querySelector('.arrow');
+			       arrow.style.animationPlayState = 'running';  // アニメーションを開始
+			   }, 5000);  // 5秒後にアニメーションを開始（ルーレットの回転が完了する時間）
 			// サウンドの再生（任意）
 			const rouletteSound = document.getElementById('roulette-sound');
 			rouletteSound.play();
@@ -313,14 +305,14 @@
 	<div id="coupon-result">
 		<span class="wave-text"></span>
 	</div>
-
+	<img src="/images/1493447-removebg-preview.png" class="arrow" alt="Arrow Image">
 	<div id="roulette-container">
 		<div id="roulette">
-			<div class="coupon-item" data-coupon-id="1" style="transform: rotate(0deg)">半額</div>
-			<div class="coupon-item" data-coupon-id="2" style="transform: rotate(72deg)">1000円引き</div>
-			<div class="coupon-item" data-coupon-id="3" style="transform: rotate(144deg)">ドリンク１杯無料</div>
-			<div class="coupon-item" data-coupon-id="4" style="transform: rotate(216deg)">席料 無料</div>
-			<div class="coupon-item" data-coupon-id="5" style="transform: rotate(288deg)">はずれ</div>
+			<div class="coupon-item" data-coupon-id="1" style="transform: rotate(0deg)">&emsp;半額</div>
+			<div class="coupon-item" data-coupon-id="2" style="transform: rotate(72deg)">&emsp;1000円引き</div>
+			<div class="coupon-item" data-coupon-id="3" style="transform: rotate(144deg)">&emsp;ドリンク<br>&emsp;１杯無料</div>
+			<div class="coupon-item" data-coupon-id="4" style="transform: rotate(216deg)">&emsp;席料無料</div>
+			<div class="coupon-item" data-coupon-id="5" style="transform: rotate(288deg)">&emsp;はずれ</div>
 		</div>
 		<div class="arrow"></div>
 	</div>
@@ -328,7 +320,7 @@
 	<div id="coupon-result"></div>
 
 	<form th:action="@{/detail/{id}(id=${num})}" method="get">
-		<button type="submit" class="btn btn-secondary">結果を表示</button>
+		<button type="submit" class="btn btn-secondary">結果を見る</button>
 	</form>
 
 	<audio id="roulette-sound">
