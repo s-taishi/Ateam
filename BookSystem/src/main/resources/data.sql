@@ -62,17 +62,6 @@ INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
 ('2024-11-08', '17:00:00', 2, 'ナッツ、乳製品アレルギーの方が1名います。',4);
 
---すでに49人予約が入っている状態
-INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
-VALUES
-('2024-11-08', '23:00:00', 24, '会社の歓送迎会での利用を予定しています。15名ほどの団体ですが、飲み放題プランの延長は可能でしょうか？賑やかになるかもしれないので、他のお客様にご迷惑がかからないように席の配置などご配慮いただけると助かります。',5);
-
-INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
-VALUES
-('2024-11-08', '23:00:00', 25, '職場の宴会で25名予約です。コース料理と飲み放題をお願いしたいです。',6);
-
-
-
 --別日の予約
 INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
@@ -86,6 +75,14 @@ INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
 ('2024-11-09', '17:00:00', 5, '子供用の椅子をお願いします',4);
 
+--すでに49人予約が入っている状態
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
+VALUES
+('2024-11-09', '23:00:00', 24, '会社の歓送迎会での利用を予定しています。24名ほどの団体ですが、飲み放題プランの延長は可能でしょうか？賑やかになるかもしれないので、他のお客様にご迷惑がかからないように席の配置などご配慮いただけると助かります。',5);
+
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
+VALUES
+('2024-11-09', '23:00:00', 25, '職場の宴会で25名予約です。コース料理と飲み放題をお願いしたいです。',6);
 
 --ダミー予約データここまで-----------------------------------------------------------------------
 
