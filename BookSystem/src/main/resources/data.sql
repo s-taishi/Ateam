@@ -20,18 +20,58 @@ VALUES
 INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
 ('2024-10-01', '16:00:00', 4, '特になし。',2);
---ダミー予約データ
+--ダミー予約データここから---------------------------------------------------------------------
 INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
 ('2024-10-01', '14:00:00', 4, '特になし。',2);
---ダミー予約データ
+
 INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
-('2024-10-01', '15:00:00', 4, 'aqwsedrftgyhujikolp;@:[ ]qawsedrftgyhujikolpaqwsedrftgyhujikolp;aqwsedrftgyhujik]',2);
---ダミー予約データ
+('2024-10-01', '18:00:00', 4, 'aqwsedrftgyhujikolp;@:[ ]qawsedrftgyhujikolpaqwsedrftgyhujikolp;aqwsedrftgyhujik]',2);
+
 INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
 VALUES
 ('2024-10-01', '16:00:00', 4, '特になし。',2);
+
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
+VALUES
+('2024-11-08', '16:00:00', 4, '特になし。',2);
+
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
+VALUES
+('2024-11-08', '17:00:00', 4, '特になし。',2);
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
+VALUES
+('2024-11-08', '19:00:00', 4, '特になし。',2);
+
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
+VALUES
+('2024-11-08', '17:00:00', 2, '特になし。',2);
+
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
+VALUES
+('2024-11-08', '23:00:00', 24, '特になし。',2);
+
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
+VALUES
+('2024-11-08', '23:00:00', 25, '特になし。',2);
+
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
+VALUES
+('2024-11-09', '19:00:00', 3, '特になし。',2);
+
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
+VALUES
+('2024-11-09', '18:00:00', 2, '特になし。',2);
+
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
+VALUES
+('2024-11-09', '17:00:00', 5, '特になし。',2);
+
+INSERT INTO  books(bookdate,booktime,bookcount,memo,user_id)
+VALUES
+('2024-11-09', '16:00:00', 5, '特になし。',2);
+--ダミー予約データここまで-----------------------------------------------------------------------
 
 -- クーポン情報のダミーデータ
 INSERT INTO coupon (coupon_type, user_id, issue_date, expiration_date)
@@ -50,8 +90,9 @@ VALUES ('COUPON_TYPE4', 2, '2024-11-05', '2025-02-05');
 INSERT INTO coupon (coupon_type, user_id, issue_date, expiration_date)
 VALUES ('COUPON_TYPE1', 2, '2024-09-04', '2024-11-04');
 INSERT INTO coupon (coupon_type, user_id, issue_date, expiration_date)
-VALUES ('COUPON_TYPE1', 2, '2024-09-06', '2024-11-06');
-
+VALUES ('COUPON_TYPE3', 2, '2024-09-06', '2024-11-06');
+INSERT INTO coupon (coupon_type, user_id, issue_date, expiration_date)
+VALUES ('COUPON_TYPE2', 2, '2024-09-06', '2024-11-06');
 
 
 -- ★テスト用機能ここまで
