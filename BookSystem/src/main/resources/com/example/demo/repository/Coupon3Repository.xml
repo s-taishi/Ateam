@@ -3,31 +3,34 @@
 <mapper namespace="com.example.demo.repository.Coupon3Repository">
 
 
-<resultMap id="couponWithUserNameResult" type="com.example.demo.entity.Coupon">
-    <id property="id" column="id" />
-    <result property="couponType" column="coupon_type" />
-    <result property="issueDate" column="issue_date" />
-    <result property="expirationDate" column="expiration_date" />
-    <association property="user" javaType="com.example.demo.entity.User">
-        <id property="id" column="userId" />
-        <result property="username" column="username" />
-        <result property="password" column="password" />
-        <result property="displayName" column="display_name" />
-        <result property="tellNumber" column="tell_number" />
-        <result property="authority" column="authority" />
-    </association>
-</resultMap>
+	<resultMap id="couponWithUserNameResult"
+		type="com.example.demo.entity.Coupon">
+		<id property="id" column="id" />
+		<result property="couponType" column="coupon_type" />
+		<result property="issueDate" column="issue_date" />
+		<result property="expirationDate" column="expiration_date" />
+		<association property="user"
+			javaType="com.example.demo.entity.User">
+			<id property="id" column="userId" />
+			<result property="username" column="username" />
+			<result property="password" column="password" />
+			<result property="displayName" column="display_name" />
+			<result property="tellNumber" column="tell_number" />
+			<result property="authority" column="authority" />
+		</association>
+	</resultMap>
 
 
-<!-- 取得したクーポンを表示 -->
-<select id="couponSelectById" resultMap="couponWithUserNameResult">
-        SELECT * FROM coupon c join users u on c.user_id = u.id WHERE c.id = #{id}
-    </select>
+	<!-- 取得したクーポンを表示 -->
+	<select id="couponSelectById"
+		resultMap="couponWithUserNameResult">
+		SELECT * FROM coupon c join users u on c.user_id = u.id WHERE c.id = #{id}
+	</select>
 
 
-<!-- クーポン削除 -->
-    <delete id="couponDelete">
-        DELETE FROM coupon WHERE id = #{id}
-    </delete>
+	<!-- クーポン削除 -->
+	<delete id="couponDelete">
+		DELETE FROM coupon WHERE id = #{id}
+	</delete>
 
 </mapper>

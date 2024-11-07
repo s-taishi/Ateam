@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace ="com.example.demo.repository.UserRepository">
+<mapper namespace="com.example.demo.repository.UserRepository">
 
-<!-- usernameによるユーザー検索 -->
-<select id="userSelectByUsername" resultType="com.example.demo.entity.User">
-SELECT * FROM users WHERE username =#{username}
-</select>
+	<!-- usernameによるユーザー検索 -->
+	<select id="userSelectByUsername"
+		resultType="com.example.demo.entity.User">
+		SELECT * FROM users WHERE username =#{username}
+	</select>
 
-<!--  ユーザー新規登録 -->
-<insert id="userInsert" parameterType="com.example.demo.form.UserForm">
-INSERT INTO users (username,password,displayName,tellNumber,authority)
-VALUES
-(#{username},#{password},#{displayName},#{tellNumber},'USER')
-</insert>
+	<!-- ユーザー新規登録 -->
+	<insert id="userInsert"
+		parameterType="com.example.demo.form.UserForm">
+		INSERT INTO users (username,password,displayName,tellNumber,authority)
+		VALUES
+		(#{username},#{password},#{displayName},#{tellNumber},'USER')
+	</insert>
 
-<!--  ユーザー更新 -->
-<update id="userUpdate" parameterType="com.example.demo.form.UserForm">
-update users 
-set username = #{username},
-	password = #{password},
-	displayname = #{displayName},
-	tellnumber = #{tellNumber}
-where id = #{id};
-</update>
+	<!-- ユーザー更新 -->
+	<update id="userUpdate"
+		parameterType="com.example.demo.form.UserForm">
+		update users
+		set username = #{username},
+		password = #{password},
+		displayname = #{displayName},
+		tellnumber = #{tellNumber}
+		where id = #{id};
+	</update>
 
 </mapper>

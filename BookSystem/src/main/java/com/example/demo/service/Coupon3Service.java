@@ -12,16 +12,16 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class Coupon3Service {
-	
+
 	/** DI */
 	private final Coupon3Repository coupon3Repository;
-	
-	//取得したクーポンを表示
+
+	// 取得したクーポンを表示
 	public	Coupon couponFindById(int id) {
 		return coupon3Repository.couponSelectById(id);
 	}
-		
-	//クーポンを使用済みにする
+
+	// クーポンを使用済みにする
 	public void couponDelete(int id) {
 		coupon3Repository.couponDelete(id);
 	}

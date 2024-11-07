@@ -12,11 +12,16 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class Coupon2Service {
+
+	/** DI */
 	private final Coupon2Repository coupon2Repository;
 
+	// クーポンをデータベースに登録
 	public void couponInsert(Coupon coupon) {
 		coupon2Repository.couponInsert(coupon);
 	}
+
+	// 発行されてるクーポンIDの最大値を取得する
 	public Coupon couponFindByMaxId() {
 		return coupon2Repository.couponSelectByMaxId();
 	}

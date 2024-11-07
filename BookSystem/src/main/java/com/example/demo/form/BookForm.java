@@ -20,21 +20,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookForm {
-	
+
 	// ユーザー名
 	private User user; 
-	
+
 	// 予約ID
 	private int id; 
 
 	// 日付（必須フィールド）
 	@NotNull(message = "日付は必須です")
 	private LocalDate bookdate; 
-	
+
 	// 時間（必須フィールド）
 	@NotNull(message = "時間は必須です")
 	private LocalTime booktime;
-	
+
 	// 人数（必須フィールド、1人以上）
 	@NotNull(message = "人数は必須です")
 	@Min(value = 1, message = "人数は１以上でなければいけません")

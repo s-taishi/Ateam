@@ -3,49 +3,61 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.repository.BookRepository">
 
-    <resultMap id="BookWithUserResult" type="com.example.demo.entity.Book">
-        <id property="id" column="id"/>
-        <result property="bookdate" column="bookdate"/>
-        <result property="booktime" column="booktime"/>
-        <result property="bookcount" column="bookcount"/>
-        <result property="memo" column="memo"/>
-        <association property="userid" javaType="com.example.demo.entity.User">
-            <id property="id" column="id"/>
-            <result property="username" column="username"/> <!-- Userクラスのフィールドも必要に応じて追加 -->
-            <result property="password" column="password"/> <!-- Userクラスのフィールドも必要に応じて追加 -->
-            <result property="displayName" column="displayname"/> <!-- displayNameに対応するカラム名 -->
-            <result property="tellNumber" column="tellnumber"/> <!-- tellNumberに対応するカラム名 -->
-            <result property="authority" column="authority"/> <!-- Roleについても適宜 -->
-        </association>
-    </resultMap>
+	<resultMap id="BookWithUserResult"
+		type="com.example.demo.entity.Book">
+		<id property="id" column="id" />
+		<result property="bookdate" column="bookdate" />
+		<result property="booktime" column="booktime" />
+		<result property="bookcount" column="bookcount" />
+		<result property="memo" column="memo" />
+		<association property="userid"
+			javaType="com.example.demo.entity.User">
+			<id property="id" column="id" />
+			<result property="username" column="username" />
+			<result property="password" column="password" />
+			<result property="displayName" column="displayname" />
+			<result property="tellNumber" column="tellnumber" />
+			<result property="authority" column="authority" />
+		</association>
+	</resultMap>
 
-    <!-- IDでの予約検索 -->
-    <select id="bookSelectById" resultMap="BookWithUserResult">
-        SELECT * FROM books join users on books.user_id = users.id WHERE books.id = #{id}
-    </select>
+	<!-- IDでの予約検索 -->
+	<select id="bookSelectById" resultMap="BookWithUserResult">
+		SELECT * FROM books join
+		users on books.user_id = users.id WHERE books.id =
+		#{id}
+	</select>
 
-    <!-- usernameでの予約検索 -->
-    <select id="bookSelectByName" resultMap="BookWithUserResult">
-        SELECT * FROM books join users on books.user_id = users.id WHERE username = #{username}
-    </select>
-
-
-    <!-- 日毎の予約検索 -->
-    <select id="bookSelectBybookdate" resultMap="BookWithUserResult">
-        SELECT * FROM books join users on books.user_id = users.id WHERE bookdate = #{localDate} order by booktime asc
-    </select>
+	<!-- usernameでの予約検索 -->
+	<select id="bookSelectByName" resultMap="BookWithUserResult">
+		SELECT * FROM books join
+		users on books.user_id = users.id WHERE username =
+		#{username}
+	</select>
 
 
-    <!-- 新規予約登録 -->
-    <insert id="bookInsert" parameterType="com.example.demo.entity.Book">
-        INSERT INTO books (bookdate, booktime, bookcount, memo,user_id)
-        VALUES ( #{bookdate}, #{booktime}, #{bookcount}, #{memo},#{userid.id}) <!-- userNameフィールドを指定 -->
-    </insert>
+	<!-- 日毎の予約検索 -->
+	<select id="bookSelectBybookdate" resultMap="BookWithUserResult">
+		SELECT * FROM books
+		join users on books.user_id = users.id WHERE bookdate =
+		#{localDate}
+		order by booktime asc
+	</select>
 
-    <!-- 特定のIDを持つ予約削除 -->
-    <delete id="bookDelete" >
-        DELETE FROM books WHERE id = #{id}
-    </delete>
-    
+
+	<!-- 新規予約登録 -->
+	<insert id="bookInsert"
+		parameterType="com.example.demo.entity.Book">
+		INSERT INTO books (bookdate, booktime, bookcount,
+		memo,user_id)
+		VALUES ( #{bookdate}, #{booktime}, #{bookcount},
+		#{memo},#{userid.id})
+	</insert>
+
+	<!-- 特定のIDを持つ予約削除 -->
+	<delete id="bookDelete">
+		DELETE FROM books WHERE id = #{id}
+	</delete>
+
 
 </mapper>

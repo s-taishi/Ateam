@@ -31,19 +31,21 @@ public class BookController {
 	/** DI */
 	private final BookService service;
 
-	//予約情報入力画面
+	// 予約情報入力画面
 	@GetMapping("/entry")
 	public String entry(@ModelAttribute BookForm bookForm,Model model) {
-		return "form";//予約フォームへ遷移
+
+		return "form"; // 予約フォームへ遷移
 	}
-	
-	//予約情報を確認画面に送る
+
+	// 予約情報を確認画面に送る
 	@PostMapping("/form")
 	public String form(@Validated BookForm bookForm, BindingResult bindingResult, RedirectAttributes attributes,Model model) {
-		//現在ログイン中のユーザー情報を取得
+
+		// 現在ログイン中のユーザー情報を取得
 		User user = service.userFindByUserName(ConnectUser.username);
 		bookForm.setUser(user);
-		
+
 		// 日付が未来かどうかをチェック
 		LocalDate currentDate = LocalDate.now();
 
@@ -58,11 +60,12 @@ public class BookController {
 		}
 
 
-		//バリデーションチェック
+		// バリデーションチェック
 		if(bindingResult.hasErrors()) {
 			return "form";
 		}
-		
+
+		// 選択した時間帯に顧客が50人以上となったら満席とする処理
 		List<Book> books = service.bookFindByDate(bookForm.getBookdate());
 		int count = bookForm.getBookcount();
 		for(Book b : books) {
@@ -74,51 +77,58 @@ public class BookController {
 			attributes.addFlashAttribute("message","選択された時間帯は満席です。別の時間をご指定ください。");
 			return "redirect:/entry";
 		}
-		
-		//入力フォームをデータベースに入れられるように型変更
+
+		// 入力フォームをデータベースに入れられるように型変更
 		Book book = new Book();
 		book.setBookdate(bookForm.getBookdate());
 		book.setBooktime(bookForm.getBooktime());
 		book.setBookcount(bookForm.getBookcount());
 		book.setMemo(bookForm.getMemo());
 		book.setUserid(bookForm.getUser());
-		
+
+		// modelに格納
 		model.addAttribute("book",book);
 		model.addAttribute("check","check");
-		
-		return "/check";//確認画面へ遷移
+
+		return "/check"; // 確認画面へ遷移
 	}
 
 
-	//予約完了画面
+	// 予約完了画面
 	@PostMapping("/comp")
 	public String comp(RedirectAttributes attributes,@ModelAttribute Book book, Model model){
-		//データベースに入力内容を登録
+
+		// データベースに入力内容を登録
 		service.bookInsert(book);
 		model.addAttribute("book", book);
 		attributes.addFlashAttribute("book",book);
+
 		return "redirect:/complete"; // 予約完了画面を表示
 
 	}
-	
+
 	@GetMapping("/complete")
 	public String complete(@ModelAttribute Book book,Model model) {
-	
-		return "/comp";
+
+		return "/comp"; // 予約完了画面を表示
 	}
 
-	//マイページを表示
+	// マイページを表示
 	@GetMapping("/mypage")
 	public String myPage(Model model) {
-		//ADMIN権限を持つ管理者は管理者用画面へ遷移
+
+		// ADMIN権限を持つ管理者は管理者用画面へ遷移
 		if(ConnectUser.authority.equals(Role.ADMIN)) {
 			return "redirect:/adminmenu";
 		}
-		//現在ログイン中のユーザー情報を取得
+
+		// 現在ログイン中のユーザー情報を取得
 		User user = service.userFindByUserName(ConnectUser.username);
 
 		// ユーザーに関連する予約一覧を取得
 		List<Book> books = service.bookFindByUserName(ConnectUser.username);
+
+		// 予約日を過ぎたらユーザー側の予約情報を非表示にする処理
 		List<Integer> removes = new ArrayList<Integer>();
 		int roop = 0;
 		for(Book b : books) {
@@ -128,7 +138,7 @@ public class BookController {
 			roop++;
 		}
 		int deletes = 0;
-		
+
 		for(int i : removes) {
 			books.remove(i-deletes);
 			deletes++;
@@ -144,9 +154,10 @@ public class BookController {
 
 	}
 
-	//マイページからの予約詳細画面
+	// マイページからの予約詳細画面
 	@GetMapping("/check2/{id}")
 	public String check2(@PathVariable("id") int id, Model model) {
+
 		// 指定されたIDの予約詳細を取得
 		Book book = service.bookFindById(id);
 
@@ -154,49 +165,51 @@ public class BookController {
 		model.addAttribute("book", book);
 		model.addAttribute("detail","detail");
 
-		// 予約詳細画面を表示
-		return "check"; // 予約詳細画面のテンプレート名
+		return "check"; // 予約詳細画面を表示
 	}
 
-	//予約の削除
+	// 予約の削除
 	@PostMapping("/delete/{id}")
 	public String delete(@PathVariable int id, RedirectAttributes attributes) {
-		//予約IDをもとに予約情報を削除
+
+		// 予約IDをもとに予約情報を削除
 		service.bookDelete(id);
 		attributes.addFlashAttribute("message", "予約を削除しました");
+
 		return "redirect:/mypage";
 	}
-	
-	//管理者メニュー
+
+	// 管理者メニュー
 	@GetMapping("/adminmenu")
 	public String adminmenu() {
-		return "adminmenu";//管理者専用画面へ遷移
+		return "adminmenu"; // 管理者専用画面へ遷移
 	}
 
 
 
-	//管理者予約確認
+	// 管理者予約確認
 	@GetMapping("/adminlist")
 	public String adminlist(@RequestParam("date") LocalDate date,Model model) {
-		//指定した日付の予約情報を取得
+
+		// 指定した日付の予約情報を取得
 		List<Book> list = service.bookFindByDate(date);
 
 		model.addAttribute("list", list);
-		model.addAttribute("selectedDate", date); //伊藤追記
-		return "adminlist";//指定日ごとの予約情報画面へ遷移
+		model.addAttribute("selectedDate", date); 
+
+		return "adminlist"; // 指定日ごとの予約情報画面へ遷移
 	}
-	
-	//伊藤追加部分
-	
+
+
 	// 管理者予約削除
 	@PostMapping("/delete-admin/{id}")
 	public String adminDelete(@PathVariable int id, @RequestParam("date") LocalDate date, RedirectAttributes attributes) {
-		//指定した予約情報のIDを見て削除
-	    service.bookDelete(id);
-	    attributes.addFlashAttribute("message", "予約を削除しました");
-	    return "redirect:/adminlist?date=" + date; // 日付をクエリパラメーターとして追加
+
+		// 予約IDをもとに予約情報を削除
+		service.bookDelete(id);
+		attributes.addFlashAttribute("message", "予約を削除しました");
+		return "redirect:/adminlist?date=" + date; // 日付をクエリパラメーターとして追加
 	}
-	
-	//ここまで伊藤
+
 
 }

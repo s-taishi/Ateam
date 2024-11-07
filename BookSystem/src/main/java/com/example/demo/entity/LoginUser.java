@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * Spring Security の認証時にユーザー情報を構築・保持するクラス
+ * Spring Securityの認証時にユーザー情報を構築・保持するクラス
  */
 
 public class LoginUser extends org.springframework.security.core.userdetails.User{

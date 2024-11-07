@@ -28,37 +28,37 @@ public class Coupon3Controller {
 	@GetMapping("/coupondetail/{id}")
 	public String couponDetail(@PathVariable int id, Model model) {
 
-		//クーポンidで検索
+		// クーポンidで検索
 		Coupon coupon = coupon3Service.couponFindById(id);
 
-		//クーポン情報とクーポンタイプをmodelに格納
+		// クーポン情報とクーポンタイプをmodelに格納
 		model.addAttribute("coupons", coupon);
 		model.addAttribute("couponType", coupon.getCouponType());
-		
+
 		return "coupondetail"; //詳細画面
 
 	}
 
-	//クーポンを使用する
+	// クーポンを使用する
 	@PostMapping("/coupondelete/{id}")
 	public String delete(@PathVariable int id,Model model) {
-		
-		//クーポンidで検索
+
+		// クーポンidで検索
 		Coupon coupon=coupon3Service.couponFindById(id);
-		
+
 		// 現在の日付と有効期限を比較
-	    if (coupon.getExpirationDate().isBefore(LocalDate.now())) {
-	        model.addAttribute("loss", "このクーポンは有効期限切れです");
-	        coupon3Service.couponDelete(id);
-	        model.addAttribute("coupons", coupon);
-	        model.addAttribute("couponType", coupon.getCouponType());
-	        return "coupondetail"; // 詳細ページに戻す
-	    }
-		
-		//クーポンを使用（削除）
+		if (coupon.getExpirationDate().isBefore(LocalDate.now())) {
+			model.addAttribute("loss", "このクーポンは有効期限切れです");
+			coupon3Service.couponDelete(id);
+			model.addAttribute("coupons", coupon);
+			model.addAttribute("couponType", coupon.getCouponType());
+			return "coupondetail"; // 詳細ページに戻す
+		}
+
+		// クーポンを使用（削除）
 		coupon3Service.couponDelete(id);
-		
-		//クーポンタイプによってバーコードを表示
+
+		// クーポンタイプによってバーコードを表示
 		if(coupon.getCouponType()==CouponType.COUPON_TYPE1) {
 			model.addAttribute("image","/images/coupon1.png");
 		}else if(coupon.getCouponType()==CouponType.COUPON_TYPE2) {
@@ -69,6 +69,6 @@ public class Coupon3Controller {
 			model.addAttribute("image","/images/coupon4.png");
 		}
 
-		return "used" ; //使用済み画面
+		return "used" ; // 使用済み画面
 	}
 }

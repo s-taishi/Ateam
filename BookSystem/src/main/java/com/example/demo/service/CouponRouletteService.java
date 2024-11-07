@@ -18,28 +18,34 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CouponRouletteService {
 
+	/** DI */
 	private final Coupon2Repository coupon2Repository;
 	public final UserRepository userRepository;
+
+
 	private static final Random random = new Random();
 
-	//※テスト用機能ここまで
-
+	// ルーレットの設定
 	public Coupon spinRoulette(@AuthenticationPrincipal UserDetails userDetails) {
-		//UserDetailsからユーザー名を取得
+
+		// UserDetailsからユーザー名を取得
 		String username = userDetails.getUsername();
 
-		//ユーザー名を使ってuser情報を取得
+		// ユーザー名を使ってuser情報を取得
 		User curretUser = userRepository.userSelectByUsername(username);
 
-		if (curretUser == null) {// ユーザーが見つからない場合
+		// ユーザーが見つからない場合
+		if (curretUser == null) {
 			System.out.println("ユーザーが見つかりません: " + username);
 			return null;
 		}
 
+		// 確率の初期値
 		double randomValue = random.nextDouble();
-		//確率の初期値
 		double cumulativeProbability = 0.0;
+
 		Coupon coupon = new Coupon();
+
 
 		for (CouponType type : CouponType.values()) {
 			cumulativeProbability += type.getProbability();
@@ -48,7 +54,6 @@ public class CouponRouletteService {
 				coupon.setCouponType(type);
 				coupon.setUser(curretUser);
 
-				//
 				// couponType を文字列に変換して挿入
 				try {
 					System.out.println(type);
