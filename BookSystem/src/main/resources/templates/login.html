@@ -147,6 +147,9 @@
         <div th:if="${param.error}" class="error-message">
             <p>ユーザーネームまたはパスワードが違います</p>
         </div>
+        <div th:if="${param.guest}" class="error-message">
+            <p>このアカウントは使用できません</p>
+        </div>
         
         <div th:if="${param.logout}" class="success-message">
             <p>ログアウトしました</p>

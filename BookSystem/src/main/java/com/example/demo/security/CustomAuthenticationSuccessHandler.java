@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.entity.ConnectUser;
@@ -36,7 +37,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 		ConnectUser.displayName = user.getDisplayName();
 		ConnectUser.tellNumber = user.getTellNumber();
 		ConnectUser.authority = user.getAuthority();
-		response.sendRedirect("/mypage");//格納処理終了後、mypageをリクエスト
+		if(user.getUsername().matches("guest\\d*")) {//guestアカウントでログインを試みた場合
+			new SecurityContextLogoutHandler().logout(request, response, authentication);
+			response.sendRedirect("/login?guest");
+		}else {
+			response.sendRedirect("/mypage");//格納処理終了後、mypageをリクエスト
+		}
 	}
 	
 }
