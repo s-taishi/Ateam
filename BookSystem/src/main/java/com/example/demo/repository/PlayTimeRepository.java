@@ -6,11 +6,14 @@ import com.example.demo.entity.PlayTime;
 
 @Mapper
 public interface PlayTimeRepository {
-	//useridからplaytimeを検索
+
+	// useridからplaytimeを検索
 	PlayTime playTimeSelectById(int id);
-	//新規登録
+
+	// プレイ回数の新規登録
 	void playTimeInsert(PlayTime playTime);
-	//更新
+
+	// プレイ回数の更新
 	void playTimeUpdate(PlayTime playTime);
 
 }

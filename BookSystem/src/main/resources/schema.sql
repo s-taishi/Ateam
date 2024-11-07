@@ -1,71 +1,93 @@
 --★テスト用機能ここから(本番移行時は記述を削除してください)
---各テーブル・ENUM型が存在したら削除
-drop table if exists playtime;--必要ない場合削除
 
-drop table if exists coupon;
+--各テーブル・ENUM型が存在したら削除
+DROP TABLE IF EXISTS playtime;
+DROP TABLE IF EXISTS coupon;
 DROP TABLE IF EXISTS books;
 DROP TABLE IF EXISTS users;
 DROP TYPE IF EXISTS role;
-drop type if exists coupon_type;
---★テスト用機能ここまで
+DROP TYPE IF EXISTS coupon_type;
 
---権限用のENUM型
+
+--ENUM型の権限
 CREATE TYPE role AS ENUM('ADMIN','USER');
 
 --userテーブルの作成
-CREATE TABLE IF NOT EXISTS users (
-	id serial primary key,
-	--user(ユーザー名)カラム；主キー
-	username VARCHAR(255) not null,
+CREATE TABLE users (
+
+	--ユーザーID：主キー
+	id SERIAL PRIMARY KEY,
 	
-	--password(パスワード)カラム：NULL不許可
+	--ユーザー名：NULL不許可
+	username VARCHAR(255) NOT NULL,
+	
+	--パスワード：NULL不許可
 	password VARCHAR(255) NOT NULL,
 	
-	--displayname(氏名)カラム：NULL不許可
+	--氏名：NULL不許可
 	displayname VARCHAR(255) NOT NULL,
 	
-	--tellnumber(電話番号)カラム：NULL不許可
+	--電話番号：NULL不許可
 	tellnumber VARCHAR(255) NOT NULL,
 	
-	--authority(権限)カラム：NULL不許可
-	authority role default 'USER'
+	--権限：初期設定はUSER
+	authority role DEFAULT 'USER'
 );
 
 --bookテーブルの作成
-CREATE TABLE IF NOT EXISTS books (
-	--ID(予約ID)カラム：主キー
+CREATE TABLE books (
+
+	--予約ID：主キー
 	id SERIAL PRIMARY KEY,
 	
-	--date(予約日)カラム：NULL不許可
+	--予約日：NULL不許可
 	bookdate DATE NOT NULL,
 	
-	--time(予約時間)カラム：NULL不許可
+	--予約時間：NULL不許可
 	booktime TIME NOT NULL,
 	
-	--count(来店人数)カラム：NULL不許可
+	--来店人数：NULL不許可
 	bookcount INTEGER NOT NULL,
 	
-	--memo(特記事項)カラム
+	--特記事項
 	memo VARCHAR(255),
 	
-	user_id integer references users(id)
+	--userオブジェクト：外部キー
+	user_id INTEGER REFERENCES users(id)
 );
 
---coupon_type enum型作成
-create type coupon_type as enum('COUPON_TYPE1','COUPON_TYPE2','COUPON_TYPE3','COUPON_TYPE4');
+--ENUM型のクーポンタイプ
+CREATE TYPE coupon_type AS ENUM('COUPON_TYPE1','COUPON_TYPE2','COUPON_TYPE3','COUPON_TYPE4');
 
 --couponテーブル作成
-create table IF NOT EXISTS coupon(
-	id serial primary key,
-	coupon_type VARCHAR(50) not null,
-	issue_date DATE DEFAULT CURRENT_DATE,
-	expiration_date DATE,
-	user_id integer references users(id));
-	
---ルーレットの回数制限設定用テーブル　必要なければ削除する
+CREATE TABLE coupon(
 
-create table playtime(
-	id integer primary key references users(id),
-	lastplay date not null,
-	playcount integer not null);
+	--クーポンID：主キー
+	id SERIAL PRIMARY KEY,
 	
+	--クーポンタイプ：NULL不許可
+	coupon_type VARCHAR(50) not null,
+	
+	--クーポンの取得日：NULL不許可、初期設定は今日
+	issue_date DATE DEFAULT CURRENT_DATE NOT NULL,
+	
+	--有効期限：NULL不許可
+	expiration_date DATE NOT NULL,
+	
+	--Userオブジェクト：外部キー
+	user_id INTEGER REFERENCES users(id)
+);
+	
+--ルーレットの回数制限設定用テーブル
+CREATE TABLE playtime(
+
+	--回数ID：主キー
+	id SERIAL PRIMARY KEY REFERENCES users(id),
+	
+	--前回のプレイ日：NULL不許可
+	lastplay DATE NOT NULL,
+	
+	--プレイ回数：NULL不許可
+	playcount INTEGER NOT NULL
+);
+--★テスト用機能ここまで

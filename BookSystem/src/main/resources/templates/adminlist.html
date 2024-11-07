@@ -92,9 +92,9 @@
         }
 
         .memo-cell {
-            max-width: 200px; /* 幅を適宜調整 */
-            word-wrap: break-word; /* 単語の途中で改行 */
-            overflow-wrap: break-word; /* 互換性のために追加 */
+            max-width: 200px; 
+            word-wrap: break-word;
+            overflow-wrap: break-word; 
         }
 
         .btn {
@@ -211,7 +211,7 @@
 	        const dateText = dateElement.textContent;
 	        const date = new Date(dateText);
 	
-	        // 年、月、日を含むフォーマットに変更
+	        
 	        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
 	        const formattedDate = date.toLocaleDateString('ja-JP', options).replace(/(\d+)\/(\d+)\/(\d+)/, '$1年$2月$3日');
 	

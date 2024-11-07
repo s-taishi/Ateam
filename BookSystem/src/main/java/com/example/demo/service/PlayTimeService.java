@@ -11,16 +11,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PlayTimeService {
 
+	/** DI */
 	private final PlayTimeRepository playTimeRepository;
-	
+
+	// useridからplaytimeを検索
 	public PlayTime playTimeFindById(int id) {
 		return playTimeRepository.playTimeSelectById(id);
 	}
-	
+
+	// プレイ回数の新規登録
 	public void playTimeInsert(PlayTime playTime) {
 		playTimeRepository.playTimeInsert(playTime);
 	}
-	
+
+	// プレイ回数の更新
 	public void playTimeUpdate(PlayTime playTime) {
 		playTimeRepository.playTimeUpdate(playTime);
 	}

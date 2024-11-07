@@ -7,10 +7,10 @@ import com.example.demo.entity.Coupon;
 
 @Mapper
 public interface Coupon3Repository {
-	
-	//取得したクーポンを表示
+
+	// 取得したクーポンを表示
 	Coupon couponSelectById(@Param("id") int id);
-	
-	//クーポンを使用済みにする
+
+	// クーポンを使用済みにする
 	void couponDelete(@Param("id") int id);
 }

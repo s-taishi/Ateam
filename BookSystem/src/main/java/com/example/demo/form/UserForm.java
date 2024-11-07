@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserForm {
-	
+
 	//ユーザーID
 	private int id;
-	
+
 	// ユーザー名（必須フィールド）
 	@NotBlank(message="ユーザーネームは必須です")
 	private String username; 
@@ -37,6 +37,6 @@ public class UserForm {
 	@Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$",message="電話番号は「123-4567-8900」の形式で入力してください")
 	private String tellNumber; 
 
-	
+
 
 }

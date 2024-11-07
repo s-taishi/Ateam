@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WrapForm {
-	
+
 	// 表示名（必須フィールド）
 	@NotBlank(message = "氏名は必須です")
 	private String displayName;
