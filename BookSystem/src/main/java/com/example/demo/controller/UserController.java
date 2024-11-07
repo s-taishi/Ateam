@@ -51,6 +51,9 @@ public class UserController {
 					bindingResult.rejectValue("username","error.username","このユーザー名は既に使用されています");
 				}
 			}
+			if(userForm.getUsername().matches("guest\\d*")) {
+				bindingResult.rejectValue("username","error.username","このユーザー名は使用できません");
+			}
 		}
 
 		// カタカナかどうかをチェック
