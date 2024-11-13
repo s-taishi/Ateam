@@ -53,7 +53,9 @@
 <details>
 <summary>予約入力</summary>
 <br>
-ここから予約情報の入力をします。人数はカウント方式、予約日はカレンダー形式、予約時間は16時-23時のプルダウン方式です。
+ここから予約情報の入力をします。  
+   
+人数はカウント方式、予約日はカレンダー形式、予約時間は16時-23時のプルダウン方式です。
 <br><br>
 <img src="BookSystem/images/form.png" alt="予約入力">
 </details>
@@ -80,7 +82,9 @@
 <details>
 <summary>クーポン一覧</summary>
 <br>
-獲得したクーポンが表示されます。クーポンの抽選は1日3回までに設定しています。
+獲得したクーポンが表示されます。  
+   
+クーポンの抽選は1日3回までに設定しています。
 <br><br>
 <img src="BookSystem/images/couponlist.png" alt="クーポン一覧">
 </details>
@@ -88,7 +92,10 @@
 <details>
 <summary>ルーレット</summary>
 <br>
-画面を開くとルーレットが回ります。回転に合わせてドラムロールがなるようになっています。またブラウザの戻るボタンを押しても不正利用ができないようになっています。
+画面を開くとルーレットが回ります。  
+   
+回転に合わせてドラムロールがなるようになっています。  
+またブラウザの戻るボタンを押しても不正利用ができないようになっています。
 <br><br>
 <img src="BookSystem/images/couponlot.png" alt="ルーレット">
 </details>
@@ -96,7 +103,9 @@
 <details>
 <summary>クーポン詳細</summary>
 <br>
-選択したクーポンの詳細を確認できます。有効期限は自動的に取得日から3か月後に設定されます。
+選択したクーポンの詳細を確認できます。  
+   
+   有効期限は自動的に取得日から3か月後に設定されます。
 <br><br>
 <img src="BookSystem/images/coupondetail.png" alt="クーポン詳細">
 </details>
@@ -104,7 +113,9 @@
 <details>
 <summary>クーポン使用</summary>
 <br>
-詳細画面で「今すぐ使う」を押すとデータベースからクーポンが削除されます。バーコードが表示され店側で処理できるようになっています。
+詳細画面で「今すぐ使う」を押すとデータベースからクーポンが削除されます。  
+   
+   バーコードが表示され店側で処理できるようになっています。
 <br><br>
 <img src="BookSystem/images/used.png" alt="クーポン使用">
 </details>
@@ -115,18 +126,26 @@
 <details>
 <summary>管理者メニュー</summary>
 <br>
+予約の一覧を日付検索できる機能と、ゲスト予約ができる機能があります。
+<br><br>
 <img src="BookSystem/images/adminmenu.png" alt="管理者メニュー">
 </details>
 
 <details>
 <summary>管理者予約確認</summary>
 <br>
+選択した日の予約の一覧が表示されます。
+<br><br>
 <img src="BookSystem/images/adminlist.png" alt="管理者予約確認">
 </details>
 
 <details>
 <summary>ゲストアカウント作成</summary>
 <br>
+ゲストアカウントを作成し、そのアカウントで予約を取ることができます。  
+
+   電話予約を受けた時に使用される想定です。
+<br><br>
 <img src="BookSystem/images/admincreate.png" alt="ゲストアカウント作成">
 </details>
 
